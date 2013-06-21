@@ -4,7 +4,7 @@ public class Plugin {
 	private long id;
 	private String name;
 	private String launcher;
-	private boolean active;
+	private boolean status;
 	private String description;
 	
 	Plugin(){
@@ -14,14 +14,16 @@ public class Plugin {
 	Plugin(String name, String className){
 		this.name = name;
 		this.launcher = className;
-		this.active = false;
+		this.status = false;
 	}
 	
-	Plugin(long id, String name, String className){
+	Plugin(long id, String name, String className,Boolean status, String description){
 		this.id = -1; // Not installed
 		this.name = name;
 		this.launcher = className;
-		this.active = false;	
+		this.status = status;
+		this.status = false;
+		this.description = description;
 	}
 	
 	public long getId(){
@@ -48,12 +50,12 @@ public class Plugin {
 		this.launcher = className;
 	}
 	
-	public boolean getActive(){
-		return active;
+	public boolean getStatus(){
+		return status;
 	}
 	
-	public void setActive(boolean active){
-		this.active = active;
+	public void setStatus(boolean status){
+		this.status = status;
 	}
 	
 	public String getDescription(){
@@ -67,4 +69,5 @@ public class Plugin {
 	public String toString() {
 		return name + " " + description;
 	}
+	
 }

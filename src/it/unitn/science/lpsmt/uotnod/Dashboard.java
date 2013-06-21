@@ -25,13 +25,21 @@ public class Dashboard extends ListActivity {
 		dao = new PluginDAO_DB();
 		dao.open();
 		
-		List<Plugin> values = dao.getAllPlugin();		
+		/*
+		 * TO REMOVE
+		SQLiteHelper myDb = new SQLiteHelper(getApplicationContext());
+		myDb.logConstants();		
+		TO REMOVE
+		*/
+		
+		List<Plugin> values = dao.getAllPlugins();		
 		
 		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,values);
 		
 		setListAdapter(adapter);
 		
 		ListView lv = getListView();
+		
 		lv.setOnItemClickListener(new OnItemClickListener(){
 
 			@Override

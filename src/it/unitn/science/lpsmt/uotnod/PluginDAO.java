@@ -7,7 +7,9 @@ public interface PluginDAO {
 	public void open();
 	public void close();
 	
-	public Plugin insertPlugin(Plugin person);
-	public void deletePlugin(Plugin person);
-	public List<Plugin> getAllPlugin();
+	public Plugin insertPlugin(Plugin plugin);
+	public void deletePlugin(Plugin plugin);
+	public Plugin enablePlugin(Plugin plugin);
+	public Plugin disablePlugin(Plugin plugin);
+	public List<Plugin> getAllPlugins();
 }
