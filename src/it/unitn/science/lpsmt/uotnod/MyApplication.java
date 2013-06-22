@@ -15,4 +15,6 @@ public class MyApplication extends Application{
 	public static Context getAppContext(){
 		return MyApplication.context;
 	}
+	
+	public static final String DEBUGTAG="UoTNoD_debug"; 
 }

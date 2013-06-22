@@ -9,7 +9,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 	// Shared constants
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION=2;
+	public static final int DATABASE_VERSION=4;
 	
 	// Plugins constants
 	public static final String TABLE_PLUGIN="plugin";
@@ -36,20 +36,20 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ COLUMN_STATUS + ","
 			+ COLUMN_DESCRIPTION + ")"
 			+ " SELECT "
-			+ "'Attivita per famiglie'" + " AS " + COLUMN_NAME + ","
-			+ "'fam_act'" + " AS " + COLUMN_LAUNCHER + ","
+			+ "'Attivitˆ per famiglie'" + " AS " + COLUMN_NAME + ","
+			+ "'UotnodFamily'" + " AS " + COLUMN_LAUNCHER + ","
 			+ "1" + " AS " + COLUMN_STATUS + ","
 			+ "'family desc'" + " AS " + COLUMN_DESCRIPTION
 			+ " "
 			+ " UNION SELECT "
 			+ "'Esercizi pubblici'" + " AS " + COLUMN_NAME + ","
-			+ "'com_act'" + " AS " + COLUMN_LAUNCHER + ","
+			+ "'UotnodShops'" + " AS " + COLUMN_LAUNCHER + ","
 			+ "1" + " AS " + COLUMN_STATUS + ","
 			+ "'eser pub desc'" + " AS " + COLUMN_DESCRIPTION
 			+ " "
 			+ " UNION SELECT "
 			+ "'Meteo'" + " AS " + COLUMN_NAME + ","
-			+ "'wheater'" + " AS " + COLUMN_LAUNCHER + ","
+			+ "'UotnodWheater'" + " AS " + COLUMN_LAUNCHER + ","
 			+ "1" + " AS " + COLUMN_STATUS + ","
 			+ "'meteo desc'" + " AS " + COLUMN_DESCRIPTION
 			+ " ";
@@ -74,10 +74,4 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		onCreate(db);		
 	}
 	
-	// METHOD TO REMOVE
-	public void logConstants(){
-		Log.w("UoTNoD",DATABASE_CREATE);
-		Log.w("UoTNoD",PLUGIN_INITIALIZE);
-	}
-
 }
