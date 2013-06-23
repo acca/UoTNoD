@@ -2,7 +2,7 @@ package it.unitn.science.lpsmt.uotnod;
 
 import java.util.List;
 
-public interface PluginDAO {
+public interface UotnodDAO {
 
 	public void open();
 	public void close();

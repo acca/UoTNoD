@@ -8,11 +8,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class PluginDAO_DB implements PluginDAO {
+public class UotnodDAO_DB implements UotnodDAO {
 
 	private SQLiteDatabase database;
 	private SQLiteHelper dbHelper;
-	private String[] allColumns = { SQLiteHelper.COLUMN_ID,SQLiteHelper.COLUMN_NAME,SQLiteHelper.COLUMN_LAUNCHER,SQLiteHelper.COLUMN_STATUS,SQLiteHelper.COLUMN_DESCRIPTION };
+	private String[] allColumns = { SQLiteHelper.PLUGIN_COL_ID,SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION };
 	
 	@Override
 	public void open() {
@@ -57,9 +57,9 @@ public class PluginDAO_DB implements PluginDAO {
 	@Override
 	public Plugin enablePlugin(Plugin plugin) {		
 		plugin.setStatus(true);		
-		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.COLUMN_ID+"=?", new String[]{String.valueOf(plugin.getId())});	
+		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{String.valueOf(plugin.getId())});	
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allColumns,SQLiteHelper.COLUMN_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
 		cursor.moveToFirst();
 		Plugin p = cursorToPlugin(cursor);
 		cursor.close();
@@ -69,9 +69,9 @@ public class PluginDAO_DB implements PluginDAO {
 	@Override
 	public Plugin disablePlugin(Plugin plugin) {
 		plugin.setStatus(false);		
-		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.COLUMN_ID+"=?", new String[]{String.valueOf(plugin.getId())});
+		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{String.valueOf(plugin.getId())});
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allColumns,SQLiteHelper.COLUMN_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
 		cursor.moveToFirst();
 		Plugin p = cursorToPlugin(cursor);
 		cursor.close();
@@ -92,13 +92,13 @@ public class PluginDAO_DB implements PluginDAO {
 	
 	public ContentValues pluginToValues(Plugin plugin) {
 		ContentValues values = new ContentValues();
-		values.put(SQLiteHelper.COLUMN_NAME, plugin.getName());
-		values.put(SQLiteHelper.COLUMN_ID, plugin.getId());
+		values.put(SQLiteHelper.PLUGIN_COL_NAME, plugin.getName());
+		values.put(SQLiteHelper.PLUGIN_COL_ID, plugin.getId());
 		Integer status = 0;
 		if ( plugin.getStatus() ) {
 			status = 1;
 		}
-		values.put(SQLiteHelper.COLUMN_STATUS, status);
+		values.put(SQLiteHelper.PLUGIN_COL_STATUS, status);
 		return values;
 	}
 

@@ -19,14 +19,14 @@ import android.widget.ListView;
 
 public class Dashboard extends ListActivity {
 
-	private PluginDAO dao;
+	private UotnodDAO dao;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
 		
-		dao = new PluginDAO_DB();
+		dao = new UotnodDAO_DB();
 		dao.open();
 		
 		List<Plugin> values = dao.getAllPlugins();		
