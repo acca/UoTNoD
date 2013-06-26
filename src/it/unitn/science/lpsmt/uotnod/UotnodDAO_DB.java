@@ -1,5 +1,6 @@
 package it.unitn.science.lpsmt.uotnod;
 
+import it.unitn.science.lpsmt.uotnod.plugins.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,13 @@ public class UotnodDAO_DB implements UotnodDAO {
 
 	private SQLiteDatabase database;
 	private SQLiteHelper dbHelper;
-	private String[] allColumns = { SQLiteHelper.PLUGIN_COL_ID,SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION };
+	private String[] allPluginColumns = { SQLiteHelper.PLUGIN_COL_ID,
+			SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,
+			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION };
+	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL,
+			SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID, SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE,
+			SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE,
+			SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE };
 	
 	@Override
 	public void open() {
@@ -43,7 +50,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 	public List<Plugin> getAllPlugins() {
 		List<Plugin> plugins = new ArrayList<Plugin>();
 		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, allColumns, null, null, null, null, null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, allPluginColumns, null, null, null, null, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
 			Plugin plugin = cursorToPlugin(cursor);
@@ -59,7 +66,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		plugin.setStatus(true);		
 		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{String.valueOf(plugin.getId())});	
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allPluginColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
 		cursor.moveToFirst();
 		Plugin p = cursorToPlugin(cursor);
 		cursor.close();
@@ -71,7 +78,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		plugin.setStatus(false);		
 		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{String.valueOf(plugin.getId())});
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allPluginColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
 		cursor.moveToFirst();
 		Plugin p = cursorToPlugin(cursor);
 		cursor.close();
@@ -100,6 +107,44 @@ public class UotnodDAO_DB implements UotnodDAO {
 		}
 		values.put(SQLiteHelper.PLUGIN_COL_STATUS, status);
 		return values;
+	}
+	
+	//@Override
+	public UotnodFamilyOrg insertFamilyOrg(UotnodFamilyOrg organization) {
+		long insertId = database.insert(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, null, orgToValues(organization));
+		// Now read from DB the inserted person and return it
+		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);
+		cursor.moveToFirst();
+		UotnodFamilyOrg o = cursorToOrg(cursor);
+		cursor.close();
+		return o;
+	}
+
+	private UotnodFamilyOrg cursorToOrg(Cursor cursor) {
+		long id = cursor.getLong(0);
+		String name = cursor.getString(1);
+		String phone = cursor.getString(2);
+		String mobile = cursor.getString(3);
+		String website = cursor.getString(4);
+		String email = cursor.getString(5);		
+		return new UotnodFamilyOrg(id, name, phone, mobile, website, email);
+	}
+
+	private ContentValues orgToValues(UotnodFamilyOrg organization) {
+		ContentValues values = new ContentValues();
+		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL, organization.getEmail());
+		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID, organization.getOrgId());
+		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE, organization.getMobile());
+		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, organization.getName());
+		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE, organization.getPhone());
+		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE, organization.getWebsite());		
+		return values;
+	}
+
+	@Override
+	public List<UotnodFamilyOrg> getAllFamilyOrgs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

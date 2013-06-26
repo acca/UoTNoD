@@ -10,6 +10,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
+import it.unitn.science.lpsmt.uotnod.UotnodDAO;
+import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 import it.unitn.science.lpsmt.uotnod.R.layout;
 import it.unitn.science.lpsmt.uotnod.R.menu;
 import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
@@ -50,8 +52,14 @@ public class UotnodFamily extends Activity {
 			e.printStackTrace();
 		}		
 		Iterator<Entry> iterator = entries.iterator();
-		while (iterator.hasNext()) {			
-			Log.d(MyApplication.DEBUGTAG, iterator.next().toString());
+		UotnodDAO dao;
+		dao = new UotnodDAO_DB();
+		dao.open();
+		while (iterator.hasNext()) {
+			//Log.d(MyApplication.DEBUGTAG, iterator.next().toString());
+			UotnodFamilyOrg org = (UotnodFamilyOrg) iterator.next();
+			Log.d(MyApplication.DEBUGTAG, org.toString());
+			dao.insertFamilyOrg(org);
 		}
 					
 	}
