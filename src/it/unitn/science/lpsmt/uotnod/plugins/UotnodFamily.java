@@ -3,6 +3,7 @@ package it.unitn.science.lpsmt.uotnod.plugins;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -51,16 +52,29 @@ public class UotnodFamily extends Activity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
-		Iterator<Entry> iterator = entries.iterator();
+		
+		
 		UotnodDAO dao;
 		dao = new UotnodDAO_DB();
 		dao.open();
+		List<Entry> orgInDb = dao.getAllFamilyOrgs();
+		List<Entry> orgInXml = entries;
+		
+		Log.d(MyApplication.DEBUGTAG,"Read " + orgInXml.size() + " record from XML.");
+		Log.d(MyApplication.DEBUGTAG,"Read " + orgInDb.size() + " record from DB.");
+		
+		if (orgInXml.removeAll(orgInDb))
+			entries = (List<Entry>) orgInXml;
+		Iterator<Entry> iterator = entries.iterator();
+		
+		
+		Log.d(MyApplication.DEBUGTAG,"Updating " + entries.size() + " record from XML source to DB.");
+		
 		while (iterator.hasNext()) {
-			//Log.d(MyApplication.DEBUGTAG, iterator.next().toString());
 			UotnodFamilyOrg org = (UotnodFamilyOrg) iterator.next();
-			Log.d(MyApplication.DEBUGTAG, org.toString());
+			Log.d(MyApplication.DEBUGTAG,"Trying to insert a new family Org in DB:" + org.toString());
 			dao.insertFamilyOrg(org);
-		}
+		}		
 					
 	}
 

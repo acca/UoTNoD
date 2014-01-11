@@ -46,5 +46,15 @@
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter>
         </activity>
+        
+        <activity
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.DOMParser"
+            android:label="@string/title_activity_outnod_weather" >
+            <intent-filter> 
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.DOMParser" />  
+         		<category android:name="android.intent.category.DEFAULT" />  
+     		</intent-filter>
+        </activity>
+        
     </application>
 </manifest>

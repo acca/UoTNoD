@@ -43,7 +43,7 @@ public abstract class UotnodXMLParser {
 			String name = parser.getName();
 			// Starts by looking for the entry tag
 			if (name.equals(tagName)) {
-				Log.d(MyApplication.DEBUGTAG,"Sono in UotnodParser");
+				//Log.d(MyApplication.DEBUGTAG,"Sono in UotnodParser");
 				//Log.d(MyApplication.DEBUGTAG,name);
 				//Log.d(MyApplication.DEBUGTAG,parser.toString());
 				entries.add(readEntry(parser));

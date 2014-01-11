@@ -16,10 +16,10 @@ public class UotnodDAO_DB implements UotnodDAO {
 	private String[] allPluginColumns = { SQLiteHelper.PLUGIN_COL_ID,
 			SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,
 			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION };
-	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL,
-			SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID, SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE,
+	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID,
 			SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE,
-			SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE };
+			SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE, SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE,
+			SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL };
 	
 	@Override
 	public void open() {
@@ -109,14 +109,34 @@ public class UotnodDAO_DB implements UotnodDAO {
 		return values;
 	}
 	
-	//@Override
+	@Override
 	public UotnodFamilyOrg insertFamilyOrg(UotnodFamilyOrg organization) {
-		long insertId = database.insert(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, null, orgToValues(organization));
+		long insertId = organization.getOrgId();
+		UotnodFamilyOrg myOrg = getFamilyOrgById(insertId);
+		if (myOrg != null){
+			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myOrg.toString() + " with: " + organization.toString());
+			//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
+			insertId = database.delete(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+myOrg.getOrgId()});
+			//insertId = database.update(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, orgToValuesNoId(organization), SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
+		}		
+		insertId = database.insert(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, null, orgToValues(organization));		
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
 		cursor.moveToFirst();
 		UotnodFamilyOrg o = cursorToOrg(cursor);
 		cursor.close();
+		return o;
+	}
+	
+	@Override
+	public UotnodFamilyOrg getFamilyOrgById(long id) {
+		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+id},null,null,null);
+		UotnodFamilyOrg o = null;		
+		if (cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			o = cursorToOrg(cursor);
+			cursor.close();
+		}		
 		return o;
 	}
 
@@ -140,11 +160,20 @@ public class UotnodDAO_DB implements UotnodDAO {
 		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE, organization.getWebsite());		
 		return values;
 	}
-
+		
 	@Override
-	public List<UotnodFamilyOrg> getAllFamilyOrgs() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Entry> getAllFamilyOrgs() {
+		List<Entry> organizations = new ArrayList<Entry>();
+		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, allUotnodFamilyOrgColumns, null, null, null, null, null);
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast()){
+			UotnodFamilyOrg organization = cursorToOrg(cursor);
+			organizations.add(organization);
+			cursor.moveToNext();
+		}
+		cursor.close(); // Always remember to close the cursor
+		return organizations;
 	}
 
 }

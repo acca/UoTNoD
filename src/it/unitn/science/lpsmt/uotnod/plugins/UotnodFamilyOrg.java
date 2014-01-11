@@ -69,8 +69,21 @@ public class UotnodFamilyOrg extends Entry {
 		String entry = 
 				"Org name: "+ name + "\n"
 						+ "Org id: " + orgId + "\n"
-						+ "Org phone: " + phone;
+						+ "Org phone: " + phone + "\n";
 		return entry;
-	}			
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if ( (o != null) && (this.orgId == ((UotnodFamilyOrg)o).orgId) && (this.name.equals(((UotnodFamilyOrg)o).name)) ){
+			return true;
+		}
+		else return false;
+	}
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
 }
 

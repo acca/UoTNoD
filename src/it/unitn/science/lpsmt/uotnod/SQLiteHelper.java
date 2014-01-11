@@ -33,7 +33,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ PLUGIN_COL_STATUS + ","
 			+ PLUGIN_COL_DESCRIPTION + ")"
 			+ " SELECT "
-			+ "'Attività per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
+			+ "'Attivit√† per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
 			+ "'UotnodFamily'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'family desc'" + " AS " + PLUGIN_COL_DESCRIPTION
@@ -49,6 +49,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ "'UotnodWheater'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'meteo desc'" + " AS " + PLUGIN_COL_DESCRIPTION
+			+ " "
+			+ " UNION SELECT "
+			+ "'Devel activity'" + " AS " + PLUGIN_COL_NAME + ","
+			+ "'DOMParser'" + " AS " + PLUGIN_COL_LAUNCHER + ","
+			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
+			+ "'Just a starting poin for devel activities'" + " AS " + PLUGIN_COL_DESCRIPTION
 			+ " ";
 	
 	// Uotnod family plugin constants
@@ -79,7 +85,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 				+ PLUGIN_COL_STATUS + ","
 				+ PLUGIN_COL_DESCRIPTION + ")"
 				+ " SELECT "
-				+ "'Attività per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
+				+ "'Attivit√† per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
 				+ "'UotnodFamily'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 				+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 				+ "'family desc'" + " AS " + PLUGIN_COL_DESCRIPTION
@@ -100,7 +106,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	// Shared constants
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 9;
+	public static final int DATABASE_VERSION = 14;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
