@@ -7,5 +7,5 @@
     <string name="title_activity_uotnod_family">UotnodFamily</string>
     <string name="title_activity_uotnod_shops">UotnodShops</string>
     <string name="title_activity_outnod_weather">OutnodWeather</string>
-
+	<string name="update">Update</string>
 </resources>
