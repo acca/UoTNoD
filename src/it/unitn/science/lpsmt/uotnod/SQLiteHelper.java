@@ -33,7 +33,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ PLUGIN_COL_STATUS + ","
 			+ PLUGIN_COL_DESCRIPTION + ")"
 			+ " SELECT "
-			+ "'Attività per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
+			+ "'Attivit√† per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
 			+ "'UotnodFamily'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'family desc'" + " AS " + PLUGIN_COL_DESCRIPTION
@@ -49,11 +49,17 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ "'UotnodWheater'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'meteo desc'" + " AS " + PLUGIN_COL_DESCRIPTION
+			+ " "
+			+ " UNION SELECT "
+			+ "'Devel activity'" + " AS " + PLUGIN_COL_NAME + ","
+			+ "'DOMParser'" + " AS " + PLUGIN_COL_LAUNCHER + ","
+			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
+			+ "'Just a starting poin for devel activities'" + " AS " + PLUGIN_COL_DESCRIPTION
 			+ " ";
 	
 	// Uotnod family plugin constants
 	// Organization (Uotnod family plugin) constants
-	public static final String TABLE_UOTNODFAMILIY_ORG="outnodFamilyOrg";
+	public static final String TABLE_UOTNODFAMILIY_ORG="uotnodFamilyOrg";
 	public static final String UOTNODFAMILIY_ORG_COL_ID="orgId";
 	public static final String UOTNODFAMILIY_ORG_COL_NAME="name";
 	public static final String UOTNODFAMILIY_ORG_COL_PHONE="phone";
@@ -79,7 +85,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 				+ PLUGIN_COL_STATUS + ","
 				+ PLUGIN_COL_DESCRIPTION + ")"
 				+ " SELECT "
-				+ "'Attività per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
+				+ "'Attivit√† per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
 				+ "'UotnodFamily'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 				+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 				+ "'family desc'" + " AS " + PLUGIN_COL_DESCRIPTION
@@ -100,11 +106,11 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	// Shared constants
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 5;
+	public static final int DATABASE_VERSION = 14;
 
 	// Database creation sql statement
-	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE
-			+ UOTNODFAMILIY_ORG_CREATE;
+	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
+			+ "\n" + UOTNODFAMILIY_ORG_CREATE;
 
 	// Database creation sql statement
 	private static final String DATABASE_INITIALIZE = PLUGIN_TABLE_INITIALIZE;
@@ -116,9 +122,10 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(DATABASE_CREATE);
-		db.execSQL(DATABASE_INITIALIZE);
-		
+		//db.execSQL(DATABASE_CREATE);
+		db.execSQL(PLUGIN_TABLE_CREATE);		
+		db.execSQL(UOTNODFAMILIY_ORG_CREATE);
+		db.execSQL(DATABASE_INITIALIZE);		
 	}
 
 	@Override
