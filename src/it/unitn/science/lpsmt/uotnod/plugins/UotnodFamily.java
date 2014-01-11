@@ -16,7 +16,6 @@ import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 import it.unitn.science.lpsmt.uotnod.R.layout;
 import it.unitn.science.lpsmt.uotnod.R.menu;
 import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
-import it.unitn.science.lpsmt.uotnod.UotnodXMLParsernew;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
