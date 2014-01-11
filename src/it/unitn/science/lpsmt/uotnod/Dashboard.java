@@ -29,7 +29,7 @@ public class Dashboard extends ListActivity {
 		dao = new UotnodDAO_DB();
 		dao.open();
 		
-		List<Plugin> values = dao.getAllPlugins();		
+		List<Plugin> values = dao.getAllPlugins(true);		
 		
 		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,values);
 		

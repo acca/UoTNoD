@@ -47,10 +47,12 @@ public class UotnodDAO_DB implements UotnodDAO {
 	}
 
 	@Override
-	public List<Plugin> getAllPlugins() {
+	public List<Plugin> getAllPlugins(Boolean active) {
 		List<Plugin> plugins = new ArrayList<Plugin>();
+		String filter = "-1";
+		if (active) filter = "0";
 		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, allPluginColumns, null, null, null, null, null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, allPluginColumns, SQLiteHelper.PLUGIN_COL_STATUS+">?", new String[]{""+filter}, null, null, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
 			Plugin plugin = cursorToPlugin(cursor);

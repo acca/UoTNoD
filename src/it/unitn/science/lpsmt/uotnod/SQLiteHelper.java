@@ -53,7 +53,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ " UNION SELECT "
 			+ "'Devel activity'" + " AS " + PLUGIN_COL_NAME + ","
 			+ "'DOMParser'" + " AS " + PLUGIN_COL_LAUNCHER + ","
-			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
+			+ "0" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'Just a starting poin for devel activities'" + " AS " + PLUGIN_COL_DESCRIPTION
 			+ " ";
 	

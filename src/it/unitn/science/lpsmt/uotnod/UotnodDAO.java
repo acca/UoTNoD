@@ -16,7 +16,7 @@ public interface UotnodDAO {
 	public void deletePlugin(Plugin plugin);
 	public Plugin enablePlugin(Plugin plugin);
 	public Plugin disablePlugin(Plugin plugin);
-	public List<Plugin> getAllPlugins();
+	public List<Plugin> getAllPlugins(Boolean active);
 	
 	public UotnodFamilyOrg insertFamilyOrg(UotnodFamilyOrg organization);
 	public List<Entry> getAllFamilyOrgs();

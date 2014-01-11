@@ -34,7 +34,7 @@ public class UotnodFamily extends Activity {
 		List<Entry> entries = null;
 		
 		try {
-			raw = getApplicationContext().getAssets().open("Estate-giovani-e-famiglia_2013.xml");			
+			raw = getApplicationContext().getAssets().open("Estate-giovani-e-famiglia_2013.xml");
 			//InputStream object = this.getResources().openRawResource(R.raw.fileName);			
 			try {
 				entries = orgParser.parse(raw);
