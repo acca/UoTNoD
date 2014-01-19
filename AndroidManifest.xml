@@ -7,7 +7,12 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
-
+	
+	<uses-permission 
+	    android:name="android.permission.INTERNET"/>
+	<uses-permission
+		android:name="android.permission.ACCESS_NETWORK_STATE" />
+	
     <application
         android:name="it.unitn.science.lpsmt.uotnod.MyApplication"
         android:allowBackup="true"
@@ -45,8 +50,7 @@
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.OutnodWeather" />  
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter>
-        </activity>
-        
+        </activity>        
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.DOMParser"
             android:label="@string/title_activity_outnod_weather" >
@@ -54,7 +58,6 @@
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.DOMParser" />  
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter>
-        </activity>
-        
+        </activity>        
     </application>
 </manifest>
