@@ -2,7 +2,12 @@ package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -10,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -51,8 +57,7 @@ public class Dashboard extends ListActivity {
 				startActivity(intent);
 			}
 
-		});
-					
+		});		
 	}
 
 	@Override
@@ -62,12 +67,65 @@ public class Dashboard extends ListActivity {
 	    inflater.inflate(R.menu.main_activity_actions, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
-
-	/*@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public boolean onOptionsItemSelected(MenuItem item){
+		// Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_refresh:
+	            doRefresh();
+	            return true;	        
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }	
 	}
-	*/
 
+	private void doRefresh(){
+		//UotnodXMLParser parser = new UotnodXMLParser();
+		UotnodFamilyOrgParser orgParser = new UotnodFamilyOrgParser();
+		InputStream raw;
+		List<Entry> entries = null;
+		
+		try {
+			raw = getApplicationContext().getAssets().open("Estate-giovani-e-famiglia_2013.xml");
+			//InputStream object = this.getResources().openRawResource(R.raw.fileName);			
+			try {
+				entries = orgParser.parse(raw);
+				
+				//OrgParser orgParser = new OrgParser(raw);
+				//entries = orgParser.parse();
+				
+				//Poliparser2 pippo = new Poliparser2(raw);				
+			} catch (XmlPullParserException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		
+		UotnodDAO dao;
+		dao = new UotnodDAO_DB();
+		dao.open();
+		List<Entry> orgInDb = dao.getAllFamilyOrgs();
+		List<Entry> orgInXml = entries;
+		
+		Log.d(MyApplication.DEBUGTAG,"Read " + orgInXml.size() + " record from XML.");
+		Log.d(MyApplication.DEBUGTAG,"Read " + orgInDb.size() + " record from DB.");
+		
+		if (orgInXml.removeAll(orgInDb))
+			entries = (List<Entry>) orgInXml;
+		Iterator<Entry> iterator = entries.iterator();
+		
+		
+		Log.d(MyApplication.DEBUGTAG,"Updating " + entries.size() + " record from XML source to DB.");
+		
+		while (iterator.hasNext()) {
+			UotnodFamilyOrg org = (UotnodFamilyOrg) iterator.next();
+			Log.d(MyApplication.DEBUGTAG,"Trying to insert a new family Org in DB:" + org.toString());
+			dao.insertFamilyOrg(org);
+		}		
+
+	}
 }

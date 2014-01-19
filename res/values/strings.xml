@@ -3,6 +3,7 @@
 
     <string name="app_name">UoTNoD</string>    
     <string name="hello_world">Hello world!</string>
+    <string name="hello_FamilyPLugin">Hello. Family plugin actiity.</string>
     <string name="title_activity_uotnod_family">UotnodFamily</string>
     <string name="title_activity_uotnod_shops">UotnodShops</string>
     <string name="title_activity_outnod_weather">OutnodWeather</string>

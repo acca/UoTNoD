@@ -27,54 +27,6 @@ public class UotnodFamily extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_uotnod_family);
-			
-		//UotnodXMLParser parser = new UotnodXMLParser();
-		UotnodFamilyOrgParser orgParser = new UotnodFamilyOrgParser();
-		InputStream raw;
-		List<Entry> entries = null;
-		
-		try {
-			raw = getApplicationContext().getAssets().open("Estate-giovani-e-famiglia_2013.xml");
-			//InputStream object = this.getResources().openRawResource(R.raw.fileName);			
-			try {
-				entries = orgParser.parse(raw);
-				
-				//OrgParser orgParser = new OrgParser(raw);
-				//entries = orgParser.parse();
-				
-				//Poliparser2 pippo = new Poliparser2(raw);				
-			} catch (XmlPullParserException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-		
-		
-		UotnodDAO dao;
-		dao = new UotnodDAO_DB();
-		dao.open();
-		List<Entry> orgInDb = dao.getAllFamilyOrgs();
-		List<Entry> orgInXml = entries;
-		
-		Log.d(MyApplication.DEBUGTAG,"Read " + orgInXml.size() + " record from XML.");
-		Log.d(MyApplication.DEBUGTAG,"Read " + orgInDb.size() + " record from DB.");
-		
-		if (orgInXml.removeAll(orgInDb))
-			entries = (List<Entry>) orgInXml;
-		Iterator<Entry> iterator = entries.iterator();
-		
-		
-		Log.d(MyApplication.DEBUGTAG,"Updating " + entries.size() + " record from XML source to DB.");
-		
-		while (iterator.hasNext()) {
-			UotnodFamilyOrg org = (UotnodFamilyOrg) iterator.next();
-			Log.d(MyApplication.DEBUGTAG,"Trying to insert a new family Org in DB:" + org.toString());
-			dao.insertFamilyOrg(org);
-		}		
-					
 	}
 
 	@Override
