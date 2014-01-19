@@ -1,11 +1,13 @@
 package it.unitn.science.lpsmt.uotnod;
 
+
 public class Plugin {
 	private long id;
 	private String name;
 	private String launcher;
 	private boolean status;
 	private String description;
+	private String dataSrc;
 	
 	Plugin(){
 		
@@ -17,13 +19,14 @@ public class Plugin {
 		this.status = false;
 	}
 	
-	Plugin(long id, String name, String className,Boolean status, String description){
+	Plugin(long id, String name, String className,Boolean status, String description, String dataSrc){
 		this.id = -1; // Not installed
 		this.name = name;
 		this.launcher = className;
 		this.status = status;
 		this.status = false;
 		this.description = description;
+		this.dataSrc = dataSrc;
 	}
 	
 	public long getId(){
@@ -69,5 +72,14 @@ public class Plugin {
 	public String toString() {
 		return name + " " + description;
 	}
+
+	public String getDataSrc() {
+		return dataSrc;
+	}
+
+	public void setDataSrc(String dataSrc) {
+		this.dataSrc = dataSrc;
+	}
+
 	
 }

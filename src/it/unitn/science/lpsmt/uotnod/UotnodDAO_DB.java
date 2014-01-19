@@ -15,7 +15,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 	private SQLiteHelper dbHelper;
 	private String[] allPluginColumns = { SQLiteHelper.PLUGIN_COL_ID,
 			SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,
-			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION };
+			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION,SQLiteHelper.PLUGIN_COL_DATASRC };
 	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID,
 			SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE,
 			SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE, SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE,
@@ -96,7 +96,8 @@ public class UotnodDAO_DB implements UotnodDAO {
 			status = true;
 		}		
 		String description = cursor.getString(4);
-		return new Plugin(id,name,className,status,description);
+		String dataSrc = cursor.getString(5);
+		return new Plugin(id,name,className,status,description,dataSrc);
 	}
 	
 	public ContentValues pluginToValues(Plugin plugin) {
