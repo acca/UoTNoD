@@ -38,6 +38,7 @@ public class Dashboard extends ListActivity {
 	public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
     private static final String URL = "http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml";
+    private static final String PLUGINPREFIX = "it.unitn.science.lpsmt.uotnod.plugins";
    
     // Whether there is a Wi-Fi connection.
     private static boolean wifiConnected = false; 
@@ -46,6 +47,7 @@ public class Dashboard extends ListActivity {
     // Whether the display should be refreshed.
     public static boolean refreshDisplay = true; 
     public static String sPref = ANY;
+    private List<Plugin> plugins;
 
 	
 	@Override
@@ -56,9 +58,9 @@ public class Dashboard extends ListActivity {
 		dao = new UotnodDAO_DB();
 		dao.open();
 		
-		List<Plugin> values = dao.getAllPlugins(true);		
+		this.plugins = dao.getAllPlugins(true);
 		
-		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,values);
+		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,plugins);
 		
 		setListAdapter(adapter);
 		
@@ -68,16 +70,14 @@ public class Dashboard extends ListActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,long id) {
-				// Starting point for each plugin
-				
+				// Starting point for each plugin				
 				Plugin selectedPlugin = (Plugin) adapter.getItemAtPosition(position);
-				Log.d(MyApplication.DEBUGTAG,selectedPlugin.getLauncher());
-				String actionName = "it.unitn.science.lpsmt.uotnod.plugins."+selectedPlugin.getLauncher();				
+				Log.d(MyApplication.DEBUGTAG,"Starting plugin: " + selectedPlugin.getLauncher());
+				String actionName = PLUGINPREFIX + "." + selectedPlugin.getLauncher();				
 				Intent intent = new Intent(actionName);
 				startActivity(intent);
 			}
-
-		});		
+		});	
 	}
 
 	@Override
@@ -92,25 +92,24 @@ public class Dashboard extends ListActivity {
 		// Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.action_refresh:
-	            doRefresh();
+	        	Plugin[] pluginArr = this.plugins.toArray(new Plugin[this.plugins.size()]);
+	        	doRefresh(pluginArr);	        		            
 	            return true;	        
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }	
 	}
 
-	private void doRefresh(){
+	private void doRefresh(Plugin... plugins){
 	    UpdateManager myAsyncTask = new UpdateManager(this);
 	    
 		if((sPref.equals(ANY)) && (MyApplication.isConnected("WIFI") || MyApplication.isConnected("mobile"))) {
-			myAsyncTask.execute(URL);
+			myAsyncTask.execute(plugins);
         }
         else if ((sPref.equals(WIFI)) && (MyApplication.isConnected("WIFI"))) {
-        	myAsyncTask.execute(URL);
+        	myAsyncTask.execute(plugins);
         } else {
             Toast.makeText(MyApplication.getAppContext(), R.string.network_off, Toast.LENGTH_SHORT).show();
         }			    
 	}
-	
-	
 }

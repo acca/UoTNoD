@@ -12,4 +12,7 @@
 	<string name="connection_error">Error retriving data source</string>
 	<string name="network_off">Your network connection is off. Please turn on at least one interface (WiFi, Mobile)</string>
 	<string name="xml_error">Error parsing XML source</string>
+	<string name="datasrc_error">Data source not defined</string>
+	<string name="title_update_manager_dialog">Update result</string>
+	<string name="cancel">Cancel</string>
 </resources>
