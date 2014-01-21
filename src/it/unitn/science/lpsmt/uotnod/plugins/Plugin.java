@@ -1,7 +1,12 @@
-package it.unitn.science.lpsmt.uotnod;
+package it.unitn.science.lpsmt.uotnod.plugins;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.xmlpull.v1.XmlPullParserException;
 
 
-public class Plugin {
+public abstract class Plugin {
 	private long id;
 	private String name;
 	private String launcher;
@@ -9,17 +14,17 @@ public class Plugin {
 	private String description;
 	private String dataSrc;
 	
-	Plugin(){
+	public Plugin(){
 		
 	}
 	
-	Plugin(String name, String className){
+	public Plugin(String name, String className){
 		this.name = name;
 		this.launcher = className;
 		this.status = false;
 	}
 	
-	Plugin(long id, String name, String className,Boolean status, String description, String dataSrc){
+	public Plugin(long id, String name, String className,Boolean status, String description, String dataSrc){
 		this.id = -1; // Not installed
 		this.name = name;
 		this.launcher = className;
@@ -81,5 +86,6 @@ public class Plugin {
 		this.dataSrc = dataSrc;
 	}
 
+	public abstract String parse(InputStream stream);
 	
 }

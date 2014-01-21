@@ -2,6 +2,7 @@ package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.ContentValues;
@@ -97,7 +98,33 @@ public class UotnodDAO_DB implements UotnodDAO {
 		}		
 		String description = cursor.getString(4);
 		String dataSrc = cursor.getString(5);
-		return new Plugin(id,name,className,status,description,dataSrc);
+		
+		try {
+			Class<?> pluginClass = null;
+			pluginClass = Class.forName("it.unitn.science.lpsmt.uotnod.plugins." + className + "Plugin");
+			Plugin plugin;			
+			plugin = (Plugin)pluginClass.getDeclaredConstructor(new Class[] {long.class,String.class,String.class,Boolean.class,String.class,String.class}).newInstance(id,name,className,status,description,dataSrc);
+			return plugin;
+			}
+			 catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				return null;
+		}		
+		return null;
 	}
 	
 	public ContentValues pluginToValues(Plugin plugin) {

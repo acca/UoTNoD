@@ -35,5 +35,4 @@ public class UotnodFamily extends Activity {
 		getMenuInflater().inflate(R.menu.uotnod_family, menu);
 		return true;
 	}
-
 }

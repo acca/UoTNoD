@@ -40,10 +40,7 @@ public class Dashboard extends ListActivity {
     private static final String URL = "http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml";
     private static final String PLUGINPREFIX = "it.unitn.science.lpsmt.uotnod.plugins";
    
-    // Whether there is a Wi-Fi connection.
-    private static boolean wifiConnected = false; 
-    // Whether there is a mobile connection.
-    private static boolean mobileConnected = false;
+    
     // Whether the display should be refreshed.
     public static boolean refreshDisplay = true; 
     public static String sPref = ANY;
@@ -60,7 +57,7 @@ public class Dashboard extends ListActivity {
 		
 		this.plugins = dao.getAllPlugins(true);
 		
-		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,plugins);
+		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,this.plugins);
 		
 		setListAdapter(adapter);
 		

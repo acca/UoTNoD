@@ -3,6 +3,7 @@ package it.unitn.science.lpsmt.uotnod;
 
 
 import it.unitn.science.lpsmt.uotnod.plugins.Entry;
+import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
 import it.unitn.science.lpsmt.uotnod.plugins.UotnodFamilyOrg;
 
 import java.util.List;

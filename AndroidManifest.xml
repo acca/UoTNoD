@@ -44,7 +44,7 @@
      		</intent-filter>
         </activity>
         <activity
-            android:name="it.unitn.science.lpsmt.uotnod.plugins.OutnodWeather"
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.UotnodWeather"
             android:label="@string/title_activity_outnod_weather" >
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.OutnodWeather" />  

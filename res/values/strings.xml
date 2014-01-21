@@ -15,4 +15,6 @@
 	<string name="datasrc_error">Data source not defined</string>
 	<string name="title_update_manager_dialog">Update result</string>
 	<string name="cancel">Cancel</string>
+	<string name="download_task">Downloading from data source&#8230;</string>
+	<string name="parse_task">Parsing data source&#8230;</string>
 </resources>

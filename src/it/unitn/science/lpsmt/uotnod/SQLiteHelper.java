@@ -52,7 +52,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ " "
 			+ " UNION SELECT "
 			+ "'Meteo'" + " AS " + PLUGIN_COL_NAME + ","
-			+ "'UotnodWheater'" + " AS " + PLUGIN_COL_LAUNCHER + ","
+			+ "'UotnodWeather'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'meteo desc'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
 			+ "''" + " AS " + PLUGIN_COL_DATASRC
@@ -114,7 +114,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	// Shared constants
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 15;
+	public static final int DATABASE_VERSION = 16;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
