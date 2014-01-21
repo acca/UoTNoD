@@ -16,7 +16,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -29,8 +28,7 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 	final UpdateManager me = this;
 	
 	private Activity mParentActivity;
-	private int pluginCnt;
-	private Progress progress;
+	//private Progress progress;
 	ProgressDialog progDialog;
 	AlertDialog dialog;
 	 
@@ -47,6 +45,9 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 			}
 				
 		});
+		progDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		progDialog.setProgress(0);
+		progDialog.setMax(100);
 		
 		// 1. Instantiate an AlertDialog.Builder with its constructor
 		AlertDialog.Builder builder = new AlertDialog.Builder(mParentActivity);
@@ -67,14 +68,14 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		
     @Override
     protected String[] doInBackground(Plugin... plugins) {
-    	this.pluginCnt = plugins.length;
-    	String[] result = new String[this.pluginCnt];        	
-    	for (int i = 0; i < this.pluginCnt; i++) {
-    		this.progress = new Progress(i+1);
-    		publishProgress(this.progress);
+    	Progress progress = new Progress(plugins.length);
+    	String[] result = new String[plugins.length];        	
+    	for (int i = 0; i < plugins.length; i++) {
+    		progress.setPluginCnt(i+1);
+    		publishProgress(progress);
     		// Escape early if cancel() is called            
 	    	try {			
-	    		result[i] = loadXmlFromNetwork(plugins[i]);	    		
+	    		result[i] = loadXmlFromNetwork(plugins[i], progress);	    		
 	        } catch (IOException e) {
 	            result[i] = plugins[i].getName() + ": " + mParentActivity.getResources().getString(R.string.connection_error);
 	        } catch (XmlPullParserException e) {
@@ -100,10 +101,11 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
     
     @Override
     protected void onProgressUpdate(Progress... values) {
-    	progDialog.setTitle("Updating plugin " + "[" + ((Progress)values[0]).getPluginCnt()+"/"+this.pluginCnt + "]");
-    	
+    	Progress progress = ((Progress)values[0]);
+    	progDialog.setTitle("Updating plugin " + "[" + progress.getPluginCnt()+"/" + progress.getPluginTot() + "]");
+    	progDialog.setProgress(progress.getStatus());
     	//mParentActivity.setContentView(R.layout.dashboard);
-    	Toast.makeText(MyApplication.getAppContext(), ((Progress)values[0]).getPluginCnt()+"/"+this.pluginCnt, Toast.LENGTH_SHORT).show();
+    	Toast.makeText(MyApplication.getAppContext(), "[" + progress.getPluginCnt()+"/" + progress.getPluginTot() + "]", Toast.LENGTH_SHORT).show();
     	//ProgressDialog pd = new ProgressDialog(MyApplication.getAppContext());
     	//pd.setTitle("Updating plugin" + ((Progress)values[0]).getPluginCnt()+"/"+this.pluginCnt);
     	//pd.show();
@@ -126,9 +128,11 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		
 		// Uploads XML from stackoverflow.com, parses it, and combines it with
 		// HTML markup. Returns HTML string.
-		private String loadXmlFromNetwork(Plugin plugin) throws XmlPullParserException, IOException {
-			Log.d(MyApplication.DEBUGTAG,"Sono in loadXmlFromNetwork");
-			String urlString = plugin.getDataSrc();
+		private String loadXmlFromNetwork(Plugin plugin, Progress progress) throws XmlPullParserException, IOException{
+			progress.setStatus(progress.getStatus()+20);
+			publishProgress(progress);
+			Log.d(MyApplication.DEBUGTAG,"Sono in loadXmlFromNetwork");			
+			String urlString = plugin.getDataSrc();			
 			if (urlString.equals(""))  {
 				return plugin.getName() + ": " + mParentActivity.getResources().getString(R.string.datasrc_error);
 			}
@@ -197,17 +201,14 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		}
 	
 		protected class Progress {
+			private int pluginTot;
 			private int pluginCnt;
 			private String task;
 			private int status;
 			
-			Progress(int pluginCnt){
-				this.pluginCnt = pluginCnt;
-			}	
-			Progress(String task, int status){
-				this.status = status;
-				this.task = task;
-			}
+			Progress(int pluginTot){
+				this.pluginTot = pluginTot;
+			}				
 			public int getPluginCnt() {
 				return pluginCnt;
 			}
@@ -225,6 +226,12 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 			}
 			public void setStatus(int status) {
 				this.status = status;
+			}
+			public int getPluginTot() {
+				return pluginTot;
+			}
+			public void setPluginTot(int pluginTot) {
+				this.pluginTot = pluginTot;
 			}
 			
 			
