@@ -41,7 +41,7 @@ public class UotnodFamilyPlugin extends Plugin {
 		}						    
   		UotnodDAO dao = new UotnodDAO_DB();
   		dao.open();  		
-	    List<Entry> orgInDb = dao.getAllFamilyOrgs();
+	    List<UotnodFamilyOrg> orgInDb = dao.getAllFamilyOrgs();
   		int orgTotal = orgInXml.size();  		
   		Log.d(MyApplication.DEBUGTAG,this.getName() + " - " + "Organizazion in Data source: " + orgInXml.size() + ".");
   		Log.d(MyApplication.DEBUGTAG,this.getName() + " - " + "Organization in Internal cache: " + orgInDb.size() + ".");  		

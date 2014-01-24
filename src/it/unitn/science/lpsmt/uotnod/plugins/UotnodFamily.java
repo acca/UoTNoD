@@ -20,13 +20,34 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class UotnodFamily extends Activity {
 
+	private List<UotnodFamilyOrg> orgs;
+	private UotnodDAO dao; 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_uotnod_family);
+		
+		dao = new UotnodDAO_DB();
+		dao.open();
+		
+		
+		this.orgs = dao.getAllFamilyOrgs();
+		
+		ArrayAdapter<UotnodFamilyOrg> adapter = new ArrayAdapter<UotnodFamilyOrg>(this,android.R.layout.simple_list_item_1,this.orgs);
+		
+		//UotnodFamilyOrg org = new UotnodFamilyOrg();
+		
+		ListView listView = (ListView) findViewById(R.id.listview1);
+		listView.setAdapter(adapter);
+		
+//		ListView lv = getListView();
+		
 	}
 
 	@Override

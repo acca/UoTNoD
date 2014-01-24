@@ -192,8 +192,8 @@ public class UotnodDAO_DB implements UotnodDAO {
 	}
 		
 	@Override
-	public List<Entry> getAllFamilyOrgs() {
-		List<Entry> organizations = new ArrayList<Entry>();
+	public List<UotnodFamilyOrg> getAllFamilyOrgs() {
+		List<UotnodFamilyOrg> organizations = new ArrayList<UotnodFamilyOrg>();
 		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
 		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, allUotnodFamilyOrgColumns, null, null, null, null, null);
 		cursor.moveToFirst();

@@ -20,6 +20,6 @@ public interface UotnodDAO {
 	public List<Plugin> getAllPlugins(Boolean active);
 	
 	public UotnodFamilyOrg insertFamilyOrg(UotnodFamilyOrg organization);
-	public List<Entry> getAllFamilyOrgs();
+	public List<UotnodFamilyOrg> getAllFamilyOrgs();
 	public UotnodFamilyOrg getFamilyOrgById(long id);
 }
