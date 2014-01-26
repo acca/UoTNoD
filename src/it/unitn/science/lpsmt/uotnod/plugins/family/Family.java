@@ -18,10 +18,15 @@ import it.unitn.science.lpsmt.uotnod.R.menu;
 import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class Family extends Activity {
 
@@ -39,7 +44,8 @@ public class Family extends Activity {
 		
 		this.orgs = dao.getAllFamilyOrgs();
 		
-		ArrayAdapter<FamilyOrg> adapter = new ArrayAdapter<FamilyOrg>(this,android.R.layout.simple_list_item_1,this.orgs);
+		//ArrayAdapter<FamilyOrg> adapter = new ArrayAdapter<FamilyOrg>(this,android.R.layout.simple_list_item_1,this.orgs);
+		MyClassAdapter adapter = new MyClassAdapter(this,R.layout.list_item,this.orgs);
 		
 		//UotnodFamilyOrg org = new UotnodFamilyOrg();
 		
@@ -56,4 +62,41 @@ public class Family extends Activity {
 		getMenuInflater().inflate(R.menu.uotnod_family, menu);
 		return true;
 	}
+	
+	private class MyClassAdapter extends ArrayAdapter<FamilyOrg> {
+
+		Context context;
+
+	    public MyClassAdapter(Context context, int textViewResourceId, List<FamilyOrg> items) {
+	        super(context, textViewResourceId, items);
+	        this.context = context;
+	    }
+
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	        View view = convertView;
+	        if (view == null) {
+	            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	            view = inflater.inflate(R.layout.list_item, null);
+	        }
+
+	        FamilyOrg item = getItem(position);
+	        if (item!= null) {
+	            // My layout has only one TextView
+	            TextView itemTitle = (TextView) view.findViewById(R.id.title);
+	            if (itemTitle != null) {
+	                // do whatever you want with your string and long
+	                itemTitle.setText(item.getName());
+	            }
+	            TextView itemDesc = (TextView) view.findViewById(R.id.desc);
+	            if (itemDesc != null) {
+	                // do whatever you want with your string and long
+	                itemDesc.setText(item.getWebsite());
+	            }
+	         }
+
+	        return view;
+	    }
+	}
 }
+
+

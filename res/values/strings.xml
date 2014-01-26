@@ -18,4 +18,5 @@
 	<string name="download_task">Downloading from data source&#8230;</string>
 	<string name="parse_task">Parsing data source&#8230;</string>
 	<string name="initMsg">The following plugins are empty and needs update from datasources:</string>
+	<string name="image">Thumb</string>
 </resources>
