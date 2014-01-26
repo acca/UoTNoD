@@ -1,4 +1,4 @@
-package it.unitn.science.lpsmt.uotnod.plugins;
+package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,20 +13,25 @@ import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
+import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
 
-public class UotnodShopsPlugin extends Plugin {
+public class ShopsPlugin extends Plugin {
 
-	public UotnodShopsPlugin() {
+	public ShopsPlugin() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UotnodShopsPlugin(String name, String className){
+	public ShopsPlugin(String name, String className){
 		super(name,className);
 	}
 	
-	public UotnodShopsPlugin(long id, String name, String className,Boolean status, String description, String dataSrc){
+	public ShopsPlugin(long id, String name, String className,Boolean status, String description, String dataSrc){
 		super(id,name,className,status,description,dataSrc);
+	}
+	
+	public ShopsPlugin(long id, String name, String className,Boolean status, String description, String dataSrc,Boolean isEmpty){
+		super(id,name,className,status,description,dataSrc,isEmpty);
 	}
 
 	public String parse(InputStream stream) {

@@ -28,32 +28,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="it.unitn.science.lpsmt.uotnod.plugins.UotnodFamily"
-            android:label="@string/title_activity_uotnod_family" >
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.family.Family"
+            android:label="@string/title_activity_family" >
             <intent-filter> 
-       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.UotnodFamily" />  
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.Family" />  
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter> 
         </activity>
         <activity
-            android:name="it.unitn.science.lpsmt.uotnod.plugins.UotnodShops"
-            android:label="@string/title_activity_uotnod_shops" >
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops"
+            android:label="@string/title_activity_shops" >
             <intent-filter> 
-       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.UotnodShops" />  
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops" />  
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter>
         </activity>
         <activity
-            android:name="it.unitn.science.lpsmt.uotnod.plugins.UotnodWeather"
-            android:label="@string/title_activity_outnod_weather" >
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.weather.Weather"
+            android:label="@string/title_activity_weather" >
             <intent-filter> 
-       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.OutnodWeather" />  
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.weather.Weather" />  
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter>
         </activity>        
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.DOMParser"
-            android:label="@string/title_activity_outnod_weather" >
+            android:label="@string/title_activity_weather" >
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.DOMParser" />  
          		<category android:name="android.intent.category.DEFAULT" />  

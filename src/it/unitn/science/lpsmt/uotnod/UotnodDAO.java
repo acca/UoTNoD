@@ -4,7 +4,7 @@ package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.Entry;
 import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
-import it.unitn.science.lpsmt.uotnod.plugins.UotnodFamilyOrg;
+import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
 
 import java.util.List;
 
@@ -19,7 +19,8 @@ public interface UotnodDAO {
 	public Plugin disablePlugin(Plugin plugin);
 	public List<Plugin> getAllPlugins(Boolean active);
 	
-	public UotnodFamilyOrg insertFamilyOrg(UotnodFamilyOrg organization);
-	public List<UotnodFamilyOrg> getAllFamilyOrgs();
-	public UotnodFamilyOrg getFamilyOrgById(long id);
+	public FamilyOrg insertFamilyOrg(FamilyOrg organization);
+	public List<FamilyOrg> getAllFamilyOrgs();
+	public FamilyOrg getFamilyOrgById(long id);
+	public Boolean pluginSetEmpty(Plugin plugin);
 }

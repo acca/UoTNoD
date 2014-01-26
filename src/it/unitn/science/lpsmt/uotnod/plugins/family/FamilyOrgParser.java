@@ -1,4 +1,4 @@
-package it.unitn.science.lpsmt.uotnod.plugins;
+package it.unitn.science.lpsmt.uotnod.plugins.family;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 
-public class UotnodFamilyOrgParser extends UotnodXMLParser {
+public class FamilyOrgParser extends UotnodXMLParser {
 
 	protected List readTag(XmlPullParser parser) throws XmlPullParserException, IOException {
 		super.tagName = "TAB_org";
@@ -55,7 +55,7 @@ public class UotnodFamilyOrgParser extends UotnodXMLParser {
 				skip(parser);
 			}
 		}
-		return new UotnodFamilyOrg(orgId, name, phone, mobile, website, email);
+		return new FamilyOrg(orgId, name, phone, mobile, website, email);
 	}
 
 }

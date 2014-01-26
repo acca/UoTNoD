@@ -1,4 +1,4 @@
-package it.unitn.science.lpsmt.uotnod.plugins;
+package it.unitn.science.lpsmt.uotnod.plugins.family;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,24 +13,30 @@ import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
+import it.unitn.science.lpsmt.uotnod.plugins.Entry;
+import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
 
-public class UotnodFamilyPlugin extends Plugin {
+public class FamilyPlugin extends Plugin {
 
-	public UotnodFamilyPlugin() {
+	public FamilyPlugin() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UotnodFamilyPlugin(String name, String className){
+	public FamilyPlugin(String name, String className){
 		super(name,className);
 	}
 	
-	public UotnodFamilyPlugin(long id, String name, String className,Boolean status, String description, String dataSrc){
+	public FamilyPlugin(long id, String name, String className,Boolean status, String description, String dataSrc){
 		super(id,name,className,status,description,dataSrc);
+	}
+	
+	public FamilyPlugin(long id, String name, String className,Boolean status, String description, String dataSrc,Boolean isEmpty){
+		super(id,name,className,status,description,dataSrc,isEmpty);
 	}
 
 	public String parse(InputStream stream) {
-		UotnodFamilyOrgParser orgParser = new UotnodFamilyOrgParser(); 		
+		FamilyOrgParser orgParser = new FamilyOrgParser(); 		
 		List<Entry> orgInXml = null;
 		try {
 			orgInXml = orgParser.parse(stream);
@@ -41,7 +47,7 @@ public class UotnodFamilyPlugin extends Plugin {
 		}						    
   		UotnodDAO dao = new UotnodDAO_DB();
   		dao.open();  		
-	    List<UotnodFamilyOrg> orgInDb = dao.getAllFamilyOrgs();
+	    List<FamilyOrg> orgInDb = dao.getAllFamilyOrgs();
   		int orgTotal = orgInXml.size();  		
   		Log.d(MyApplication.DEBUGTAG,this.getName() + " - " + "Organizazion in Data source: " + orgInXml.size() + ".");
   		Log.d(MyApplication.DEBUGTAG,this.getName() + " - " + "Organization in Internal cache: " + orgInDb.size() + ".");  		
@@ -49,9 +55,10 @@ public class UotnodFamilyPlugin extends Plugin {
   		Iterator<Entry> iterator = orgInXml.iterator();  		  		
   		Log.d(MyApplication.DEBUGTAG,this.getName() + " - " + "Organizations to be updated: " + orgInXml.size() + ".");  		
   		while (iterator.hasNext()) {
-  			UotnodFamilyOrg org = (UotnodFamilyOrg) iterator.next();  			
+  			FamilyOrg org = (FamilyOrg) iterator.next();  			
   			dao.insertFamilyOrg(org);
-  		}	    
+  		}
+  		this.setEmpty(false);
 	    return this.getName() + ":\n" + "Organizations updated: " + orgInXml.size() + "/" + orgTotal;
 	}
 }

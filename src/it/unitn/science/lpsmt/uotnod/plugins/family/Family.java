@@ -1,4 +1,4 @@
-package it.unitn.science.lpsmt.uotnod.plugins;
+package it.unitn.science.lpsmt.uotnod.plugins.family;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,9 +23,9 @@ import android.view.Menu;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class UotnodFamily extends Activity {
+public class Family extends Activity {
 
-	private List<UotnodFamilyOrg> orgs;
+	private List<FamilyOrg> orgs;
 	private UotnodDAO dao; 
 	
 	@Override
@@ -39,7 +39,7 @@ public class UotnodFamily extends Activity {
 		
 		this.orgs = dao.getAllFamilyOrgs();
 		
-		ArrayAdapter<UotnodFamilyOrg> adapter = new ArrayAdapter<UotnodFamilyOrg>(this,android.R.layout.simple_list_item_1,this.orgs);
+		ArrayAdapter<FamilyOrg> adapter = new ArrayAdapter<FamilyOrg>(this,android.R.layout.simple_list_item_1,this.orgs);
 		
 		//UotnodFamilyOrg org = new UotnodFamilyOrg();
 		

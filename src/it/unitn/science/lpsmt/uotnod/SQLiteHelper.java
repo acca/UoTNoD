@@ -16,6 +16,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	public static final String PLUGIN_COL_DESCRIPTION="description";
 	public static final String PLUGIN_COL_STATUS="status";
 	public static final String PLUGIN_COL_DATASRC="datasrc";
+	public static final String PLUGIN_COL_EMPTY="empty";
 	
 	// Table plugin creation statement
 	private static final String PLUGIN_TABLE_CREATE="create table "
@@ -25,9 +26,10 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ PLUGIN_COL_LAUNCHER + " text not null,"
 			+ PLUGIN_COL_STATUS + " integer not null,"
 			+ PLUGIN_COL_DESCRIPTION + " text not null,"
-			+ PLUGIN_COL_DATASRC + " text not null"
+			+ PLUGIN_COL_DATASRC + " text not null,"
+			+ PLUGIN_COL_EMPTY + " integer not null"
 			+ ")";
-		
+	
 	// Table plugins initialization sql statement
 	private static final String PLUGIN_TABLE_INITIALIZE="insert into "
 			+ TABLE_PLUGIN + " ("
@@ -35,34 +37,39 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ PLUGIN_COL_LAUNCHER + ","
 			+ PLUGIN_COL_STATUS + ","
 			+ PLUGIN_COL_DESCRIPTION + ","
-			+ PLUGIN_COL_DATASRC + ")"
+			+ PLUGIN_COL_DATASRC + ","
+			+ PLUGIN_COL_EMPTY + ")"
 			+ " SELECT "
 			+ "'Attività per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
-			+ "'UotnodFamily'" + " AS " + PLUGIN_COL_LAUNCHER + ","
+			+ "'Family'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'family desc'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "'http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml'" + " AS " + PLUGIN_COL_DATASRC
+			+ "'http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml'" + " AS " + PLUGIN_COL_DATASRC + ","
+			+ "1" + " AS " + PLUGIN_COL_EMPTY
 			+ " "
 			+ " UNION SELECT "
 			+ "'Esercizi pubblici'" + " AS " + PLUGIN_COL_NAME + ","
-			+ "'UotnodShops'" + " AS " + PLUGIN_COL_LAUNCHER + ","
+			+ "'Shops'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'eser pub desc'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "''" + " AS " + PLUGIN_COL_DATASRC
+			+ "''" + " AS " + PLUGIN_COL_DATASRC + ","
+			+ "1" + " AS " + PLUGIN_COL_EMPTY
 			+ " "
 			+ " UNION SELECT "
 			+ "'Meteo'" + " AS " + PLUGIN_COL_NAME + ","
-			+ "'UotnodWeather'" + " AS " + PLUGIN_COL_LAUNCHER + ","
+			+ "'Weather'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'meteo desc'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "''" + " AS " + PLUGIN_COL_DATASRC
+			+ "''" + " AS " + PLUGIN_COL_DATASRC + ","
+			+ "1" + " AS " + PLUGIN_COL_EMPTY
 			+ " "
 			+ " UNION SELECT "
 			+ "'Devel activity'" + " AS " + PLUGIN_COL_NAME + ","
 			+ "'DOMParser'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "0" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'Just a starting poin for devel activities'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "''" + " AS " + PLUGIN_COL_DATASRC
+			+ "''" + " AS " + PLUGIN_COL_DATASRC + ","
+			+ "1" + " AS " + PLUGIN_COL_EMPTY
 			+ " ";
 	
 	// Uotnod family plugin constants
@@ -114,7 +121,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	// Shared constants
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 16;
+	public static final int DATABASE_VERSION = 18;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
@@ -131,9 +138,10 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		//db.execSQL(DATABASE_CREATE);
-		db.execSQL(PLUGIN_TABLE_CREATE);		
+		db.execSQL(PLUGIN_TABLE_CREATE);
+		Log.d(MyApplication.DEBUGTAG,PLUGIN_TABLE_CREATE);
 		db.execSQL(UOTNODFAMILIY_ORG_CREATE);
-		db.execSQL(DATABASE_INITIALIZE);		
+		db.execSQL(DATABASE_INITIALIZE);	
 	}
 
 	@Override

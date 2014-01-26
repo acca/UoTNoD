@@ -1,6 +1,8 @@
-package it.unitn.science.lpsmt.uotnod.plugins;
+package it.unitn.science.lpsmt.uotnod.plugins.family;
 
-public class UotnodFamilyOrg extends Entry {
+import it.unitn.science.lpsmt.uotnod.plugins.Entry;
+
+public class FamilyOrg extends Entry {
 	private long orgId;
 	private String name;
 	private String phone;
@@ -8,7 +10,7 @@ public class UotnodFamilyOrg extends Entry {
 	private String website;
 	private String email;
 
-	public UotnodFamilyOrg (Long orgId, String name, String phone,String mobile, String website, String email) {
+	public FamilyOrg (Long orgId, String name, String phone,String mobile, String website, String email) {
 		this.orgId = orgId;
 		this.phone = phone;
 		this.name = name;
@@ -75,7 +77,7 @@ public class UotnodFamilyOrg extends Entry {
 	
 	@Override
 	public boolean equals(Object o) {
-		if ( (o != null) && (this.orgId == ((UotnodFamilyOrg)o).orgId) && (this.name.equals(((UotnodFamilyOrg)o).name)) ){
+		if ( (o != null) && (this.orgId == ((FamilyOrg)o).orgId) && (this.name.equals(((FamilyOrg)o).name)) ){
 			return true;
 		}
 		else return false;

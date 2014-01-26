@@ -1,5 +1,7 @@
 package it.unitn.science.lpsmt.uotnod.plugins;
 
+import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -13,6 +15,7 @@ public abstract class Plugin {
 	private boolean status;
 	private String description;
 	private String dataSrc;
+	private boolean isEmpty;
 	
 	public Plugin(){
 		
@@ -25,13 +28,24 @@ public abstract class Plugin {
 	}
 	
 	public Plugin(long id, String name, String className,Boolean status, String description, String dataSrc){
-		this.id = -1; // Not installed
+		this.id = id;
 		this.name = name;
 		this.launcher = className;
 		this.status = status;
 		this.status = false;
 		this.description = description;
 		this.dataSrc = dataSrc;
+	}
+	
+	public Plugin(long id, String name, String className,Boolean status, String description, String dataSrc, Boolean isEmpty){
+		this.id = id;
+		this.name = name;
+		this.launcher = className;
+		this.status = status;
+		this.status = false;
+		this.description = description;
+		this.dataSrc = dataSrc;
+		this.isEmpty = isEmpty;
 	}
 	
 	public long getId(){
@@ -84,6 +98,17 @@ public abstract class Plugin {
 
 	public void setDataSrc(String dataSrc) {
 		this.dataSrc = dataSrc;
+	}
+
+	public boolean isEmpty() {
+		return isEmpty;
+	}
+
+	public void setEmpty(boolean isEmpty) {
+		UotnodDAO_DB dao = new UotnodDAO_DB();
+		dao.open();
+		dao.pluginSetEmpty(this);
+		this.isEmpty = isEmpty;
 	}
 
 	public abstract String parse(InputStream stream);

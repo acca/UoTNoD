@@ -1,6 +1,7 @@
 package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.*;
+import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ public class UotnodDAO_DB implements UotnodDAO {
 	private SQLiteHelper dbHelper;
 	private String[] allPluginColumns = { SQLiteHelper.PLUGIN_COL_ID,
 			SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,
-			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION,SQLiteHelper.PLUGIN_COL_DATASRC };
+			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION,
+			SQLiteHelper.PLUGIN_COL_DATASRC,SQLiteHelper.PLUGIN_COL_EMPTY };
 	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID,
 			SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE,
 			SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE, SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE,
@@ -47,6 +49,16 @@ public class UotnodDAO_DB implements UotnodDAO {
 		Log.w("WARNING", "deletePlugin: Not implemented");
 	}
 
+	@Override
+	public Boolean pluginSetEmpty(Plugin plugin) {
+		long insertId = plugin.getId();
+		ContentValues values = new ContentValues();
+		values.put(SQLiteHelper.PLUGIN_COL_EMPTY, 0);
+		int row = database.update(SQLiteHelper.TABLE_PLUGIN, values, SQLiteHelper.PLUGIN_COL_ID + " =?", new String[]{""+insertId});		
+		if (row >0) return true;
+		else return false;
+	}
+	
 	@Override
 	public List<Plugin> getAllPlugins(Boolean active) {
 		List<Plugin> plugins = new ArrayList<Plugin>();
@@ -95,36 +107,39 @@ public class UotnodDAO_DB implements UotnodDAO {
 		Boolean status = false;
 		if ( cursor.getString(3) == "1" ) {
 			status = true;
-		}		
+		}
 		String description = cursor.getString(4);
 		String dataSrc = cursor.getString(5);
-		
+		Boolean isEmpty = false;
+		String pippo = cursor.getString(6);
+		if ( cursor.getString(6).equals("1")) {
+			isEmpty = true;
+		}
+		Plugin plugin = null;
 		try {
 			Class<?> pluginClass = null;
-			pluginClass = Class.forName("it.unitn.science.lpsmt.uotnod.plugins." + className + "Plugin");
-			Plugin plugin;			
-			plugin = (Plugin)pluginClass.getDeclaredConstructor(new Class[] {long.class,String.class,String.class,Boolean.class,String.class,String.class}).newInstance(id,name,className,status,description,dataSrc);
-			return plugin;
-			}
-			 catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				return null;
+			pluginClass = Class.forName("it.unitn.science.lpsmt.uotnod.plugins."+ new String (className).toLowerCase() + "." + className + "Plugin");			
+			plugin = (Plugin)pluginClass.getDeclaredConstructor(new Class[] {long.class,String.class,String.class,Boolean.class,String.class,String.class,Boolean.class}).newInstance(id,name,className,status,description,dataSrc,isEmpty);			
+			}		
+		catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			return null;			
 		}		
-		return null;
+		return plugin;
 	}
 	
 	public ContentValues pluginToValues(Plugin plugin) {
@@ -140,9 +155,9 @@ public class UotnodDAO_DB implements UotnodDAO {
 	}
 	
 	@Override
-	public UotnodFamilyOrg insertFamilyOrg(UotnodFamilyOrg organization) {
+	public FamilyOrg insertFamilyOrg(FamilyOrg organization) {
 		long insertId = organization.getOrgId();
-		UotnodFamilyOrg myOrg = getFamilyOrgById(insertId);
+		FamilyOrg myOrg = getFamilyOrgById(insertId);
 		if (myOrg != null){
 			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myOrg.toString() + " with: " + organization.toString());
 			//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
@@ -153,15 +168,15 @@ public class UotnodDAO_DB implements UotnodDAO {
 		// Now read from DB the inserted person and return it
 		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
 		cursor.moveToFirst();
-		UotnodFamilyOrg o = cursorToOrg(cursor);
+		FamilyOrg o = cursorToOrg(cursor);
 		cursor.close();
 		return o;
 	}
 	
 	@Override
-	public UotnodFamilyOrg getFamilyOrgById(long id) {
+	public FamilyOrg getFamilyOrgById(long id) {
 		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+id},null,null,null);
-		UotnodFamilyOrg o = null;		
+		FamilyOrg o = null;		
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			o = cursorToOrg(cursor);
@@ -170,17 +185,17 @@ public class UotnodDAO_DB implements UotnodDAO {
 		return o;
 	}
 
-	private UotnodFamilyOrg cursorToOrg(Cursor cursor) {
+	private FamilyOrg cursorToOrg(Cursor cursor) {
 		long id = cursor.getLong(0);
 		String name = cursor.getString(1);
 		String phone = cursor.getString(2);
 		String mobile = cursor.getString(3);
 		String website = cursor.getString(4);
 		String email = cursor.getString(5);		
-		return new UotnodFamilyOrg(id, name, phone, mobile, website, email);
+		return new FamilyOrg(id, name, phone, mobile, website, email);
 	}
 
-	private ContentValues orgToValues(UotnodFamilyOrg organization) {
+	private ContentValues orgToValues(FamilyOrg organization) {
 		ContentValues values = new ContentValues();
 		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL, organization.getEmail());
 		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID, organization.getOrgId());
@@ -192,13 +207,13 @@ public class UotnodDAO_DB implements UotnodDAO {
 	}
 		
 	@Override
-	public List<UotnodFamilyOrg> getAllFamilyOrgs() {
-		List<UotnodFamilyOrg> organizations = new ArrayList<UotnodFamilyOrg>();
+	public List<FamilyOrg> getAllFamilyOrgs() {
+		List<FamilyOrg> organizations = new ArrayList<FamilyOrg>();
 		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
 		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, allUotnodFamilyOrgColumns, null, null, null, null, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
-			UotnodFamilyOrg organization = cursorToOrg(cursor);
+			FamilyOrg organization = cursorToOrg(cursor);
 			organizations.add(organization);
 			cursor.moveToNext();
 		}

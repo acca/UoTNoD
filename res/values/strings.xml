@@ -4,9 +4,9 @@
     <string name="app_name">UoTNoD</string>    
     <string name="hello_world">Hello world!</string>
     <string name="hello_FamilyPLugin">Hello. Family plugin activity.</string>
-    <string name="title_activity_uotnod_family">UotnodFamily</string>
-    <string name="title_activity_uotnod_shops">UotnodShops</string>
-    <string name="title_activity_outnod_weather">OutnodWeather</string>
+    <string name="title_activity_family">Family</string>
+    <string name="title_activity_shops">Shops</string>
+    <string name="title_activity_weather">Weather</string>
     <string name="action_settings">Settings</string>
 	<string name="action_refresh">Refresh data</string>
 	<string name="connection_error">Error retriving data source</string>
@@ -17,4 +17,5 @@
 	<string name="cancel">Cancel</string>
 	<string name="download_task">Downloading from data source&#8230;</string>
 	<string name="parse_task">Parsing data source&#8230;</string>
+	<string name="initMsg">The following plugins are empty and needs update from datasources:</string>
 </resources>

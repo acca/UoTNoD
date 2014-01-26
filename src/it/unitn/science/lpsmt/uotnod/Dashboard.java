@@ -57,6 +57,19 @@ public class Dashboard extends ListActivity {
 		
 		this.plugins = dao.getAllPlugins(true);
 		
+		Iterator<Plugin> iterator = this.plugins.iterator();
+		String initMsg = "";
+		while (iterator.hasNext()){
+			Plugin plugin = (Plugin)iterator.next();
+			if (plugin.isEmpty()) initMsg += "- " + plugin.getName() + "\n\n";
+		}
+		if (!initMsg.isEmpty()) {
+			for (int i=0; i < 2; i++)
+			{
+				Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.initMsg) + "\n" + initMsg,Toast.LENGTH_LONG).show();      
+			}			
+		}
+		
 		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,this.plugins);
 		
 		setListAdapter(adapter);
@@ -70,7 +83,7 @@ public class Dashboard extends ListActivity {
 				// Starting point for each plugin				
 				Plugin selectedPlugin = (Plugin) adapter.getItemAtPosition(position);
 				Log.d(MyApplication.DEBUGTAG,"Starting plugin: " + selectedPlugin.getLauncher());
-				String actionName = PLUGINPREFIX + "." + selectedPlugin.getLauncher();				
+				String actionName = PLUGINPREFIX + "." + new String(selectedPlugin.getLauncher()).toLowerCase() + "." + selectedPlugin.getLauncher();				
 				Intent intent = new Intent(actionName);
 				startActivity(intent);
 			}
