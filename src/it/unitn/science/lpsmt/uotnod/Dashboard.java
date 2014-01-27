@@ -37,7 +37,6 @@ public class Dashboard extends ListActivity {
 	private UotnodDAO dao;
 	public static final String WIFI = "Wi-Fi";
     public static final String ANY = "Any";
-    private static final String URL = "http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml";
     private static final String PLUGINPREFIX = "it.unitn.science.lpsmt.uotnod.plugins";
    
     
@@ -61,7 +60,7 @@ public class Dashboard extends ListActivity {
 		String initMsg = "";
 		while (iterator.hasNext()){
 			Plugin plugin = (Plugin)iterator.next();
-			if (plugin.isEmpty()) initMsg += "- " + plugin.getName() + "\n\n";
+			if (plugin.isEmpty()) initMsg += "\n\n- " + plugin.getName();
 		}
 		if (!initMsg.isEmpty()) {
 			for (int i=0; i < 2; i++)

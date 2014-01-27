@@ -9,6 +9,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.util.Log;
+import android.util.Xml;
 
 import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
@@ -37,10 +38,9 @@ public class FamilyOrgParser extends UotnodXMLParser {
 			}
 
 			String item = parser.getName();
-			//String orgId = parser.getValue();
-			
+						
 			if (item.equals("ID_org"))
-				orgId = Integer.parseInt(getValue(parser,"ID_org"));
+				orgId = Integer.parseInt(getValue(parser,"ID_org"));			
 			else if (item.equals("Nome_organizzazione"))
 				name = getValue(parser,"Nome_organizzazione");
 			else if (item.equals("Telefono_x0020_fisso_x0020__x0028_organizzazione_x0029_"))
@@ -50,12 +50,17 @@ public class FamilyOrgParser extends UotnodXMLParser {
 			else if (item.equals("Sito_x0020_web_x0020__x0028_organizzazione_x0029_"))
 				website = getValue(parser,"Sito_x0020_web_x0020__x0028_organizzazione_x0029_");
 			else if (item.equals("Email_x0020__x0028_organizzazione_x0029_"))
-				email = getValue(parser,"Email_x0020__x0028_organizzazione_x0029_");			
+				email = getValue(parser,"Email_x0020__x0028_organizzazione_x0029_");
+			else if (item.equals("TAB_Attività")){
+				// Loop trough Activities
+				FamilyActParser actParser = new FamilyActParser();
+				actParser.readEntry(parser);
+			}				
 			else {
 				skip(parser);
 			}
 		}
 		return new FamilyOrg(orgId, name, phone, mobile, website, email);
 	}
-
+		
 }

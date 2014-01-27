@@ -54,7 +54,6 @@ public abstract class UotnodXMLParser {
 		}  
 		return entries;
 	}
-		
 	
 	protected abstract Entry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException;
 
