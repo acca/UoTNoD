@@ -32,6 +32,7 @@ public class FamilyOrgParser extends UotnodXMLParser {
 		String mobile = null;
 		String website = null;
 		String email = null;
+		List<FamilyAct> familyAct = new ArrayList<FamilyAct>();
 		while (parser.next() != XmlPullParser.END_TAG) {
 			if (parser.getEventType() != XmlPullParser.START_TAG) {
 				continue;
@@ -54,13 +55,13 @@ public class FamilyOrgParser extends UotnodXMLParser {
 			else if (item.equals("TAB_Attività")){
 				// Loop trough Activities
 				FamilyActParser actParser = new FamilyActParser();
-				actParser.readEntry(parser);
+				familyAct.add(actParser.readActivity(parser));
 			}				
 			else {
 				skip(parser);
 			}
 		}
-		return new FamilyOrg(orgId, name, phone, mobile, website, email);
+		return new FamilyOrg(orgId, name, phone, mobile, website, email, familyAct);
 	}
 		
 }

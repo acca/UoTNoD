@@ -2,9 +2,11 @@ package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
+import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -14,15 +16,11 @@ import android.util.Log;
 public class UotnodDAO_DB implements UotnodDAO {
 
 	private SQLiteDatabase database;
-	private SQLiteHelper dbHelper;
-	private String[] allPluginColumns = { SQLiteHelper.PLUGIN_COL_ID,
-			SQLiteHelper.PLUGIN_COL_NAME,SQLiteHelper.PLUGIN_COL_LAUNCHER,
-			SQLiteHelper.PLUGIN_COL_STATUS,SQLiteHelper.PLUGIN_COL_DESCRIPTION,
-			SQLiteHelper.PLUGIN_COL_DATASRC,SQLiteHelper.PLUGIN_COL_EMPTY };
-	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID,
-			SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE,
-			SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE, SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE,
-			SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL };
+	private SQLiteHelper dbHelper;	
+	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.FAMILY_ORG_COL_ID,
+			SQLiteHelper.FAMILY_ORG_COL_NAME, SQLiteHelper.FAMILY_ORG_COL_PHONE,
+			SQLiteHelper.FAMILY_ORG_COL_MOBILE, SQLiteHelper.FAMILY_ORG_COL_WEBSITE,
+			SQLiteHelper.FAMILY_ORG_COL_EMAIL };
 	
 	@Override
 	public void open() {
@@ -37,7 +35,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		dbHelper.close();
 		
 	}
-
+// **** Plugins
 	@Override
 	public Plugin insertPlugin(Plugin person) {		
 		Log.w("WARNING", "insertPlugin: Not implemented");
@@ -65,7 +63,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		String filter = "-1";
 		if (active) filter = "0";
 		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, allPluginColumns, SQLiteHelper.PLUGIN_COL_STATUS+">?", new String[]{""+filter}, null, null, null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, SQLiteHelper.TABLE_PLUGIN_ALL_COLUMNS, SQLiteHelper.PLUGIN_COL_STATUS+">?", new String[]{""+filter}, null, null, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
 			Plugin plugin = cursorToPlugin(cursor);
@@ -81,7 +79,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		plugin.setStatus(true);		
 		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{String.valueOf(plugin.getId())});	
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allPluginColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,SQLiteHelper.TABLE_PLUGIN_ALL_COLUMNS,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
 		cursor.moveToFirst();
 		Plugin p = cursorToPlugin(cursor);
 		cursor.close();
@@ -93,7 +91,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		plugin.setStatus(false);		
 		long insertId = database.update(SQLiteHelper.TABLE_PLUGIN, pluginToValues(plugin), SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{String.valueOf(plugin.getId())});
 		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,allPluginColumns,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN,SQLiteHelper.TABLE_PLUGIN_ALL_COLUMNS,SQLiteHelper.PLUGIN_COL_ID + " =?",new String[]{""+insertId},null,null,null);
 		cursor.moveToFirst();
 		Plugin p = cursorToPlugin(cursor);
 		cursor.close();
@@ -153,20 +151,28 @@ public class UotnodDAO_DB implements UotnodDAO {
 		values.put(SQLiteHelper.PLUGIN_COL_STATUS, status);
 		return values;
 	}
-	
+// **** Family (Org)
 	@Override
 	public FamilyOrg insertFamilyOrg(FamilyOrg organization) {
 		long insertId = organization.getOrgId();
 		FamilyOrg myOrg = getFamilyOrgById(insertId);
 		if (myOrg != null){
-			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myOrg.toString() + " with: " + organization.toString());
+			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myOrg.toString() + "with: " + organization.toString());
 			//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
-			insertId = database.delete(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+myOrg.getOrgId()});
-			//insertId = database.update(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, orgToValuesNoId(organization), SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
-		}		
-		insertId = database.insert(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, null, orgToValues(organization));		
-		// Now read from DB the inserted person and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
+			insertId = database.delete(SQLiteHelper.TABLE_FAMILY_ORG, SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+myOrg.getOrgId()});
+			//insertId = database.update(SQLiteHelper.TABLE_FAMILY_ORG, orgToValuesNoId(organization), SQLiteHelper.FAMILY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
+		}
+		insertId = database.insert(SQLiteHelper.TABLE_FAMILY_ORG, null, orgToValues(organization));
+		// Try to insert the activities for this organization
+		List<FamilyAct> activities = organization.getFamilyAct();
+		Iterator<FamilyAct> iterator = activities.iterator();
+		while(iterator.hasNext()){
+			FamilyAct activity = iterator.next();
+			activity = insertFamilyAct(activity);
+			Log.d(MyApplication.DEBUGTAG,"Inserita: " + activity.toString());
+		}
+		// Now read from DB the inserted organization and return it
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
 		cursor.moveToFirst();
 		FamilyOrg o = cursorToOrg(cursor);
 		cursor.close();
@@ -175,14 +181,31 @@ public class UotnodDAO_DB implements UotnodDAO {
 	
 	@Override
 	public FamilyOrg getFamilyOrgById(long id) {
-		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID + " =?",new String[]{""+id},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+id},null,null,null);
 		FamilyOrg o = null;		
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
 			o = cursorToOrg(cursor);
+			o.setFamilyAct(getFamilyActByOrgId(o.getOrgId()));
 			cursor.close();
 		}		
 		return o;
+	}
+	
+	@Override
+	public List<FamilyOrg> getAllFamilyOrgs() {
+		List<FamilyOrg> organizations = new ArrayList<FamilyOrg>();
+		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG, allUotnodFamilyOrgColumns, null, null, null, null, null);
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast()){
+			FamilyOrg organization = cursorToOrg(cursor);
+			organization.setFamilyAct(getFamilyActByOrgId(organization.getOrgId()));
+			organizations.add(organization);
+			cursor.moveToNext();
+		}
+		cursor.close(); // Always remember to close the cursor
+		return organizations;
 	}
 
 	private FamilyOrg cursorToOrg(Cursor cursor) {
@@ -197,28 +220,125 @@ public class UotnodDAO_DB implements UotnodDAO {
 
 	private ContentValues orgToValues(FamilyOrg organization) {
 		ContentValues values = new ContentValues();
-		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_EMAIL, organization.getEmail());
-		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_ID, organization.getOrgId());
-		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_MOBILE, organization.getMobile());
-		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_NAME, organization.getName());
-		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_PHONE, organization.getPhone());
-		values.put(SQLiteHelper.UOTNODFAMILIY_ORG_COL_WEBSITE, organization.getWebsite());		
+		values.put(SQLiteHelper.FAMILY_ORG_COL_EMAIL, organization.getEmail());
+		values.put(SQLiteHelper.FAMILY_ORG_COL_ID, organization.getOrgId());
+		values.put(SQLiteHelper.FAMILY_ORG_COL_MOBILE, organization.getMobile());
+		values.put(SQLiteHelper.FAMILY_ORG_COL_NAME, organization.getName());
+		values.put(SQLiteHelper.FAMILY_ORG_COL_PHONE, organization.getPhone());
+		values.put(SQLiteHelper.FAMILY_ORG_COL_WEBSITE, organization.getWebsite());		
 		return values;
 	}
 		
+// **** Family (Act)
 	@Override
-	public List<FamilyOrg> getAllFamilyOrgs() {
-		List<FamilyOrg> organizations = new ArrayList<FamilyOrg>();
-		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
-		Cursor cursor = database.query(SQLiteHelper.TABLE_UOTNODFAMILIY_ORG, allUotnodFamilyOrgColumns, null, null, null, null, null);
+	public FamilyAct insertFamilyAct(FamilyAct activity) {
+		long insertId = activity.getId();
+		FamilyAct myAct = getFamilyActById(insertId);
+		if (myAct != null){
+			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myAct.toString() + "with: " + activity.toString());
+			insertId = database.delete(SQLiteHelper.TABLE_FAMILY_ACT, SQLiteHelper.FAMILY_ACT_COL_ID + " =?",new String[]{""+myAct.getId()});
+		}		
+		insertId = database.insert(SQLiteHelper.TABLE_FAMILY_ACT, null, actToValues(activity));
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ACT,SQLiteHelper.TABLE_FAMILY_ACT_ALL_COLUMNS,SQLiteHelper.FAMILY_ACT_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
+		cursor.moveToFirst();
+		FamilyAct o = cursorToAct(cursor);
+		cursor.close();
+		return o;
+	}
+	
+	@Override
+	public FamilyAct getFamilyActById(long id) {
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ACT,SQLiteHelper.TABLE_FAMILY_ACT_ALL_COLUMNS,SQLiteHelper.FAMILY_ACT_COL_ID + " =?",new String[]{""+id},null,null,null);
+		FamilyAct o = null;		
+		if (cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			o = cursorToAct(cursor);
+			cursor.close();
+		}		
+		return o;
+	}
+	
+	@Override
+	public List<FamilyAct> getFamilyActByOrgId(long actOrgId) {
+		List<FamilyAct> activities = new ArrayList<FamilyAct>();
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ACT,SQLiteHelper.TABLE_FAMILY_ACT_ALL_COLUMNS,SQLiteHelper.FAMILY_ACT_COL_ORGID + " =?",new String[]{""+actOrgId},null,null,null);
+		if (cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				FamilyAct activity = cursorToAct(cursor);
+				activities.add(activity);
+				cursor.moveToNext();
+			}
+			cursor.close();			
+		}
+		return activities;		
+	}
+	
+	@Override
+	public List<FamilyAct> getAllFamilyActs() {
+		List<FamilyAct> activities = new ArrayList<FamilyAct>();
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ACT, SQLiteHelper.TABLE_FAMILY_ACT_ALL_COLUMNS, null, null, null, null, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
-			FamilyOrg organization = cursorToOrg(cursor);
-			organizations.add(organization);
+			FamilyAct activity = cursorToAct(cursor);
+			activities.add(activity);
 			cursor.moveToNext();
 		}
 		cursor.close(); // Always remember to close the cursor
-		return organizations;
+		return activities;
 	}
 
+	private FamilyAct cursorToAct(Cursor cursor) {		
+		long actId = cursor.getLong(0);
+		long actOrgId = cursor.getLong(1);
+		String actName = cursor.getString(2);
+		String actType = cursor.getString(3);
+		String actDesc = cursor.getString(4);
+		String actDateStart = cursor.getString(5);
+		String actDateEnd = cursor.getString(6);
+		String actFreq = cursor.getString(7);
+		String actTimes = cursor.getString(8);
+		String actDays = cursor.getString(9);
+		String actAddress = cursor.getString(10);
+		String actTypeDR = cursor.getString(11);
+		String actPriveType = cursor.getString(12);
+		String actPrice = cursor.getString(13);
+		String actAge = cursor.getString(14);
+		String actAgeNotes = cursor.getString(15);
+		String actVinRes = cursor.getString(16);
+		String actRef = cursor.getString(17);
+		String actReg = cursor.getString(18);
+		Boolean actFamilyCert = false;		
+		if ( cursor.getLong(19) == 1 ) {
+			actFamilyCert = true;
+		}		
+		String actInfoLink = cursor.getString(20);		
+		return new FamilyAct(actId, actOrgId, actName, actType, actDesc, actDateStart, actDateEnd, actFreq, actTimes, actDays, actAddress, actTypeDR, actPriveType, actPrice, actAge, actAgeNotes, actVinRes, actRef, actReg, actFamilyCert, actInfoLink);
+	}
+
+	private ContentValues actToValues(FamilyAct activity) {
+		ContentValues values = new ContentValues();		
+		values.put(SQLiteHelper.FAMILY_ACT_COL_ID, activity.getId());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_ORGID, activity.getOrgId());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_NAME, activity.getName());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_TYPE, activity.getType());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_DESC, activity.getDesc());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_DATESTART, activity.getDateStart());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_DATEEND, activity.getDateEnd());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_FREQ, activity.getFreq());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_TIMES, activity.getTimes());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_DAYS, activity.getDays());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_ADDRESS, activity.getAddress());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_TYPEDR, activity.getTypeDR());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_PRICETYPE, activity.getPriceType());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_PRICE, activity.getPrice());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_AGE, activity.getAge());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_AGENOTES, activity.getAgeNotes());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_VINRES, activity.getVinRes());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_REF, activity.getRef());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_REG, activity.getReg());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_FAMILYCERT, activity.getFamilyCert());
+		values.put(SQLiteHelper.FAMILY_ACT_COL_INFOLINK, activity.getInfoLink());		
+		return values;
+	}
 }

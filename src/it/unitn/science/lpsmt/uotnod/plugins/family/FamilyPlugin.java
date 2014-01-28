@@ -44,9 +44,9 @@ public class FamilyPlugin extends Plugin {
 			return this.getName() + ":\n" + MyApplication.getAppContext().getResources().getString(R.string.xml_error);
 		} catch (IOException e) {
 			return this.getName() + ":\n" + MyApplication.getAppContext().getResources().getString(R.string.xml_error);
-		}						    
+		}
   		UotnodDAO dao = new UotnodDAO_DB();
-  		dao.open();  		
+  		dao.open();
 	    List<FamilyOrg> orgInDb = dao.getAllFamilyOrgs();
   		int orgTotal = orgInXml.size();  		
   		Log.d(MyApplication.DEBUGTAG,this.getName() + " - " + "Organizazion in Data source: " + orgInXml.size() + ".");
