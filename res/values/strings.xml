@@ -19,4 +19,6 @@
 	<string name="parse_task">Parsing data source&#8230;</string>
 	<string name="initMsg">The following plugins are empty and needs update from datasources:</string>
 	<string name="image">Thumb</string>
+	<string name="org_tab">Organizations</string>
+	<string name="act_tab">Activities</string>
 </resources>
