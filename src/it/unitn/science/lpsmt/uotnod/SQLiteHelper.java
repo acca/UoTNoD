@@ -154,15 +154,57 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ FAMILY_ACT_COL_REG + " text,"
 			+ FAMILY_ACT_COL_FAMILYCERT + " integer,"
 			+ FAMILY_ACT_COL_INFOLINK + " text );";
-		
+	
+	// **** Shops plugin ****
+	// Shops info constants
+	public static final String TABLE_SHOPS_INFO="shopsInfo";
+	public static final String SHOPS_INFO_COL_ID="id";
+	public static final String SHOPS_INFO_COL_NAME="name";
+	public static final String SHOPS_INFO_COL_STREET="street";
+	public static final String SHOPS_INFO_COL_STREETID="streetId";
+	public static final String SHOPS_INFO_COL_STREETNUM="streetNum";
+	public static final String SHOPS_INFO_COL_GPSPOINT="gpsPoint";
+	public static final String[] TABLE_SHOPS_INFO_ALL_COLUMNS = { SQLiteHelper.SHOPS_INFO_COL_ID,
+			SQLiteHelper.SHOPS_INFO_COL_NAME, SQLiteHelper.SHOPS_INFO_COL_STREET,
+			SQLiteHelper.SHOPS_INFO_COL_STREETID, SQLiteHelper.SHOPS_INFO_COL_STREETNUM,
+			SQLiteHelper.SHOPS_INFO_COL_GPSPOINT };
+
+	// Shops info table, creation statement
+	private static final String SHOPS_INFO_CREATE="create table "
+			+ TABLE_SHOPS_INFO + "("
+			+ SHOPS_INFO_COL_ID + " integer primary key,"
+			+ SHOPS_INFO_COL_NAME + " text not null,"
+			+ SHOPS_INFO_COL_STREET + " text,"
+			+ SHOPS_INFO_COL_STREETID + " integer,"
+			+ SHOPS_INFO_COL_STREETNUM + " text,"
+			+ SHOPS_INFO_COL_GPSPOINT + " text );";
+
+	// Shops typology constants
+	public static final String TABLE_SHOPS_TYPE="shopsType";
+	public static final String SHOPS_TYPE_COL_ID="id";
+	public static final String SHOPS_TYPE_COL_SHOPID="shopId";
+	public static final String SHOPS_TYPE_COL_TYPE="type";
+	public static final String[] TABLE_SHOPS_TYPE_ALL_COLUMNS = { SQLiteHelper.SHOPS_TYPE_COL_ID,
+			SQLiteHelper.SHOPS_TYPE_COL_SHOPID, SQLiteHelper.SHOPS_TYPE_COL_TYPE };
+
+	// Shops typology table, creation statement
+	private static final String SHOPS_TYPE_CREATE="create table "
+			+ TABLE_SHOPS_TYPE + "("
+			+ SHOPS_TYPE_COL_ID + " integer primary key,"
+			+ SHOPS_TYPE_COL_SHOPID + " integer,"
+			+ SHOPS_TYPE_COL_TYPE + " text );";
+
+	
 	// **** Shared constants ****
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 20;
+	public static final int DATABASE_VERSION = 22;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
 			+ "\n" + FAMILY_ORG_CREATE
-			+ "\n" + FAMILY_ACT_CREATE;
+			+ "\n" + FAMILY_ACT_CREATE
+			+ "\n" + SHOPS_INFO_CREATE
+			+ "\n" + SHOPS_TYPE_CREATE;
 
 	// Database creation sql statement
 	private static final String DATABASE_INITIALIZE = PLUGIN_TABLE_INITIALIZE;
@@ -177,8 +219,10 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		//db.execSQL(DATABASE_CREATE);
 		db.execSQL(PLUGIN_TABLE_CREATE);
 		db.execSQL(FAMILY_ORG_CREATE);
-		db.execSQL(FAMILY_ACT_CREATE);
-		db.execSQL(DATABASE_INITIALIZE);	
+		db.execSQL(FAMILY_ACT_CREATE);	
+		db.execSQL(DATABASE_INITIALIZE);
+		db.execSQL(SHOPS_INFO_CREATE);
+		db.execSQL(SHOPS_TYPE_CREATE);
 	}
 
 	@Override
