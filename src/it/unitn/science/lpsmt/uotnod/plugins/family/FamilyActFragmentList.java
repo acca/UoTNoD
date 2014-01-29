@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class FamilyActFragment extends Fragment {
+public class FamilyActFragmentList extends Fragment {
 	
 	private List<FamilyAct> acts;
 	private UotnodDAO dao;
@@ -49,6 +49,27 @@ public class FamilyActFragment extends Fragment {
 		setHasOptionsMenu(true);
         return rootView;
     }
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// Inflate the menu items for use in the action bar
+	    inflater.inflate(R.menu.family_actions, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_search:
+	            Toast.makeText(getActivity(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+	            return true;
+	        case R.id.action_refresh:
+	        	Toast.makeText(getActivity(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 	
 	private class ActAdapter extends ArrayAdapter<FamilyAct> {
 		Context context;
@@ -84,26 +105,6 @@ public class FamilyActFragment extends Fragment {
 	         }
 	        return view;
 	    }
-	}
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// Inflate the menu items for use in the action bar
-	    inflater.inflate(R.menu.family_actions, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {
-	        case R.id.action_search:
-	            Toast.makeText(getActivity(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
-	            return true;
-	        case R.id.action_refresh:
-	        	Toast.makeText(getActivity(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
+	}	
 }
 

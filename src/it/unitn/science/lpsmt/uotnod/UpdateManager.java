@@ -105,8 +105,8 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
     		message = message + "- " + result + "\n";
 		}
     	progDialog.dismiss();
-    	dialog.setMessage(message);
-		dialog.show();        
+    	//dialog.setMessage(message);
+		//dialog.show(); 
     }
 		
     // Download XML from data source, parses it, and update internal storage if needed (db, cached file)

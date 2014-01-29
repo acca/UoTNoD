@@ -5,6 +5,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="hello_FamilyPLugin">Hello. Family plugin activity.</string>
     <string name="title_activity_family">Family</string>
+    <string name="title_activity_family_org">Organizations</string>
+    <string name="title_activity_family_act">Activities</string>
     <string name="title_activity_shops">Shops</string>
     <string name="title_activity_weather">Weather</string>
     <string name="action_settings">Settings</string>

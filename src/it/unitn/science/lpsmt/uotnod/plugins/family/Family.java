@@ -33,7 +33,7 @@ public class Family extends FragmentActivity implements ActionBar.TabListener {
     // Tab titles
     private String[] tabs = {
     		MyApplication.getAppContext().getResources().getString(R.string.org_tab),
-    		MyApplication.getAppContext().getResources().getString(R.string.act_tab),"Map"};
+    		MyApplication.getAppContext().getResources().getString(R.string.act_tab)};
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {

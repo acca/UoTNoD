@@ -73,6 +73,22 @@
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter>
         </activity>
+        <activity
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgView"
+            android:label="@string/title_activity_family_org" >
+            <intent-filter> 
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgView" />  
+         		<category android:name="android.intent.category.DEFAULT" />  
+     		</intent-filter> 
+        </activity>
+        <activity
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgFilterView"
+            android:label="@string/title_activity_family_org" >
+            <intent-filter> 
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgFilterView" />  
+         		<category android:name="android.intent.category.DEFAULT" />  
+     		</intent-filter> 
+        </activity>
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
     		android:value="AIzaSyADkiBnSldUtR2ACvS-uccZRC9hLUdLzjI"/>   

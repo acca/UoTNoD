@@ -16,13 +16,10 @@ public class FamilyTabsPagerAdapter extends FragmentPagerAdapter {
 		switch (index) {
 		case 0:
 			// Organizations fragment activity
-			return new FamilyOrgFragment();			
+			return new FamilyOrgFragmentList();			
 		case 1:
 			// Activities fragment activity
-			return new FamilyActFragment();
-		case 2:
-			// Map fragment activity
-			return new FamilyMapFragment();
+			return new FamilyActFragmentList();
 		}
 
 		return null;
@@ -31,6 +28,6 @@ public class FamilyTabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// get item count - equal to number of tabs
-		return 3;
+		return 2;
 	}
 }

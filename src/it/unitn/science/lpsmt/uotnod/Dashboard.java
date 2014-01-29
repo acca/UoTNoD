@@ -30,22 +30,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
-
 public class Dashboard extends ListActivity {
 
 	private UotnodDAO dao;
-	public static final String WIFI = "Wi-Fi";
-    public static final String ANY = "Any";
-    private static final String PLUGINPREFIX = "it.unitn.science.lpsmt.uotnod.plugins";
-   
-    
-    // Whether the display should be refreshed.
-    public static boolean refreshDisplay = true; 
-    public static String sPref = ANY;
+	
+    // Whether the display should be refreshed.    
     private List<Plugin> plugins;
 
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,8 +70,9 @@ public class Dashboard extends ListActivity {
 				// Starting point for each plugin				
 				Plugin selectedPlugin = (Plugin) adapter.getItemAtPosition(position);
 				Log.d(MyApplication.DEBUGTAG,"Starting plugin: " + selectedPlugin.getLauncher());
-				String actionName = PLUGINPREFIX + "." + new String(selectedPlugin.getLauncher()).toLowerCase() + "." + selectedPlugin.getLauncher();				
+				String actionName = MyApplication.PLUGINPKG + "." + new String(selectedPlugin.getLauncher()).toLowerCase() + "." + selectedPlugin.getLauncher();				
 				Intent intent = new Intent(actionName);
+				MyApplication.inUsePlugin = selectedPlugin;
 				startActivity(intent);
 			}
 		});	
@@ -107,15 +99,9 @@ public class Dashboard extends ListActivity {
 	}
 
 	private void doRefresh(Plugin... plugins){
-	    UpdateManager myAsyncTask = new UpdateManager(this);
-	    
-		if((sPref.equals(ANY)) && (MyApplication.isConnected("WIFI") || MyApplication.isConnected("mobile"))) {
-			myAsyncTask.execute(plugins);
-        }
-        else if ((sPref.equals(WIFI)) && (MyApplication.isConnected("WIFI"))) {
-        	myAsyncTask.execute(plugins);
-        } else {
-            Toast.makeText(MyApplication.getAppContext(), R.string.network_off, Toast.LENGTH_SHORT).show();
-        }			    
+	    UpdateManager myAsyncTask = new UpdateManager(this);	    
+	    if (MyApplication.checkNetwork()) {
+	    	myAsyncTask.execute(plugins);
+	    }
 	}
 }
