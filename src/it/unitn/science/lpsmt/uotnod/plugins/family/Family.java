@@ -53,6 +53,27 @@ public class Family extends FragmentActivity implements ActionBar.TabListener {
         for (String tab_name : tabs) {
             actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
         }
+        
+        /**
+         * on swiping the viewpager make respective tab selected
+         * */
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+         
+            @Override
+            public void onPageSelected(int position) {
+                // on changing the page
+                // make respected tab selected
+                actionBar.setSelectedNavigationItem(position);
+            }
+         
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+         
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
     }
     
 	@Override
@@ -63,8 +84,9 @@ public class Family extends FragmentActivity implements ActionBar.TabListener {
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
+		// on tab selected
+        // show respected fragment view
+        viewPager.setCurrentItem(tab.getPosition());		
 	}
 
 	@Override

@@ -63,8 +63,6 @@ public class FamilyAct extends Entry {
 		this.infoLink = infoLink;
 	}
 
-
-
 	public long getId() {
 		return id;
 	}

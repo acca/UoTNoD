@@ -62,11 +62,8 @@ public class Dashboard extends ListActivity {
 			Plugin plugin = (Plugin)iterator.next();
 			if (plugin.isEmpty()) initMsg += "\n\n- " + plugin.getName();
 		}
-		if (!initMsg.isEmpty()) {
-			for (int i=0; i < 2; i++)
-			{
-				Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.initMsg) + "\n" + initMsg,Toast.LENGTH_LONG).show();      
-			}			
+		if (!initMsg.isEmpty()) {			
+			Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.initMsg) + "\n" + initMsg,Toast.LENGTH_LONG).show();      
 		}
 		
 		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,this.plugins);
@@ -93,7 +90,7 @@ public class Dashboard extends ListActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.main_activity_actions, menu);
+	    inflater.inflate(R.menu.dashboard_actions, menu);
 	    return super.onCreateOptionsMenu(menu);
 	}
 	

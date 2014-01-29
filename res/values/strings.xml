@@ -9,6 +9,7 @@
     <string name="title_activity_weather">Weather</string>
     <string name="action_settings">Settings</string>
 	<string name="action_refresh">Refresh data</string>
+	<string name="action_search">Filter list</string>
 	<string name="connection_error">Error retriving data source</string>
 	<string name="network_off">Your network connection is off. Please turn on at least one interface (WiFi, Mobile)</string>
 	<string name="xml_error">Error parsing XML source</string>
@@ -21,4 +22,5 @@
 	<string name="image">Thumb</string>
 	<string name="org_tab">Organizations</string>
 	<string name="act_tab">Activities</string>
+	<string name="not_implemented">Not yet implemented</string>
 </resources>

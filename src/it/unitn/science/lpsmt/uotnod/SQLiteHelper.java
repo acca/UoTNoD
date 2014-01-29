@@ -153,7 +153,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		
 	// **** Shared constants ****
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 19;
+	public static final int DATABASE_VERSION = 20;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
