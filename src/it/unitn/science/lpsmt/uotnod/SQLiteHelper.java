@@ -85,6 +85,10 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	public static final String FAMILY_ORG_COL_MOBILE="mobile";
 	public static final String FAMILY_ORG_COL_WEBSITE="website";
 	public static final String FAMILY_ORG_COL_EMAIL="email";
+	public static final String[] TABLE_FAMILY_ORG_ALL_COLUMNS = { SQLiteHelper.FAMILY_ORG_COL_ID,
+			SQLiteHelper.FAMILY_ORG_COL_NAME, SQLiteHelper.FAMILY_ORG_COL_PHONE,
+			SQLiteHelper.FAMILY_ORG_COL_MOBILE, SQLiteHelper.FAMILY_ORG_COL_WEBSITE,
+			SQLiteHelper.FAMILY_ORG_COL_EMAIL };
 
 	// Organization table, creation statement
 	private static final String FAMILY_ORG_CREATE="create table "

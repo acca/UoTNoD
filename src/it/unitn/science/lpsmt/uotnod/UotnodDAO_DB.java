@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,10 +18,6 @@ public class UotnodDAO_DB implements UotnodDAO {
 
 	private SQLiteDatabase database;
 	private SQLiteHelper dbHelper;	
-	private String[] allUotnodFamilyOrgColumns = { SQLiteHelper.FAMILY_ORG_COL_ID,
-			SQLiteHelper.FAMILY_ORG_COL_NAME, SQLiteHelper.FAMILY_ORG_COL_PHONE,
-			SQLiteHelper.FAMILY_ORG_COL_MOBILE, SQLiteHelper.FAMILY_ORG_COL_WEBSITE,
-			SQLiteHelper.FAMILY_ORG_COL_EMAIL };
 	
 	@Override
 	public void open() {
@@ -98,6 +95,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		return p;
 	}
 
+	@SuppressLint("DefaultLocale")
 	public Plugin cursorToPlugin(Cursor cursor) {
 		long id = cursor.getLong(0);
 		String name = cursor.getString(1);
@@ -109,7 +107,6 @@ public class UotnodDAO_DB implements UotnodDAO {
 		String description = cursor.getString(4);
 		String dataSrc = cursor.getString(5);
 		Boolean isEmpty = false;
-		String pippo = cursor.getString(6);
 		if ( cursor.getString(6).equals("1")) {
 			isEmpty = true;
 		}
@@ -172,7 +169,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 			Log.d(MyApplication.DEBUGTAG,"Inserita: " + activity.toString());
 		}
 		// Now read from DB the inserted organization and return it
-		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,SQLiteHelper.TABLE_FAMILY_ORG_ALL_COLUMNS,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
 		cursor.moveToFirst();
 		FamilyOrg o = cursorToOrg(cursor);
 		cursor.close();
@@ -181,7 +178,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 	
 	@Override
 	public FamilyOrg getFamilyOrgById(long id) {
-		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,allUotnodFamilyOrgColumns,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+id},null,null,null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,SQLiteHelper.TABLE_FAMILY_ORG_ALL_COLUMNS,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+id},null,null,null);
 		FamilyOrg o = null;		
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -196,7 +193,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 	public List<FamilyOrg> getAllFamilyOrgs() {
 		List<FamilyOrg> organizations = new ArrayList<FamilyOrg>();
 		//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
-		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG, allUotnodFamilyOrgColumns, null, null, null, null, null);
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG, SQLiteHelper.TABLE_FAMILY_ORG_ALL_COLUMNS, null, null, null, null, null);
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
 			FamilyOrg organization = cursorToOrg(cursor);
