@@ -4,10 +4,14 @@ import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
+import it.unitn.science.lpsmt.uotnod.UpdateManager;
+import it.unitn.science.lpsmt.uotnod.UpdateManager.EventListener;
+import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
 
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -25,10 +29,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class FamilyActFragmentList extends Fragment {
+public class FamilyActFragmentList extends Fragment implements EventListener {
 	
 	private List<FamilyAct> acts;
 	private UotnodDAO dao;
+	private ListView listView;
+	private ActAdapter adapter;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,13 +43,12 @@ public class FamilyActFragmentList extends Fragment {
 		dao = new UotnodDAO_DB();
 		dao.open();		
 		this.acts = dao.getAllFamilyActs();		
-		dao.close();
-		ActAdapter adapter = new ActAdapter(rootView.getContext(),R.layout.two_lines_list_item,this.acts);
-		ListView listView = (ListView) rootView.findViewById(R.id.listview1);
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-		    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		    	Log.d(MyApplication.DEBUGTAG,"Cliccata una attività");
+		this.adapter = new ActAdapter(rootView.getContext(),R.layout.two_lines_list_item,this.acts);
+		this.listView = (ListView) rootView.findViewById(R.id.listview1);
+		this.listView.setAdapter(adapter);
+		this.listView.setOnItemClickListener(new OnItemClickListener() {
+		    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
+		    	showActDetails(position);
 		    }
 		});	
 		setHasOptionsMenu(true);
@@ -56,19 +61,47 @@ public class FamilyActFragmentList extends Fragment {
 	    inflater.inflate(R.menu.family_actions, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
+	
+	@Override
+	public void onDestroy() {
+		dao.close();
+		super.onDestroy();
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items
 	    switch (item.getItemId()) {
 	        case R.id.action_search:
-	            Toast.makeText(getActivity(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+	        	showActFilter();
 	            return true;
 	        case R.id.action_refresh:
-	        	Toast.makeText(getActivity(), R.string.not_implemented, Toast.LENGTH_SHORT).show();
+	        	doRefresh();
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+
+	void showActDetails(int actId) {
+        this.listView.setItemChecked(actId, true);
+        Intent intent = new Intent(MyApplication.FAMILYPLUGINPKG + "FamilyActView");
+        intent.putExtra("index", actId);
+        startActivity(intent);
+	}
+	
+	void showActFilter() {
+        Intent intent = new Intent(MyApplication.FAMILYPLUGINPKG + "FamilyActFilterView");        
+        startActivity(intent);
+	}
+	
+	private void doRefresh(){
+		UpdateManager myAsyncTask = new UpdateManager(getActivity());	    
+		if (MyApplication.checkNetwork()) {
+			Plugin plugin = MyApplication.pluginInUse;
+			myAsyncTask.setEventListener(this);
+			myAsyncTask.execute(plugin);			
+		}
 	}
 	
 	private class ActAdapter extends ArrayAdapter<FamilyAct> {
@@ -105,6 +138,16 @@ public class FamilyActFragmentList extends Fragment {
 	         }
 	        return view;
 	    }
+	}
+
+	@Override
+	public void updateDone(boolean isFinished) {
+		if (isFinished) {
+			this.acts = dao.getAllFamilyActs();
+			this.adapter.clear();
+			this.adapter.addAll(this.acts);
+			this.adapter.notifyDataSetChanged();
+		}
 	}	
 }
 

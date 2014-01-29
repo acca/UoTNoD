@@ -3,6 +3,7 @@ package it.unitn.science.lpsmt.uotnod.plugins.family;
 import java.util.List;
 
 import it.unitn.science.lpsmt.uotnod.MyApplication;
+import it.unitn.science.lpsmt.uotnod.UpdateManager.EventListener;
 import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
@@ -12,8 +13,6 @@ import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,18 +21,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class FamilyOrgFragmentList extends ListFragment {
+public class FamilyOrgFragmentList extends ListFragment implements EventListener {
 	
-	private List<FamilyOrg> orgs;
 	private UotnodDAO dao;
 	private View rootView;
+	private OrgAdapter adapter;
+	//private ListFragment me = this;
+	List<FamilyOrg> orgs;
 	
 	int mCurCheckPosition = 0;
 	
@@ -42,8 +40,8 @@ public class FamilyOrgFragmentList extends ListFragment {
 		rootView = inflater.inflate(R.layout.family_org_fragment, container, false);
 		dao = new UotnodDAO_DB();
 		dao.open();		
-		this.orgs = dao.getAllFamilyOrgs();		
-		OrgAdapter adapter = new OrgAdapter(rootView.getContext(),R.layout.two_lines_list_item,this.orgs);		
+		orgs = dao.getAllFamilyOrgs();	
+		adapter = new OrgAdapter(rootView.getContext(),R.layout.two_lines_list_item,orgs);		
 		setListAdapter(adapter);
 		setHasOptionsMenu(true);		
         return rootView;
@@ -54,6 +52,8 @@ public class FamilyOrgFragmentList extends ListFragment {
 		Log.d(MyApplication.DEBUGTAG, "Item clicked");
 		// Start ORg details activity
 		showOrgDetails(position);
+		//((FamilyOrg)l.getItemAtPosition(position)).setName("Prova");
+		//this.adapter.notifyDataSetChanged();
 
 	}
 
@@ -71,8 +71,8 @@ public class FamilyOrgFragmentList extends ListFragment {
 	        case R.id.action_search:
 	        	showOrgFilter();
 	            return true;
-	        case R.id.action_refresh:
-	        	doRefresh();
+	        case R.id.action_refresh:	        	
+	        	doRefresh();    	
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -94,16 +94,19 @@ public class FamilyOrgFragmentList extends ListFragment {
 	private void doRefresh(){
 		UpdateManager myAsyncTask = new UpdateManager(getActivity());	    
 		if (MyApplication.checkNetwork()) {
-			Plugin plugin = MyApplication.inUsePlugin; 
-			myAsyncTask.execute(plugin);
+			Plugin plugin = MyApplication.pluginInUse;
+			myAsyncTask.setEventListener(this);
+			myAsyncTask.execute(plugin);			
 		}
 	}
-
+		
 	private class OrgAdapter extends ArrayAdapter<FamilyOrg> {
 		Context context;
-	    public OrgAdapter(Context context, int textViewResourceId, List<FamilyOrg> items) {
-	        super(context, textViewResourceId, items);
-	        this.context = context;
+		//List<FamilyOrg> orgs;
+		
+	    OrgAdapter(Context context, int textViewResourceId, List<FamilyOrg> items) {	    	
+	    	super(context, textViewResourceId, items);
+	    	this.context = context;
 	    }
 
 	    public View getView(int position, View convertView, ViewGroup parent) {
@@ -131,5 +134,15 @@ public class FamilyOrgFragmentList extends ListFragment {
 	public void onDestroy() {
 		dao.close();
 		super.onDestroy();
+	}
+
+	@Override
+	public void updateDone(boolean isFinished) {
+		if (isFinished) { 			
+			this.orgs = dao.getAllFamilyOrgs();
+			this.adapter.clear();
+        	this.adapter.addAll(this.orgs);
+			this.adapter.notifyDataSetChanged();
+		}
 	}
 }	

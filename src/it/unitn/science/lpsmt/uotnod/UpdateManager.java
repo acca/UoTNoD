@@ -12,9 +12,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 import it.unitn.science.lpsmt.uotnod.UpdateManager.Progress;
+
 
 // Implementation of AsyncTask used to download XML feed from stackoverflow.com.
 public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
@@ -25,6 +24,7 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 	private ProgressDialog progDialog;
 	private AlertDialog dialog;
 	private int status;
+	private EventListener updateListener;
 
 	public UpdateManager(Activity act) {
 		mParentActivity = act;
@@ -34,7 +34,6 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		progDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
 				me.cancel(true);
 			}				
 		});
@@ -54,6 +53,10 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		});
 		dialog = builder.create();
     }
+		
+	public void setEventListener(EventListener updateListener) {
+	    this.updateListener = updateListener;
+	}
 		
     @Override
     protected String[] doInBackground(Plugin... plugins) {
@@ -105,8 +108,11 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
     		message = message + "- " + result + "\n";
 		}
     	progDialog.dismiss();
-    	//dialog.setMessage(message);
-		//dialog.show(); 
+    	dialog.setMessage(message);
+		dialog.show();		
+		updateListener.updateDone(true);		
+		//MyApplication.refreshingAdapter.notifyDataSetChanged();
+		//MyApplication.refreshingAdapter = null;
     }
 		
     // Download XML from data source, parses it, and update internal storage if needed (db, cached file)
@@ -190,6 +196,10 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		public void setPluginTot(int pluginTot) {
 			this.pluginTot = pluginTot;
 		}
+	}
+	
+	public interface EventListener {
+	    void updateDone(boolean isFinished);
 	}
 }
 

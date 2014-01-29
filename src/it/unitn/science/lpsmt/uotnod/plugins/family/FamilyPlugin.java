@@ -58,6 +58,7 @@ public class FamilyPlugin extends Plugin {
   			FamilyOrg org = (FamilyOrg) iterator.next();  			
   			dao.insertFamilyOrg(org);
   		}
+  		dao.close();
   		this.setEmpty(false);
 	    return this.getName() + ":\n" + "Organizations updated: " + orgInXml.size() + "/" + orgTotal;
 	}

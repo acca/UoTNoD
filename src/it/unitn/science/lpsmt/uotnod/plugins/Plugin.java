@@ -108,6 +108,7 @@ public abstract class Plugin {
 		UotnodDAO_DB dao = new UotnodDAO_DB();
 		dao.open();
 		dao.pluginSetEmpty(this);
+		dao.close();
 		this.isEmpty = isEmpty;
 	}
 

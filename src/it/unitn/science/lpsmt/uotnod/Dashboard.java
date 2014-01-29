@@ -72,7 +72,7 @@ public class Dashboard extends ListActivity {
 				Log.d(MyApplication.DEBUGTAG,"Starting plugin: " + selectedPlugin.getLauncher());
 				String actionName = MyApplication.PLUGINPKG + "." + new String(selectedPlugin.getLauncher()).toLowerCase() + "." + selectedPlugin.getLauncher();				
 				Intent intent = new Intent(actionName);
-				MyApplication.inUsePlugin = selectedPlugin;
+				MyApplication.pluginInUse = selectedPlugin;
 				startActivity(intent);
 			}
 		});	

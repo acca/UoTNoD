@@ -24,8 +24,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class Family extends FragmentActivity implements ActionBar.TabListener {
-
-	public UotnodDAO dao;
 	
 	private ViewPager viewPager;
     private FamilyTabsPagerAdapter mAdapter;

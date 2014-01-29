@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-public class FamilyOrgView extends Activity {
+public class FamilyActView extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class FamilyOrgView extends Activity {
 		Intent intent = getIntent();
 		int index = intent.getIntExtra("index", 0);
 		
-		Toast.makeText(this, "Details Organization: " + index, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Details Activity: " + index, Toast.LENGTH_SHORT).show();
 		
 	}
 }
