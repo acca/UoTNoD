@@ -45,11 +45,11 @@ public class FamilyOrgFragment extends ListFragment {
     }
 
 	@Override
-	  public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.d(MyApplication.DEBUGTAG, "Item clicked");
 		// Start ORg details activity
 
-	  }
+	}
 	
 	private class OrgAdapter extends ArrayAdapter<FamilyOrg> {
 		Context context;

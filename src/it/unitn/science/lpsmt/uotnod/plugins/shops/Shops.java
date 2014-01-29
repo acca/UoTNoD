@@ -9,11 +9,11 @@ import android.view.Menu;
 
 public class Shops extends Activity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_uotnod_shops);
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.family_map_fragment);
+    }
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

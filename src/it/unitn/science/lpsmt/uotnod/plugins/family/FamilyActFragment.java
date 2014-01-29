@@ -32,7 +32,7 @@ public class FamilyActFragment extends Fragment {
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+        Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.family_act_fragment, container, false);
 		dao = new UotnodDAO_DB();
 		dao.open();		
