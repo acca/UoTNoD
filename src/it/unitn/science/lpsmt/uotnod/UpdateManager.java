@@ -2,16 +2,25 @@ package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.util.Log;
 import it.unitn.science.lpsmt.uotnod.UpdateManager.Progress;
 
 
@@ -39,7 +48,7 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		});
 		progDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 		progDialog.setProgress(0);
-		progDialog.setMessage("Initialising update...");
+		progDialog.setMessage("Initializing update...");
 		progDialog.setMax(100);		
 		
 		// Initialize Results Dialog		
@@ -109,8 +118,8 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		}
     	progDialog.dismiss();
     	dialog.setMessage(message);
-		dialog.show();		
-		updateListener.updateDone(true);		
+		dialog.show();	
+		if (updateListener != null) updateListener.updateDone(true);		
 		//MyApplication.refreshingAdapter.notifyDataSetChanged();
 		//MyApplication.refreshingAdapter = null;
     }
@@ -150,11 +159,34 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 	    conn.setReadTimeout(10000 /* milliseconds */);
 	    conn.setConnectTimeout(15000 /* milliseconds */);
 	    conn.setRequestMethod("GET");
-	    conn.setDoInput(true);
-	    // Starts the query
-		    conn.connect();	    
-		    return conn.getInputStream();
-		}
+	    conn.setDoInput(true);	    
+	    String contentEncoding = null;	    
+	    conn.connect();	   
+	    InputStream input = conn.getInputStream();	    
+	    contentEncoding = conn.getHeaderField("Content-Type");
+	    //if (contentEncoding != null) Log.d(MyApplication.DEBUGTAG,contentEncoding);
+	    if ("application/zip".equals(contentEncoding)) {
+	    	InputStream is = input;
+	    	ZipInputStream zis = new ZipInputStream(new BufferedInputStream(is));
+	    	try {
+	    		ZipEntry ze;
+	    		while ((ze = zis.getNextEntry()) != null) {
+	    			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    			byte[] buffer = new byte[1024];
+	    			int count;
+	    			while ((count = zis.read(buffer)) != -1) {
+	    				baos.write(buffer, 0, count);
+	    			}
+	    			//String filename = ze.getName();
+	    			byte[] bytes = baos.toByteArray();
+	    			input = new ByteArrayInputStream(bytes);
+	    		}
+	    	} finally {
+	    		zis.close();
+	    	}
+	    }
+	    return input;
+	}
 	
 	public class Progress {
 		private int pluginTot;

@@ -3,6 +3,8 @@ package it.unitn.science.lpsmt.uotnod;
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;
+import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShop;
+import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -338,4 +340,165 @@ public class UotnodDAO_DB implements UotnodDAO {
 		values.put(SQLiteHelper.FAMILY_ACT_COL_INFOLINK, activity.getInfoLink());		
 		return values;
 	}
+
+	// **** Shops (Sohp info)
+	
+		@Override
+		public ShopsShop insertShopsShop(ShopsShop shop) {
+			long insertId = shop.getId();
+			ShopsShop myShop = getShopsShopById(insertId);
+			if (myShop != null){
+				Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myShop.toString() + "with: " + shop.toString());
+				//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
+				insertId = database.delete(SQLiteHelper.TABLE_SHOPS_INFO, SQLiteHelper.SHOPS_INFO_COL_ID + " =?",new String[]{""+myShop.getId()});
+				//insertId = database.update(SQLiteHelper.TABLE_FAMILY_ORG, orgToValuesNoId(shop), SQLiteHelper.FAMILY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
+			}
+			insertId = database.insert(SQLiteHelper.TABLE_SHOPS_INFO, null, shopToValues(shop));
+			// Try to insert the activities for this shop
+			List<ShopsType> types = shop.getShopsType();
+			Iterator<ShopsType> iterator = types.iterator();
+			while(iterator.hasNext()){
+				ShopsType type = iterator.next();
+				type = insertShopsType(type);
+				Log.d(MyApplication.DEBUGTAG,"Inserito: " + type.toString());
+			}
+			// Now read from DB the inserted shop and return it
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_INFO,SQLiteHelper.TABLE_SHOPS_INFO_ALL_COLUMNS,SQLiteHelper.SHOPS_INFO_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
+			cursor.moveToFirst();
+			ShopsShop o = cursorToShop(cursor);
+			cursor.close();
+			return o;
+		}
+		
+		@Override
+		public ShopsShop getShopsShopById(long id) {
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_INFO,SQLiteHelper.TABLE_SHOPS_INFO_ALL_COLUMNS,SQLiteHelper.SHOPS_INFO_COL_ID + " =?",new String[]{""+id},null,null,null);
+			ShopsShop o = null;		
+			if (cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				o = cursorToShop(cursor);
+				o.setShopsType(getShopsTypeByShopId(o.getId()));
+				cursor.close();
+			}		
+			return o;
+		}
+
+		@Override
+		public List<ShopsShop> getAllShopsShops() {			
+			List<ShopsShop> shops = new ArrayList<ShopsShop>();
+			//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_INFO, SQLiteHelper.TABLE_SHOPS_INFO_ALL_COLUMNS, null, null, null, null, null);
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				ShopsShop shop = cursorToShop(cursor);
+				shop.setShopsType(getShopsTypeByShopId(shop.getId()));
+				shops.add(shop);
+				cursor.moveToNext();
+			}
+			cursor.close(); // Always remember to close the cursor
+			return shops;			
+		}
+
+		private ShopsShop cursorToShop(Cursor cursor) {
+			long id = cursor.getLong(0);
+			String name = cursor.getString(1);
+			String street = cursor.getString(2);
+			long streetId = cursor.getLong(3);
+			String streetNum = cursor.getString(4);
+			String gpsPoint = cursor.getString(5);		
+			return new ShopsShop(id, name, street, streetId, streetNum, gpsPoint);
+		}
+
+		private ContentValues shopToValues(ShopsShop shop) {
+			ContentValues values = new ContentValues();
+			values.put(SQLiteHelper.SHOPS_INFO_COL_ID, shop.getId());
+			values.put(SQLiteHelper.SHOPS_INFO_COL_NAME, shop.getName());
+			values.put(SQLiteHelper.SHOPS_INFO_COL_STREET, shop.getStreet());
+			values.put(SQLiteHelper.SHOPS_INFO_COL_STREETNUM, shop.getStreetNum());
+			values.put(SQLiteHelper.SHOPS_INFO_COL_STREETID, shop.getStreetId());
+			values.put(SQLiteHelper.SHOPS_INFO_COL_GPSPOINT, shop.getGpsPoint());		
+			return values;
+		}	
+
+
+// **** Shops (Shop type)
+
+		@Override
+		public ShopsType insertShopsType(ShopsType type) {
+			long insertId = type.getId();
+			ShopsType myType = getShopsTypeById(insertId);
+			if (myType != null){
+				Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myType.toString() + "with: " + type.toString());
+				//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
+				insertId = database.delete(SQLiteHelper.TABLE_SHOPS_TYPE, SQLiteHelper.SHOPS_TYPE_COL_ID + " =?",new String[]{""+myType.getId()});
+				//insertId = database.update(SQLiteHelper.TABLE_FAMILY_ORG, orgToValuesNoId(type), SQLiteHelper.FAMILY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
+			}
+			insertId = database.insert(SQLiteHelper.TABLE_SHOPS_TYPE, null, typeToValues(type));
+			// Now read from DB the inserted type and return it
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_TYPE,SQLiteHelper.TABLE_SHOPS_TYPE_ALL_COLUMNS,SQLiteHelper.SHOPS_TYPE_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
+			cursor.moveToFirst();
+			ShopsType o = cursorToType(cursor);
+			cursor.close();
+			return o;
+		}
+
+		
+		@Override
+		public List<ShopsType> getShopsTypeByShopId(long typeShopId) {
+			List<ShopsType> types = new ArrayList<ShopsType>();
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_TYPE,SQLiteHelper.TABLE_SHOPS_TYPE_ALL_COLUMNS,SQLiteHelper.SHOPS_TYPE_COL_SHOPID + " =?",new String[]{""+typeShopId},null,null,null);
+			if (cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				while(!cursor.isAfterLast()){
+					ShopsType type = cursorToType(cursor);
+					types.add(type);
+					cursor.moveToNext();
+				}
+				cursor.close();			
+			}
+			return types;		
+		}
+		
+		@Override
+		public ShopsType getShopsTypeById(long id) {
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_TYPE,SQLiteHelper.TABLE_SHOPS_TYPE_ALL_COLUMNS,SQLiteHelper.SHOPS_TYPE_COL_ID + " =?",new String[]{""+id},null,null,null);
+			ShopsType o = null;		
+			if (cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				o = cursorToType(cursor);
+				cursor.close();
+			}		
+			return o;
+		}
+		
+		@Override
+		public List<ShopsType> getAllShopsTypes() {			
+			List<ShopsType> types = new ArrayList<ShopsType>();
+			//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
+			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_TYPE, SQLiteHelper.TABLE_SHOPS_TYPE_ALL_COLUMNS, null, null, null, null, null);
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				ShopsType type = cursorToType(cursor);
+				types.add(type);
+				cursor.moveToNext();
+			}
+			cursor.close(); // Always remember to close the cursor
+			return types;			
+		}
+
+		private ShopsType cursorToType(Cursor cursor) {
+			long id = cursor.getLong(0);
+			long shopId = cursor.getLong(1);
+			String type = cursor.getString(2);
+			return new ShopsType(shopId, type);
+		}
+
+		private ContentValues typeToValues(ShopsType type) {
+			ContentValues values = new ContentValues();
+			//values.put(SQLiteHelper.SHOPS_TYPE_COL_ID, type.getId());
+			values.put(SQLiteHelper.SHOPS_TYPE_COL_SHOPID, type.getShopId());
+			values.put(SQLiteHelper.SHOPS_TYPE_COL_TYPE, type.getType());		
+			return values;
+		}	
+
 }

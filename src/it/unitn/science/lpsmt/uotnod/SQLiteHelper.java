@@ -46,7 +46,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ " SELECT "
 			+ "'Attività per famiglie'" + " AS " + PLUGIN_COL_NAME + ","
 			+ "'Family'" + " AS " + PLUGIN_COL_LAUNCHER + ","
-			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
+			+ "0" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'family desc'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
 			+ "'http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml'" + " AS " + PLUGIN_COL_DATASRC + ","
 			+ "1" + " AS " + PLUGIN_COL_EMPTY
@@ -56,7 +56,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ "'Shops'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'eser pub desc'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "''" + " AS " + PLUGIN_COL_DATASRC + ","
+			+ "'http://webapps.comune.trento.it/cartografia/catalogo?db=base&sc=commercio&ly=civici_pubblici_esercizi&fr=kml'" + " AS " + PLUGIN_COL_DATASRC + ","
 			+ "1" + " AS " + PLUGIN_COL_EMPTY
 			+ " "
 			+ " UNION SELECT "
@@ -197,7 +197,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	// **** Shared constants ****
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 22;
+	public static final int DATABASE_VERSION = 25;
 
 	// Database creation sql statement
 	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
@@ -217,12 +217,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		//db.execSQL(DATABASE_CREATE);
-		db.execSQL(PLUGIN_TABLE_CREATE);
+		db.execSQL(PLUGIN_TABLE_CREATE);		
 		db.execSQL(FAMILY_ORG_CREATE);
-		db.execSQL(FAMILY_ACT_CREATE);	
-		db.execSQL(DATABASE_INITIALIZE);
+		db.execSQL(FAMILY_ACT_CREATE);			
 		db.execSQL(SHOPS_INFO_CREATE);
 		db.execSQL(SHOPS_TYPE_CREATE);
+		db.execSQL(DATABASE_INITIALIZE);
 	}
 
 	@Override
@@ -233,6 +233,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 		db.execSQL("DROP TABLE IF EXISTS "+ TABLE_PLUGIN);
 		db.execSQL("DROP TABLE IF EXISTS "+ TABLE_FAMILY_ORG);
 		db.execSQL("DROP TABLE IF EXISTS "+ TABLE_FAMILY_ACT);
+		db.execSQL("DROP TABLE IF EXISTS "+ TABLE_SHOPS_INFO);
+		db.execSQL("DROP TABLE IF EXISTS "+ TABLE_SHOPS_TYPE);
 		onCreate(db);		
 	}
 	

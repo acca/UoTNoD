@@ -34,7 +34,7 @@ public abstract class UotnodXMLParser {
 	protected List readTag(XmlPullParser parser) throws XmlPullParserException, IOException {
 		List entries = new ArrayList();
 
-		parser.require(XmlPullParser.START_TAG, ns, "dataroot");
+		//parser.require(XmlPullParser.START_TAG, ns, "dataroot");
 		while (parser.next() != XmlPullParser.END_TAG) {
 			if (parser.getEventType() != XmlPullParser.START_TAG) {
 				continue;
@@ -43,12 +43,10 @@ public abstract class UotnodXMLParser {
 			String name = parser.getName();
 			// Starts by looking for the entry tag
 			if (name.equals(tagName)) {
-				//Log.d(MyApplication.DEBUGTAG,"Sono in UotnodParser");
-				//Log.d(MyApplication.DEBUGTAG,name);
-				//Log.d(MyApplication.DEBUGTAG,parser.toString());
 				entries.add(readEntry(parser));
 			} else {
 				skip(parser);
+				String name1 = parser.getName();
 			}
 			
 		}  

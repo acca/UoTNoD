@@ -19,6 +19,7 @@ public class FamilyOrgParser extends UotnodXMLParser {
 
 	protected List readTag(XmlPullParser parser) throws XmlPullParserException, IOException {
 		super.tagName = "TAB_org";
+		parser.require(XmlPullParser.START_TAG, ns, "dataroot");
 		return super.readTag(parser);		
 	}
 
