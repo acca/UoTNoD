@@ -11,8 +11,10 @@ import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 import android.os.Bundle;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
@@ -24,12 +26,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Family extends FragmentActivity implements ActionBar.TabListener {
 	
 	private ViewPager viewPager;
     private FamilyTabsPagerAdapter mAdapter;
-    private ActionBar actionBar;
+    private ActionBar actionBar;    
+    private String filter = "ANY";
+    
     // Tab titles
     private String[] tabs = {
     		MyApplication.getAppContext().getResources().getString(R.string.family_org_tab),
@@ -105,6 +110,31 @@ public class Family extends FragmentActivity implements ActionBar.TabListener {
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
+		//Toast.makeText(this, "arg0:" + arg0 + " " +"arg1:" + arg1 + " " +"arg2:" + arg2 + " ", Toast.LENGTH_LONG).show();		
+		if (arg1 == Activity.RESULT_OK){
+			switch (arg0) {
+			case 0:
+				// Coming form Organization filter	
+				break;
+			case 1:
+				// Coming form Activities filter
+				this.filter = arg2.getExtras().getString("actFilter");
+				Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + this.filter, Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
+				
+		}
+	}
+	
+	public String getFilter(){
+		return this.filter;
 	}
 }
 

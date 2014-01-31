@@ -286,6 +286,37 @@ public class UotnodDAO_DB implements UotnodDAO {
 		cursor.close(); // Always remember to close the cursor
 		return activities;
 	}
+	
+	@Override
+	public List<String> getAllActTypes() {
+		Cursor cursor = database.query(true, SQLiteHelper.TABLE_FAMILY_ACT, new String[] {SQLiteHelper.FAMILY_ACT_COL_TYPE}, null, null, null, null, null, null);
+		List<String> types = new ArrayList<String>();
+		if (cursor.getCount() > 0) {
+			cursor.moveToFirst();			
+			while(!cursor.isAfterLast()){
+				types.add(cursor.getString(0));
+				cursor.moveToNext();
+			}
+			cursor.close();			
+		}
+		return types;
+	}
+	
+
+	@Override
+	public List<FamilyAct> getAllFamilyActByType(String type) {
+		List<FamilyAct> activities = new ArrayList<FamilyAct>();
+		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ACT, SQLiteHelper.TABLE_FAMILY_ACT_ALL_COLUMNS,SQLiteHelper.FAMILY_ACT_COL_TYPE + " LIKE?",new String[]{"%"+type+"%"}, null, null, null);
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast()){
+			FamilyAct activity = cursorToAct(cursor);
+			activities.add(activity);
+			cursor.moveToNext();
+		}
+		cursor.close(); // Always remember to close the cursor
+		return activities;
+	}
+
 
 	private FamilyAct cursorToAct(Cursor cursor) {		
 		long actId = cursor.getLong(0);
@@ -499,6 +530,6 @@ public class UotnodDAO_DB implements UotnodDAO {
 			values.put(SQLiteHelper.SHOPS_TYPE_COL_SHOPID, type.getShopId());
 			values.put(SQLiteHelper.SHOPS_TYPE_COL_TYPE, type.getType());		
 			return values;
-		}	
+		}
 
 }

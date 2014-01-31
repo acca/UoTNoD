@@ -27,4 +27,11 @@
 	<string name="not_implemented">Not yet implemented</string>
 	<string name="shops_map_tab">Shops Map</string>
 	<string name="shops_shop_tab">Shops</string>
+	<string name="act_filter_hint">Choose how to filter activities:</string>
+	<string name="filter">Filter</string>
+	<string name="spinner_act_filter_type_label">Choose activity type</string>
+	<string name="date_act_filter_date_label">Choose activity date</string>
+	<string name="any">ANY</string>
+	<string name="show_filter_msg">Showing element with tag:&#160;</string>
+	
 </resources>

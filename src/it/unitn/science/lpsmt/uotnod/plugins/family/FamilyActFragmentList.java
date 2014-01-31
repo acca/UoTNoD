@@ -39,6 +39,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
+		
         View rootView = inflater.inflate(R.layout.family_act_fragment, container, false);
 		dao = new UotnodDAO_DB();
 		dao.open();		
@@ -54,6 +55,29 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 		setHasOptionsMenu(true);
         return rootView;
     }
+	
+	@Override
+	public void onResume() {	
+		super.onResume();		
+		Family parentActivity = (Family)this.getActivity();
+		String type = parentActivity.getFilter();
+		if (type == null) return;
+		if ( ( !type.equals("ANY") ) ){
+			this.acts = dao.getAllFamilyActByType(type);
+			this.adapter.clear();
+        	this.adapter.addAll(this.acts);
+			this.adapter.notifyDataSetChanged();
+		}
+		else {
+			this.acts = dao.getAllFamilyActs();
+			this.adapter.clear();
+        	this.adapter.addAll(this.acts);
+			this.adapter.notifyDataSetChanged();
+		}		
+		
+		TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
+		tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -91,8 +115,8 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	}
 	
 	void showActFilter() {
-        Intent intent = new Intent(MyApplication.FAMILYPLUGINPKG + "FamilyActFilterView");        
-        startActivity(intent);
+        Intent intent = new Intent(MyApplication.FAMILYPLUGINPKG + "FamilyActFilterView");
+        getActivity().startActivityForResult(intent,1);
 	}
 	
 	private void doRefresh(){

@@ -28,7 +28,8 @@ public interface UotnodDAO {
 	public List<FamilyAct> getAllFamilyActs();
 	public FamilyAct getFamilyActById(long id);
 	public List<FamilyAct> getFamilyActByOrgId(long actOrgId);
-	
+	public List<String> getAllActTypes();
+	public List<FamilyAct> getAllFamilyActByType(String type);
 	
 	public ShopsShop insertShopsShop(ShopsShop shop);
 	public List<ShopsShop> getAllShopsShops();
@@ -37,6 +38,5 @@ public interface UotnodDAO {
 	public ShopsType insertShopsType(ShopsType activity);
 	public List<ShopsType> getAllShopsTypes();
 	public ShopsType getShopsTypeById(long id);
-	public List<ShopsType> getShopsTypeByShopId(long typeShopId);
-	
+	public List<ShopsType> getShopsTypeByShopId(long typeShopId);	
 }
