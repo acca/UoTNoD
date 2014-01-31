@@ -3,6 +3,8 @@ package it.unitn.science.lpsmt.uotnod.plugins.shops;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import it.unitn.science.lpsmt.uotnod.plugins.Entry;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;
 
@@ -14,6 +16,7 @@ public class ShopsShop extends Entry {
 	private String streetNum;
 	private String gpsPoint;
 	private List<ShopsType> shopsType;
+	private LatLng point;
 
 	public ShopsShop (Long orgId, String name, String street,long streetId, String streetNum, String gpsPoint) {
 		this.id = orgId;
@@ -22,6 +25,7 @@ public class ShopsShop extends Entry {
 		this.streetNum = streetNum;
 		this.gpsPoint = gpsPoint;
 		this.shopsType = new ArrayList<ShopsType>();
+		this.setPoint();
 	}
 	
 	public ShopsShop (Long orgId, String name, String street,long streetId, String streetNum, String gpsPoint, List<ShopsType> shopsType) {
@@ -31,6 +35,7 @@ public class ShopsShop extends Entry {
 		this.streetNum = streetNum;
 		this.gpsPoint = gpsPoint;
 		this.shopsType = shopsType;
+		this.setPoint();
 	}
 
 	
@@ -96,7 +101,16 @@ public class ShopsShop extends Entry {
 						+ "Shop id: " + this.id + "\n"
 						+ "Shop address: " + this.street + " " + this.streetNum + "\n";
 		return entry;
-	}	
+	}
+	
+	private void setPoint(){
+		String[] point = this.gpsPoint.split(",");
+		this.point = new LatLng(Double.parseDouble(point[1]),Double.parseDouble(point[0])); 
+	}
+	
+	public LatLng getPoint(){
+		return this.point;
+	}
 	
 	
 	@Override

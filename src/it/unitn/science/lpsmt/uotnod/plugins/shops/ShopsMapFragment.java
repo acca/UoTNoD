@@ -1,5 +1,6 @@
 package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -7,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import it.unitn.science.lpsmt.uotnod.R;
@@ -24,8 +26,12 @@ import android.widget.Toast;
 
 public class ShopsMapFragment extends Fragment {
 	private GoogleMap googleMap;
-	double latitude = 46.514249;
-	double longitude = 15.080183;
+	
+	private UotnodDAO dao;
+
+	//private ShopAdapter adapter;
+
+	List<ShopsShop> shops;
 
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	        final View myFragmentView = inflater.inflate(R.layout.shops_map_fragment, container, false);
@@ -45,15 +51,13 @@ public class ShopsMapFragment extends Fragment {
 	 private void initilizeMap() {
 	        if (googleMap == null) {
 	            googleMap = ((SupportMapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-	            
-	            
-	            /*
 
 	            googleMap.setMyLocationEnabled(true);
+	            	            
+	            // Trento
+	            LatLng startPoint = new LatLng(46.06736,11.12085);
 	            
-	            LatLng startPoint = new LatLng(googleMap.getMyLocation().getLatitude(),googleMap.getMyLocation().getLongitude());
-	            
-	            
+	            /*
 	            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 13));
 
 	            googleMap.addMarker(new MarkerOptions()
@@ -64,15 +68,29 @@ public class ShopsMapFragment extends Fragment {
 	            */
 	            
 	            
+	            googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+	            	   @Override
+	            	   public void onCameraChange(CameraPosition position) {
+	            		   drawMarkers();
+	            	   }
+	            	});
+	            
+	            
+				
+	            
 	            LatLng sydney = new LatLng(46.090,11.115);
 
 	            googleMap.setMyLocationEnabled(true);
-	            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+	            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint, 13));
 
-	            googleMap.addMarker(new MarkerOptions()
-	                    .title("Sydney")
-	                    .snippet("The most populous city in Australia.")
-	                    .position(sydney));
+	            
+	            getShops();
+	            
+	            drawMarkers();
+	            
+	            
+	            
+	            
 	            	            
 	            /*
 	            googleMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
@@ -93,4 +111,36 @@ public class ShopsMapFragment extends Fragment {
 	            }
 	       }
 	 }
+	 private void getShops(){
+		 this.dao = new UotnodDAO_DB();
+			this.dao.open();		
+			this.shops = dao.getAllShopsShops();			
+			//adapter = new ShopAdapter(rootView.getContext(),R.layout.two_lines_list_item,shops);		
+	 }
+	 
+	 private void drawMarkers(){
+		 
+		 final LatLngBounds screenBounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
+		 
+		 Iterator<ShopsShop> i = this.shops.iterator();
+		 while(i.hasNext()){
+			 ShopsShop s = i.next();
+			 
+			 
+			 if (screenBounds.contains(s.getPoint())) {
+				 googleMap.addMarker(new MarkerOptions()
+		         .title(s.getName())
+		         .snippet(s.getStreet())
+		        .position(s.getPoint()));           
+		     }
+		 }
+		 
+	 }
+	 
+	 @Override
+	public void onDestroy() {	
+		super.onDestroy();
+		this.dao.close();
+	}
+	 
 }
