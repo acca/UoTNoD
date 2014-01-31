@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">UoTNoD</string>    
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">UoTNoD</string>
     <string name="hello_FamilyPLugin">Hello. Family plugin activity.</string>
     <string name="title_activity_family">Family</string>
     <string name="title_activity_family_org">Organizations</string>
     <string name="title_activity_family_act">Activities</string>
+    <string name="title_activity_shops_shop">Shops</string>    
     <string name="title_activity_shops">Shops</string>
     <string name="title_activity_weather">Weather</string>
     <string name="action_settings">Settings</string>
@@ -22,7 +22,9 @@
 	<string name="parse_task">Parsing data source&#8230;</string>
 	<string name="initMsg">The following plugins are empty and needs update from datasources:</string>
 	<string name="image">Thumb</string>
-	<string name="org_tab">Organizations</string>
-	<string name="act_tab">Activities</string>
+	<string name="family_org_tab">Organizations</string>
+	<string name="family_act_tab">Activities</string>
 	<string name="not_implemented">Not yet implemented</string>
+	<string name="shops_map_tab">Shops Map</string>
+	<string name="shops_shop_tab">Shops</string>
 </resources>

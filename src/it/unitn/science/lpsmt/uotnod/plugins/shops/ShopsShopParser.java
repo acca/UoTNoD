@@ -26,7 +26,7 @@ import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActParser;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
+import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShop;
 
 public class ShopsShopParser {
 	private InputStream in;

@@ -104,6 +104,22 @@
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActFilterView" />
          		<category android:name="android.intent.category.DEFAULT" />  
      		</intent-filter> 
+        </activity>
+        <activity
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopView"
+            android:label="@string/title_activity_shops_shop" >
+            <intent-filter> 
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopView" />  
+         		<category android:name="android.intent.category.DEFAULT" />  
+     		</intent-filter> 
+        </activity>
+        <activity
+            android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopFilterView"
+            android:label="@string/title_activity_shops_shop" >
+            <intent-filter> 
+       			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopFilterView" />
+         		<category android:name="android.intent.category.DEFAULT" />  
+     		</intent-filter> 
         </activity>        
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"

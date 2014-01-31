@@ -16,7 +16,7 @@ import it.unitn.science.lpsmt.uotnod.UotnodDAO;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 import it.unitn.science.lpsmt.uotnod.plugins.Entry;
 import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
+import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShop;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgParser;
 
 public class ShopsPlugin extends Plugin {
