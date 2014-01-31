@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -132,6 +133,18 @@ public class Dashboard extends ListActivity {
 	            TextView itemDesc = (TextView) view.findViewById(R.id.desc);
 	            if (itemDesc != null) {
 	                itemDesc.setText(item.getDescription());
+	            }
+	            ImageView itemIcon = (ImageView) view.findViewById(R.id.icon);
+	            if (itemIcon != null) {
+	            	if (item.getId() == 1) {
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_fam));	
+	            	}
+	            	else if (item.getId() == 3) {
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_sho));
+	            	}
+	            	else {
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod));
+	            	}
 	            }
 	         }
 	        return view;
