@@ -38,5 +38,8 @@
 	<string name="action_gowebsite">Visit website</string>
 	<string name="nomail">E-mail address not present for this organization.</string>
 	<string name="nowebsite">Website not present for this organization.</string>
+	<string name="shop_types">Services offered:</string>
+	<string name="action_goshop">Visit shop</string>
+	<string name="noshop">Shops has no address</string>
 	
 </resources>

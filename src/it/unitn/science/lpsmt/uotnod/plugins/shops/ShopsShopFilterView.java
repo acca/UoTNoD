@@ -1,5 +1,6 @@
 package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
+import it.unitn.science.lpsmt.uotnod.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ public class ShopsShopFilterView extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_outnod_weather);
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 	}

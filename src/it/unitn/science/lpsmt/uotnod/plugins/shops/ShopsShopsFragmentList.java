@@ -9,6 +9,7 @@ import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 import it.unitn.science.lpsmt.uotnod.UpdateManager;
 import it.unitn.science.lpsmt.uotnod.UpdateManager.EventListener;
 import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
+import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrg;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,12 +49,9 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
-			Log.d(MyApplication.DEBUGTAG, "Item clicked");
 			// Start Shop details activity
-			showShopDetails(position);
-			//((ShopsShop)l.getItemAtPosition(position)).setName("Prova");
-			//this.adapter.notifyDataSetChanged();
-
+			ShopsShop myShop = (ShopsShop) l.getAdapter().getItem(position);			
+			showShopDetails((int)myShop.getId());
 		}
 
 		@Override

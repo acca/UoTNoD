@@ -1,6 +1,7 @@
 package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.*;
+import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsType;
 
 
 import java.io.IOException;
@@ -20,14 +21,17 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Dashboard extends ListActivity {
@@ -57,7 +61,7 @@ public class Dashboard extends ListActivity {
 			Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.initMsg) + "\n" + initMsg,Toast.LENGTH_LONG).show();      
 		}
 		
-		ArrayAdapter<Plugin> adapter = new ArrayAdapter<Plugin>(this,android.R.layout.simple_list_item_1,this.plugins);
+		PluginAdapter adapter = new PluginAdapter(this,R.layout.icon_two_lines_list_item,plugins);
 		
 		setListAdapter(adapter);
 		
@@ -102,6 +106,35 @@ public class Dashboard extends ListActivity {
 	    UpdateManager myAsyncTask = new UpdateManager(this);	    
 	    if (MyApplication.checkNetwork()) {
 	    	myAsyncTask.execute(plugins);
+	    }
+	}
+	
+	private class PluginAdapter extends ArrayAdapter<Plugin> {
+		Context context;
+		
+	    PluginAdapter(Context context, int textViewResourceId, List<Plugin> items) {	    	
+	    	super(context, textViewResourceId, items);
+	    	this.context = context;
+	    }
+
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	        View view = convertView;
+	        if (view == null) {
+	            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	            view = inflater.inflate(R.layout.icon_two_lines_list_item, null);
+	        }
+	        Plugin item = getItem(position);
+	        if (item!= null) {
+	            TextView itemTitle = (TextView) view.findViewById(R.id.title);
+	            if (itemTitle != null) {
+	                itemTitle.setText(item.getName());
+	            }
+	            TextView itemDesc = (TextView) view.findViewById(R.id.desc);
+	            if (itemDesc != null) {
+	                itemDesc.setText(item.getDescription());
+	            }
+	         }
+	        return view;
 	    }
 	}
 }

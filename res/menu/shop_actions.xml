@@ -1,0 +1,8 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_goshop"
+          android:icon="@drawable/ic_action_directions"
+          android:title="@string/action_goshop"
+		  android:showAsAction="ifRoom"
+		  />
+</menu>

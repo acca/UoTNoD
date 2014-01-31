@@ -49,7 +49,7 @@ public class FamilyOrgFragmentList extends ListFragment implements EventListener
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		Log.d(MyApplication.DEBUGTAG, "Item clicked");
+		//Log.d(MyApplication.DEBUGTAG, "Item clicked");
 		// Start ORg details activity
 		
 		FamilyOrg myOrg = (FamilyOrg) l.getAdapter().getItem(position);

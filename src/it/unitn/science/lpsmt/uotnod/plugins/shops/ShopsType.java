@@ -34,6 +34,10 @@ public class ShopsType extends Entry {
 	public String getType() {
 		return type;
 	}
+	
+	public String getTypeFormatted() {
+		return type.substring(6);
+	}
 
 	public void setType(String type) {
 		this.type = type;
