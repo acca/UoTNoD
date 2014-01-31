@@ -1,24 +1,13 @@
 package it.unitn.science.lpsmt.uotnod;
 
 import it.unitn.science.lpsmt.uotnod.plugins.*;
-import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsType;
 
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.Iterator;
-import java.util.List;
-import java.net.URL;  
-
-import org.xmlpull.v1.XmlPullParserException;
+import java.util.List;  
 
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -137,13 +126,13 @@ public class Dashboard extends ListActivity {
 	            ImageView itemIcon = (ImageView) view.findViewById(R.id.icon);
 	            if (itemIcon != null) {
 	            	if (item.getId() == 1) {
-	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_fam));	
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_fam1));	
 	            	}
 	            	else if (item.getId() == 3) {
 	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_sho));
 	            	}
 	            	else {
-	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod));
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod1));
 	            	}
 	            }
 	         }
