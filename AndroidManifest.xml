@@ -43,15 +43,25 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.family.Family"
-            android:label="@string/title_activity_family" >
+            android:label="@string/title_activity_family"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.Dashboard" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.Dashboard" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.Family" />  
          		<category android:name="android.intent.category.DEFAULT" />  
-     		</intent-filter> 
+     		</intent-filter>     		 
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops"
-            android:label="@string/title_activity_shops" >
+            android:label="@string/title_activity_shops"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.Dashboard" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.Dashboard" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops" />  
          		<category android:name="android.intent.category.DEFAULT" />  
@@ -59,7 +69,12 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.weather.Weather"
-            android:label="@string/title_activity_weather" >
+            android:label="@string/title_activity_weather"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.Dashboard" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.Dashboard" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.weather.Weather" />  
          		<category android:name="android.intent.category.DEFAULT" />  
@@ -75,7 +90,12 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgView"
-            android:label="@string/title_activity_family_org" >
+            android:label="@string/title_activity_family_org"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.plugins.family.Family" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.plugins.family.Family" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgView" />  
          		<category android:name="android.intent.category.DEFAULT" />  
@@ -83,7 +103,12 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgFilterView"
-            android:label="@string/title_activity_family_org" >
+            android:label="@string/title_activity_family_org"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.plugins.family.Family" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.plugins.family.Family" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgFilterView" />  
          		<category android:name="android.intent.category.DEFAULT" />  
@@ -91,7 +116,12 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActView"
-            android:label="@string/title_activity_family_act" >
+            android:label="@string/title_activity_family_act"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.plugins.family.Family" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.plugins.family.Family" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActView" />  
          		<category android:name="android.intent.category.DEFAULT" />  
@@ -99,7 +129,12 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActFilterView"
-            android:label="@string/title_activity_family_act" >
+            android:label="@string/title_activity_family_act"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.plugins.family.Family" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.plugins.family.Family" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActFilterView" />
          		<category android:name="android.intent.category.DEFAULT" />  
@@ -107,15 +142,26 @@
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopView"
-            android:label="@string/title_activity_shops_shop" >
+            android:label="@string/title_activity_shops_shop"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops" />
+        	<!-- Parent activity meta-data to support API level 7+ -->
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopView" />  
-         		<category android:name="android.intent.category.DEFAULT" />  
+         		<category android:name="android.intent.category.DEFAULT" /> 
      		</intent-filter> 
         </activity>
         <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopFilterView"
-            android:label="@string/title_activity_shops_shop" >
+            android:label="@string/title_activity_shops_shop"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.plugins.shops.Shops" />
             <intent-filter> 
        			<action android:name="it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShopFilterView" />
          		<category android:name="android.intent.category.DEFAULT" />  
