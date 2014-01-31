@@ -1,9 +1,6 @@
 package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import com.google.android.gms.maps.model.LatLng;
 
 import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
@@ -31,7 +28,6 @@ import android.widget.Toast;
 
 public class ShopsShopView extends Activity {
 
-	private long orgId;
 	private UotnodDAO_DB dao;
 	private ShopsShop myShop;
 	private LinearLayout linearLayout;

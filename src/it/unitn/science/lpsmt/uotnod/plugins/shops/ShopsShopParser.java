@@ -15,17 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
-import android.util.Xml;
-
-import it.unitn.science.lpsmt.uotnod.MyApplication;
-import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
-import it.unitn.science.lpsmt.uotnod.plugins.*;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActParser;
 import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShop;
 
 public class ShopsShopParser {
@@ -36,8 +26,6 @@ public class ShopsShopParser {
 	private long streetId;
 	private String streetNum;
 	private String gpsPoint;
-	private List<ShopsShop> shopsShopList;
-	private ShopsShop shop;
 	private String type;
 	HashMap<Long,ShopsShop> hm;
 	

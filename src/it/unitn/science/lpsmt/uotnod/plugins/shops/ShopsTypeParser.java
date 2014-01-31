@@ -1,16 +1,10 @@
 package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.util.Log;
-
-import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.UotnodXMLParser;
 import it.unitn.science.lpsmt.uotnod.plugins.*;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;

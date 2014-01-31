@@ -1,8 +1,6 @@
 package it.unitn.science.lpsmt.uotnod.plugins.weather;
 
 import it.unitn.science.lpsmt.uotnod.R;
-import it.unitn.science.lpsmt.uotnod.R.layout;
-import it.unitn.science.lpsmt.uotnod.R.menu;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;

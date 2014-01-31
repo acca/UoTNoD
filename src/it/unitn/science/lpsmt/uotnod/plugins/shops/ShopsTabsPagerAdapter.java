@@ -1,7 +1,5 @@
 package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActFragmentList;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgFragmentList;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

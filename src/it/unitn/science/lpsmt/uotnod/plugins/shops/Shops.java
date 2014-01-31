@@ -1,29 +1,16 @@
 package it.unitn.science.lpsmt.uotnod.plugins.shops;
 
-
-import java.util.List;
-
 import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
-import it.unitn.science.lpsmt.uotnod.UotnodDAO;
-import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 
 import android.os.Bundle;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class Shops extends FragmentActivity implements ActionBar.TabListener {
 	

@@ -10,7 +10,6 @@ public class ShopsType extends Entry {
 	private String type = null;
 	
 	public ShopsType (Long shopId, String type) {
-		this.id = id;
 		this.shopId = shopId;
 		this.type = type;
 	}

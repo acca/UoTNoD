@@ -1,7 +1,5 @@
 package it.unitn.science.lpsmt.uotnod.plugins.family;
 
-import java.util.ArrayList;
-
 import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;

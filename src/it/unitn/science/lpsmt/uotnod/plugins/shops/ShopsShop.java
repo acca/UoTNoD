@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.android.gms.maps.model.LatLng;
 
 import it.unitn.science.lpsmt.uotnod.plugins.Entry;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyAct;
 
 public class ShopsShop extends Entry {
 	private long id;
