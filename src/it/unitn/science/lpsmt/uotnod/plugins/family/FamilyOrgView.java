@@ -61,7 +61,7 @@ public class FamilyOrgView extends Activity {
 
         case R.id.action_gowebsite:
         	// Visit website
-        	//goWesite();
+        	goWebsite();
         	return true;
 
         case R.id.action_gomail:
@@ -126,20 +126,26 @@ public class FamilyOrgView extends Activity {
 	}
 	
 	private void showAct(){
-		//dao = new UotnodDAO_DB();
-		//dao.open();		
-		//this.acts = dao.getAllFamilyActs();
-		//FamilyActFragmentList fl = new FamilyActFragmentList();
 		ActAdapter adapter = new ActAdapter(this,R.layout.two_lines_list_item,this.myOrg.getFamilyAct());
 		ListView listView = (ListView) findViewById(R.id.listview1);
 		listView.setAdapter(adapter);
 	}
 	
 	private void goWebsite(){
+		String website = this.myOrg.getWebsite();
 		
+		if ( (!website.equals("")) ){
+			if (!website.startsWith("http://") && !website.startsWith("https://")) website = "http://" + website;
+			Intent i = new Intent(Intent.ACTION_VIEW);
+			i.setData(Uri.parse(website));
+			startActivity(i);
+		}
+		else {	
+			Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.nowebsite), Toast.LENGTH_SHORT).show();
+		}
 	}
 	
-	private void sendMail(){		
+	private void sendMail(){
 		String email = this.myOrg.getEmail();
 								
 		if ( (!email.equals("")) ){
