@@ -128,7 +128,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 		}
 	}
 	
-	private class ActAdapter extends ArrayAdapter<FamilyAct> {
+	protected static class ActAdapter extends ArrayAdapter<FamilyAct> {
 		Context context;
 	    public ActAdapter(Context context, int textViewResourceId, List<FamilyAct> items) {
 	        super(context, textViewResourceId, items);

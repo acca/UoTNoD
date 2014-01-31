@@ -33,5 +33,10 @@
 	<string name="date_act_filter_date_label">Choose activity date</string>
 	<string name="any">ANY</string>
 	<string name="show_filter_msg">Showing element with tag:&#160;</string>
+	<string name="org_activities">This organization activities:</string>
+	<string name="action_gomail">Send mail</string>
+	<string name="action_gowebsite">Visit website</string>
+	<string name="nomail">E-mail address not present for this organization.</string>
+	<string name="nowebsite">Website not present for this organization.</string>
 	
 </resources>

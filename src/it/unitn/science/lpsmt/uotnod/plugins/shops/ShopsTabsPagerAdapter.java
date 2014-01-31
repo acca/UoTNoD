@@ -17,11 +17,11 @@ public class ShopsTabsPagerAdapter extends FragmentPagerAdapter {
 
 		switch (index) {
 		case 0:
-			// Organizations fragment activity
-			return new ShopsMapFragment();			
+			// Shops list fragment activity
+			return new ShopsShopsFragmentList();			
 		case 1:
-			// Activities fragment activity
-			return new ShopsShopsFragmentList();
+			// Map of shops fragment activity
+			return new ShopsMapFragment();			
 		}
 
 		return null;

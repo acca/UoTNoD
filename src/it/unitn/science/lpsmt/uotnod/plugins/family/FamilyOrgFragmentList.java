@@ -51,7 +51,9 @@ public class FamilyOrgFragmentList extends ListFragment implements EventListener
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Log.d(MyApplication.DEBUGTAG, "Item clicked");
 		// Start ORg details activity
-		showOrgDetails(position);
+		
+		FamilyOrg myOrg = (FamilyOrg) l.getAdapter().getItem(position);
+		showOrgDetails((int)myOrg.getOrgId());
 		//((FamilyOrg)l.getItemAtPosition(position)).setName("Prova");
 		//this.adapter.notifyDataSetChanged();
 

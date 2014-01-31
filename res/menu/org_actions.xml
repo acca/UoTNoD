@@ -1,0 +1,13 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/action_gowebsite"
+          android:icon="@drawable/ic_action_web_site"
+          android:title="@string/action_gowebsite"
+		  android:showAsAction="ifRoom"
+		  />
+    <item android:id="@+id/action_gomail"
+          android:icon="@drawable/ic_action_email"
+          android:title="@string/action_gomail"
+		  android:showAsAction="ifRoom"
+		  />
+</menu>
