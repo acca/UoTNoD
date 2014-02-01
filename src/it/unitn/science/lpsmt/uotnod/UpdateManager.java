@@ -161,7 +161,7 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 	    conn.setRequestMethod("GET");
 	    conn.setDoInput(true);	    
 	    String contentEncoding = null;	    
-	    conn.connect();	   
+	    conn.connect();
 	    InputStream input = conn.getInputStream();	    
 	    contentEncoding = conn.getHeaderField("Content-Type");
 	    //if (contentEncoding != null) Log.d(MyApplication.DEBUGTAG,contentEncoding);

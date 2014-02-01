@@ -98,7 +98,11 @@ public class Dashboard extends ListActivity {
 	    	myAsyncTask.execute(plugins);
 	    }
 	}
-	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		dao.close();
+	}
 	private class PluginAdapter extends ArrayAdapter<Plugin> {
 		Context context;
 		
@@ -126,13 +130,13 @@ public class Dashboard extends ListActivity {
 	            ImageView itemIcon = (ImageView) view.findViewById(R.id.icon);
 	            if (itemIcon != null) {
 	            	if (item.getId() == 1) {
-	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_fam1));	
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_fam));	
 	            	}
 	            	else if (item.getId() == 3) {
 	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_sho));
 	            	}
 	            	else {
-	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod1));
+	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod));
 	            	}
 	            }
 	         }

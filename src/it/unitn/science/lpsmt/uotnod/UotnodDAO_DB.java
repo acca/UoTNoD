@@ -156,8 +156,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		long insertId = organization.getOrgId();
 		FamilyOrg myOrg = getFamilyOrgById(insertId);
 		if (myOrg != null){
-			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myOrg.toString() + "with: " + organization.toString());
-			//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
+			//Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myOrg.toString() + "with: " + organization.toString());
 			insertId = database.delete(SQLiteHelper.TABLE_FAMILY_ORG, SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+myOrg.getOrgId()});
 			//insertId = database.update(SQLiteHelper.TABLE_FAMILY_ORG, orgToValuesNoId(organization), SQLiteHelper.FAMILY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
 		}
@@ -168,7 +167,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		while(iterator.hasNext()){
 			FamilyAct activity = iterator.next();
 			activity = insertFamilyAct(activity);
-			Log.d(MyApplication.DEBUGTAG,"Inserita: " + activity.toString());
+			//Log.d(MyApplication.DEBUGTAG,"Inserita: " + activity.toString());
 		}
 		// Now read from DB the inserted organization and return it
 		Cursor cursor = database.query(SQLiteHelper.TABLE_FAMILY_ORG,SQLiteHelper.TABLE_FAMILY_ORG_ALL_COLUMNS,SQLiteHelper.FAMILY_ORG_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
@@ -234,7 +233,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		long insertId = activity.getId();
 		FamilyAct myAct = getFamilyActById(insertId);
 		if (myAct != null){
-			Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myAct.toString() + "with: " + activity.toString());
+			//Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myAct.toString() + "with: " + activity.toString());
 			insertId = database.delete(SQLiteHelper.TABLE_FAMILY_ACT, SQLiteHelper.FAMILY_ACT_COL_ID + " =?",new String[]{""+myAct.getId()});
 		}		
 		insertId = database.insert(SQLiteHelper.TABLE_FAMILY_ACT, null, actToValues(activity));
@@ -379,8 +378,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 			long insertId = shop.getId();
 			ShopsShop myShop = getShopsShopById(insertId);
 			if (myShop != null){
-				Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myShop.toString() + "with: " + shop.toString());
-				//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
+				//(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myShop.toString() + "with: " + shop.toString());
 				insertId = database.delete(SQLiteHelper.TABLE_SHOPS_INFO, SQLiteHelper.SHOPS_INFO_COL_ID + " =?",new String[]{""+myShop.getId()});
 				//insertId = database.update(SQLiteHelper.TABLE_FAMILY_ORG, orgToValuesNoId(shop), SQLiteHelper.FAMILY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
 			}
@@ -391,7 +389,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 			while(iterator.hasNext()){
 				ShopsType type = iterator.next();
 				type = insertShopsType(type);
-				Log.d(MyApplication.DEBUGTAG,"Inserito: " + type.toString());
+				//Log.d(MyApplication.DEBUGTAG,"Inserito: " + type.toString());
 			}
 			// Now read from DB the inserted shop and return it
 			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_INFO,SQLiteHelper.TABLE_SHOPS_INFO_ALL_COLUMNS,SQLiteHelper.SHOPS_INFO_COL_ID + " =?",new String[]{""+insertId},null,null,null);		
@@ -459,7 +457,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 			long insertId = type.getId();
 			ShopsType myType = getShopsTypeById(insertId);
 			if (myType != null){
-				Log.d(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myType.toString() + "with: " + type.toString());
+				//(MyApplication.DEBUGTAG,"Updating DB, replacing: " + myType.toString() + "with: " + type.toString());
 				//TODO: invece che cancellare e inserire qui si dovrebbe aggiornare il record, am sembra funzionare anche così - 140111
 				insertId = database.delete(SQLiteHelper.TABLE_SHOPS_TYPE, SQLiteHelper.SHOPS_TYPE_COL_ID + " =?",new String[]{""+myType.getId()});
 				//insertId = database.update(SQLiteHelper.TABLE_FAMILY_ORG, orgToValuesNoId(type), SQLiteHelper.FAMILY_ORG_COL_ID + " =?", new String[]{""+myOrg.getOrgId()});
