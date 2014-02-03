@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 public class FamilyOrgView extends Activity {
 
-	private long orgId;
 	private UotnodDAO_DB dao;
 	private FamilyOrg myOrg;
 	private LinearLayout linearLayout;

@@ -47,9 +47,10 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 		this.listView.setAdapter(adapter);
 		this.listView.setOnItemClickListener(new OnItemClickListener() {
 		    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-		    	showActDetails(position);
+		    	FamilyAct myAct = (FamilyAct) l.getAdapter().getItem(position);
+		    	showActDetails((int)myAct.getId());
 		    }
-		});	
+		});
 		setHasOptionsMenu(true);
         return rootView;
     }
@@ -125,7 +126,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 			myAsyncTask.execute(plugin);			
 		}
 	}
-	
+
 	protected static class ActAdapter extends ArrayAdapter<FamilyAct> {
 		Context context;
 	    public ActAdapter(Context context, int textViewResourceId, List<FamilyAct> items) {

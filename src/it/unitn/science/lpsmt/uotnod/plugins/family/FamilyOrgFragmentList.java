@@ -47,15 +47,9 @@ public class FamilyOrgFragmentList extends ListFragment implements EventListener
     }
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		//Log.d(MyApplication.DEBUGTAG, "Item clicked");
-		// Start ORg details activity
-		
+	public void onListItemClick(ListView l, View v, int position, long id) {		
 		FamilyOrg myOrg = (FamilyOrg) l.getAdapter().getItem(position);
 		showOrgDetails((int)myOrg.getOrgId());
-		//((FamilyOrg)l.getItemAtPosition(position)).setName("Prova");
-		//this.adapter.notifyDataSetChanged();
-
 	}
 
 	@Override
@@ -101,7 +95,7 @@ public class FamilyOrgFragmentList extends ListFragment implements EventListener
 		}
 	}
 		
-	private class OrgAdapter extends ArrayAdapter<FamilyOrg> {
+	protected static class OrgAdapter extends ArrayAdapter<FamilyOrg> {
 		Context context;
 		//List<FamilyOrg> orgs;
 		
@@ -124,7 +118,8 @@ public class FamilyOrgFragmentList extends ListFragment implements EventListener
 	            }
 	            TextView itemDesc = (TextView) view.findViewById(R.id.desc);
 	            if (itemDesc != null) {
-	                itemDesc.setText(item.getWebsite());
+	            	if (!item.getWebsite().equals("0")) itemDesc.setText(item.getWebsite());
+	            	else itemDesc.setText("");
 	            }
 	         }
 	        return view;

@@ -108,7 +108,7 @@ public class FamilyActParser extends UotnodXMLParser {
 				actReg = getValue(parser,"Modalità_x0020_e_x0020_tempi_x0020_di_x0020_iscrizione");
 			}
 			else if (item.equals("L_x0027_attività_x0020_è_x0020_marchiata_x0020__x0022_Family_x0020_in_x0020_Trentino_x0022__x003F_")){
-				actFamilyCert = getValue(parser,"L_x0027_attività_x0020_è_x0020_marchiata_x0020__x0022_Family_x0020_in_x0020_Trentino_x0022__x003F_").equalsIgnoreCase("si");
+				actFamilyCert = getValue(parser,"L_x0027_attività_x0020_è_x0020_marchiata_x0020__x0022_Family_x0020_in_x0020_Trentino_x0022__x003F_").equalsIgnoreCase("sì");
 			}
 			else if (item.equals("Scheda")){
 				actInfoLink = getValue(parser,"Scheda");

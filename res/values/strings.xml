@@ -41,5 +41,7 @@
 	<string name="shop_types">Services offered:</string>
 	<string name="action_goshop">Visit shop</string>
 	<string name="noshop">Shops has no address</string>
-	
+	<string name="act_cert_true">This activity is Family audit certified.</string>
+	<string name="act_cert_false">This activity is not Family audit certified.</string>
+	<string name="act_organization">This activity is offered by:</string>	
 </resources>

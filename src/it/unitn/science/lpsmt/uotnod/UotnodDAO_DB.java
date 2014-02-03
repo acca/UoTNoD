@@ -338,7 +338,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		String actRef = cursor.getString(17);
 		String actReg = cursor.getString(18);
 		Boolean actFamilyCert = false;		
-		if ( cursor.getLong(19) == 1 ) {
+		if ( cursor.getInt(19) ==  1) {
 			actFamilyCert = true;
 		}		
 		String actInfoLink = cursor.getString(20);		
@@ -366,8 +366,13 @@ public class UotnodDAO_DB implements UotnodDAO {
 		values.put(SQLiteHelper.FAMILY_ACT_COL_VINRES, activity.getVinRes());
 		values.put(SQLiteHelper.FAMILY_ACT_COL_REF, activity.getRef());
 		values.put(SQLiteHelper.FAMILY_ACT_COL_REG, activity.getReg());
-		values.put(SQLiteHelper.FAMILY_ACT_COL_FAMILYCERT, activity.getFamilyCert());
-		values.put(SQLiteHelper.FAMILY_ACT_COL_INFOLINK, activity.getInfoLink());		
+		if (activity.getFamilyCert()) {
+			values.put(SQLiteHelper.FAMILY_ACT_COL_FAMILYCERT, 1);
+		}
+		else {	
+			values.put(SQLiteHelper.FAMILY_ACT_COL_FAMILYCERT, 0);
+		}
+		values.put(SQLiteHelper.FAMILY_ACT_COL_INFOLINK, activity.getInfoLink());
 		return values;
 	}
 

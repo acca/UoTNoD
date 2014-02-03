@@ -1,5 +1,7 @@
 package it.unitn.science.lpsmt.uotnod.plugins.family;
 
+import it.unitn.science.lpsmt.uotnod.MyApplication;
+import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.plugins.Entry;
 
 public class FamilyAct extends Entry {
@@ -217,6 +219,15 @@ public class FamilyAct extends Entry {
 
 	public Boolean getFamilyCert() {
 		return familyCert;
+	}
+	
+	public String getFamilyCertFormatted() {
+		if (this.familyCert){
+			return MyApplication.getAppContext().getString(R.string.act_cert_true);
+		}
+		else {
+			return MyApplication.getAppContext().getString(R.string.act_cert_false);
+		}
 	}
 
 	public void setFamilyCert(Boolean familyCert) {
