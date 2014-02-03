@@ -81,7 +81,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// Inflate the menu items for use in the action bar
-	    inflater.inflate(R.menu.family_actions, menu);
+	    inflater.inflate(R.menu.family_act_actions, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
