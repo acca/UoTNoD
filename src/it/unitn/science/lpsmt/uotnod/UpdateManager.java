@@ -7,11 +7,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -20,7 +17,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
 import it.unitn.science.lpsmt.uotnod.UpdateManager.Progress;
 
 
@@ -69,7 +65,9 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 		
     @Override
     protected String[] doInBackground(Plugin... plugins) {
-    	
+    	if (plugins.length == 0) {
+    		return new String[] {MyApplication.getAppContext().getResources().getString(R.string.no_enabled_plugin)};
+    	}
     	this.status = (progDialog.getMax()/(plugins.length*2));
     	Progress progress = new Progress(plugins.length);
     	String[] results = new String[plugins.length];        	
@@ -169,7 +167,8 @@ public class UpdateManager extends AsyncTask<Plugin, Progress, String[]> {
 	    	InputStream is = input;
 	    	ZipInputStream zis = new ZipInputStream(new BufferedInputStream(is));
 	    	try {
-	    		ZipEntry ze;
+	    		@SuppressWarnings("unused")
+				ZipEntry ze;
 	    		while ((ze = zis.getNextEntry()) != null) {
 	    			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    			byte[] buffer = new byte[1024];

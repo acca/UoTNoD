@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 			dao = new UotnodDAO_DB();
 			dao.open();		
 			shops = dao.getAllShopsShops();	
-			adapter = new ShopAdapter(rootView.getContext(),R.layout.two_lines_list_item,shops);		
+			adapter = new ShopAdapter(rootView.getContext(),R.layout.small_icon_two_lines_list_item,shops);		
 			setListAdapter(adapter);
 			setHasOptionsMenu(true);		
 	        return rootView;
@@ -108,7 +109,7 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 		        View view = convertView;
 		        if (view == null) {
 		            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		            view = inflater.inflate(R.layout.two_lines_list_item, null);
+		            view = inflater.inflate(R.layout.small_icon_two_lines_list_item, null);
 		        }
 		        ShopsShop item = getItem(position);
 		        if (item!= null) {
@@ -119,6 +120,10 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 		            TextView itemDesc = (TextView) view.findViewById(R.id.desc);
 		            if (itemDesc != null) {
 		                itemDesc.setText(item.getStreet() + " " + item.getStreetNum());
+		            }
+		            ImageView itemIcon = (ImageView) view.findViewById(R.id.icon);
+		            if (itemIcon != null) {		            	
+		            	itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.shop));			            	
 		            }
 		         }
 		        return view;

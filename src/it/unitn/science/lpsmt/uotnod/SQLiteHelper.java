@@ -66,15 +66,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ "'Recupera informazioni meteo dai dati aperto della Provincia Autonoma di Trento'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
 			+ "''" + " AS " + PLUGIN_COL_DATASRC + ","
 			+ "1" + " AS " + PLUGIN_COL_EMPTY
-			+ " "
-			+ " UNION SELECT "
-			+ "'Devel activity'" + " AS " + PLUGIN_COL_NAME + ","
-			+ "'DOMParser'" + " AS " + PLUGIN_COL_LAUNCHER + ","
-			+ "0" + " AS " + PLUGIN_COL_STATUS + ","
-			+ "'Just a starting poin for devel activities'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "''" + " AS " + PLUGIN_COL_DATASRC + ","
-			+ "1" + " AS " + PLUGIN_COL_EMPTY
-			+ " ";	
+			+ " ";
+				
 	
 	// **** Family plugin ****
 	// Organization constants
@@ -197,14 +190,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 	
 	// **** Shared constants ****
 	public static final String DATABASE_NAME="uotnod.db";
-	public static final int DATABASE_VERSION = 29;
-
-	// Database creation sql statement
-	private static final String DATABASE_CREATE = PLUGIN_TABLE_CREATE		
-			+ "\n" + FAMILY_ORG_CREATE
-			+ "\n" + FAMILY_ACT_CREATE
-			+ "\n" + SHOPS_INFO_CREATE
-			+ "\n" + SHOPS_TYPE_CREATE;
+	public static final int DATABASE_VERSION = 31;
 
 	// Database creation sql statement
 	private static final String DATABASE_INITIALIZE = PLUGIN_TABLE_INITIALIZE;

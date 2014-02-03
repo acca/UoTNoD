@@ -57,6 +57,19 @@ public class UotnodDAO_DB implements UotnodDAO {
 	}
 	
 	@Override
+	public Plugin getPluginById(long id) {	
+		Cursor cursor = database.query(SQLiteHelper.TABLE_PLUGIN, SQLiteHelper.TABLE_PLUGIN_ALL_COLUMNS, SQLiteHelper.PLUGIN_COL_ID+"=?", new String[]{""+id}, null, null, null);
+		cursor.moveToFirst();
+		Plugin p = null;
+		if (cursor.getCount() > 0) {
+			cursor.moveToFirst();
+			p = cursorToPlugin(cursor);			
+		}	
+		cursor.close();
+		return p;
+	}
+	
+	@Override
 	public List<Plugin> getAllPlugins(Boolean active) {
 		List<Plugin> plugins = new ArrayList<Plugin>();
 		String filter = "-1";
@@ -103,7 +116,7 @@ public class UotnodDAO_DB implements UotnodDAO {
 		String name = cursor.getString(1);
 		String className = cursor.getString(2);
 		Boolean status = false;
-		if ( cursor.getString(3) == "1" ) {
+		if ( cursor.getInt(3) == 1 ) {
 			status = true;
 		}
 		String description = cursor.getString(4);

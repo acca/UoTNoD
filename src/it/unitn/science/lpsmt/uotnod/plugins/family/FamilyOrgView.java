@@ -14,6 +14,9 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -126,6 +129,19 @@ public class FamilyOrgView extends Activity {
 		ActAdapter adapter = new ActAdapter(this,R.layout.two_lines_list_item,this.myOrg.getFamilyAct());
 		ListView listView = (ListView) findViewById(R.id.listview1);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+					FamilyAct myAct = (FamilyAct) arg0.getAdapter().getItem(arg2);
+					int actId = (int)myAct.getId();
+			        ((ListView)arg0).setItemChecked(actId, true);
+			        Intent intent = new Intent(MyApplication.FAMILYPLUGINPKG + "FamilyActView");
+			        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			        intent.putExtra("index", actId);
+			        startActivity(intent);
+			}
+		});
 	}
 	
 	private void goWebsite(){
@@ -158,7 +174,5 @@ public class FamilyOrgView extends Activity {
 		else {	
 			Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.nomail), Toast.LENGTH_SHORT).show();
 		}
-			
-		
 	}
 }

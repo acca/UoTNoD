@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -138,7 +139,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	        View view = convertView;
 	        if (view == null) {
 	            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            view = inflater.inflate(R.layout.two_lines_list_item, null);
+	            view = inflater.inflate(R.layout.small_icon_two_lines_list_item, null);
 	        }
 	        FamilyAct item = getItem(position);
 	        if (item!= null) {
@@ -158,6 +159,10 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	            	}	            	
 	                itemDesc.setText(desc);
 	            }
+	            ImageView itemIcon = (ImageView) view.findViewById(R.id.icon);
+	            if (itemIcon != null) {		            	
+	            	itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.family));			            	
+	            }     
 	         }
 	        return view;
 	    }

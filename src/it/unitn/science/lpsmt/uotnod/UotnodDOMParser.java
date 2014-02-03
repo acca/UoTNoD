@@ -33,8 +33,7 @@ public class UotnodDOMParser {
 		
 	}
 
-    public void parse(InputStream in){
-    	InputStream input = in;
+    public void parse(InputStream in){    	
 
     	try {
 

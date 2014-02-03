@@ -85,8 +85,18 @@ public class Dashboard extends ListActivity {
 	    switch (item.getItemId()) {
 	        case R.id.action_refresh:
 	        	Plugin[] pluginArr = this.plugins.toArray(new Plugin[this.plugins.size()]);
-	        	doRefresh(pluginArr);	        		            
-	            return true;	        
+	        	if (pluginArr == null) {
+	        		Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.no_enabled_plugin), Toast.LENGTH_SHORT).show();
+	        	}
+	        	else {
+	        		doRefresh(pluginArr);	
+	        	}	        		        		           
+	            return true;
+	        case R.id.action_setting:
+	        	String actionName = MyApplication.APPPKG + ".Setting";
+	        	Intent i = new Intent(actionName);
+	        	startActivity(i);	        		            
+	            return true;	
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }	
@@ -129,10 +139,10 @@ public class Dashboard extends ListActivity {
 	            }
 	            ImageView itemIcon = (ImageView) view.findViewById(R.id.icon);
 	            if (itemIcon != null) {
-	            	if (item.getId() == 1) {
+	            	if (item.getLauncher().equals("Family")) {
 	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_fam));	
 	            	}
-	            	else if (item.getId() == 3) {
+	            	else if (item.getLauncher().equals("Shops")) {
 	            		itemIcon.setImageDrawable(MyApplication.getAppContext().getResources().getDrawable(R.drawable.uotnod_sho));
 	            	}
 	            	else {

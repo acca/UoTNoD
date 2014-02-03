@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import it.unitn.science.lpsmt.uotnod.MyApplication;
 import it.unitn.science.lpsmt.uotnod.R;
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
-import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyActFragmentList.ActAdapter;
 import it.unitn.science.lpsmt.uotnod.plugins.family.FamilyOrgFragmentList.OrgAdapter;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -18,10 +17,13 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class FamilyActView extends Activity {
 
@@ -169,6 +171,19 @@ public class FamilyActView extends Activity {
 		OrgAdapter adapter = new OrgAdapter(this,R.layout.two_lines_list_item, myOrgList);
 		ListView listView = (ListView) findViewById(R.id.listview1);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+					FamilyOrg myOrg = (FamilyOrg) arg0.getAdapter().getItem(arg2);
+					int orgId = (int)myOrg.getOrgId();
+			        ((ListView)arg0).setItemChecked(orgId, true);
+			        Intent intent = new Intent(MyApplication.FAMILYPLUGINPKG + "FamilyOrgView");
+			        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			        intent.putExtra("index", orgId);
+			        startActivity(intent);
+			}
+		});
 	}
 	
 	private void goWebsite(){

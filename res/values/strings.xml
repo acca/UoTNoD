@@ -43,5 +43,7 @@
 	<string name="noshop">Shops has no address</string>
 	<string name="act_cert_true">This activity is Family audit certified.</string>
 	<string name="act_cert_false">This activity is not Family audit certified.</string>
-	<string name="act_organization">This activity is offered by:</string>	
+	<string name="act_organization">This activity is offered by:</string>
+	<string name="plugin_settings">Plugins found:</string>
+	<string name="no_enabled_plugin">There are no plugins enabled, please enable at least one from settings.</string>	
 </resources>

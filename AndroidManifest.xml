@@ -42,6 +42,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="it.unitn.science.lpsmt.uotnod.Setting"
+            android:icon="@drawable/ic_action_settings"
+            android:label="@string/action_settings"
+            android:parentActivityName="it.unitn.science.lpsmt.uotnod.Dashboard" >
+        	<!-- Parent activity meta-data to support API level 7+ -->
+        	<meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="it.unitn.science.lpsmt.uotnod.Dashboard" />
+            <intent-filter> 
+       			<action android:name="it.unitn.science.lpsmt.uotnod.Setting" />  
+         		<category android:name="android.intent.category.DEFAULT" />  
+     		</intent-filter>     		 
+        </activity>
+        <activity
             android:name="it.unitn.science.lpsmt.uotnod.plugins.family.Family"
             android:icon="@drawable/uotnod_fam"
             android:label="@string/title_activity_family"

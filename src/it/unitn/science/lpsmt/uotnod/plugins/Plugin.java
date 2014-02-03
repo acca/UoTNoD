@@ -24,7 +24,6 @@ public abstract class Plugin {
 	public Plugin(String name, String className){
 		this.name = name;
 		this.launcher = className;
-		this.status = false;
 	}
 	
 	public Plugin(long id, String name, String className,Boolean status, String description, String dataSrc){
@@ -32,7 +31,6 @@ public abstract class Plugin {
 		this.name = name;
 		this.launcher = className;
 		this.status = status;
-		this.status = false;
 		this.description = description;
 		this.dataSrc = dataSrc;
 	}
@@ -42,7 +40,6 @@ public abstract class Plugin {
 		this.name = name;
 		this.launcher = className;
 		this.status = status;
-		this.status = false;
 		this.description = description;
 		this.dataSrc = dataSrc;
 		this.isEmpty = isEmpty;
