@@ -519,22 +519,22 @@ public class UotnodDAO_DB implements UotnodDAO {
 		}
 		
 		@Override
-		public List<ShopsType> getAllShopsTypes() {			
-			List<ShopsType> types = new ArrayList<ShopsType>();
-			//Cursor cursor = database.rawQuery("select * from "+SQLiteHelper.TABLE_PLUGIN+";", null);
-			Cursor cursor = database.query(SQLiteHelper.TABLE_SHOPS_TYPE, SQLiteHelper.TABLE_SHOPS_TYPE_ALL_COLUMNS, null, null, null, null, null);
-			cursor.moveToFirst();
-			while(!cursor.isAfterLast()){
-				ShopsType type = cursorToType(cursor);
-				types.add(type);
-				cursor.moveToNext();
+		public List<String> getAllShopsTypes() {
+			Cursor cursor = database.query(true, SQLiteHelper.TABLE_SHOPS_TYPE, new String[] {SQLiteHelper.SHOPS_TYPE_COL_TYPE}, null, null, null, null, null, null);
+			List<String> types = new ArrayList<String>();
+			if (cursor.getCount() > 0) {
+				cursor.moveToFirst();			
+				while(!cursor.isAfterLast()){
+					types.add(cursor.getString(0).substring(6));
+					cursor.moveToNext();
+				}
+				cursor.close();			
 			}
-			cursor.close(); // Always remember to close the cursor
 			return types;			
 		}
 
 		private ShopsType cursorToType(Cursor cursor) {
-			long id = cursor.getLong(0);
+			//long id = cursor.getLong(0);
 			long shopId = cursor.getLong(1);
 			String type = cursor.getString(2);
 			return new ShopsType(shopId, type);
@@ -546,6 +546,26 @@ public class UotnodDAO_DB implements UotnodDAO {
 			values.put(SQLiteHelper.SHOPS_TYPE_COL_SHOPID, type.getShopId());
 			values.put(SQLiteHelper.SHOPS_TYPE_COL_TYPE, type.getType());		
 			return values;
+		}
+
+		@Override
+		public List<ShopsShop> getAllShopsShopByType(String type) {
+			List<ShopsShop> shops = new ArrayList<ShopsShop>();			
+			final String MY_QUERY = "SELECT * FROM "+SQLiteHelper.TABLE_SHOPS_INFO+" a INNER JOIN "+SQLiteHelper.TABLE_SHOPS_TYPE+" b ON " +
+					"a."+SQLiteHelper.SHOPS_INFO_COL_ID+"=b."+SQLiteHelper.SHOPS_TYPE_COL_SHOPID+" WHERE b."+SQLiteHelper.SHOPS_TYPE_COL_TYPE+" LIKE?";
+			Cursor cursor = database.rawQuery(MY_QUERY, new String[]{"%"+type+"%"});
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				ShopsShop shop = cursorToShop(cursor);
+				shops.add(shop);
+				cursor.moveToNext();
+			}
+			cursor.close(); // Always remember to close the cursor
+			return shops;
+			
+			
+			
+		
 		}
 
 }

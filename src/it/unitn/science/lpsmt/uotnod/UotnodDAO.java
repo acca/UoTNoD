@@ -37,7 +37,8 @@ public interface UotnodDAO {
 	public ShopsShop getShopsShopById(long id);
 
 	public ShopsType insertShopsType(ShopsType activity);
-	public List<ShopsType> getAllShopsTypes();
+	public List<String> getAllShopsTypes();
 	public ShopsType getShopsTypeById(long id);
-	public List<ShopsType> getShopsTypeByShopId(long typeShopId);	
+	public List<ShopsType> getShopsTypeByShopId(long typeShopId);
+	public List<ShopsShop> getAllShopsShopByType(String type);
 }

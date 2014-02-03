@@ -6,17 +6,22 @@ import it.unitn.science.lpsmt.uotnod.R;
 import android.os.Bundle;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class Shops extends FragmentActivity implements ActionBar.TabListener {
 	
 	private ViewPager viewPager;
     private ShopsTabsPagerAdapter mAdapter;
     private ActionBar actionBar;
+    private String filter = "ANY";
+    
     // Tab titles
     private String[] tabs = {
     		MyApplication.getAppContext().getResources().getString(R.string.shops_map_tab),
@@ -92,6 +97,31 @@ public class Shops extends FragmentActivity implements ActionBar.TabListener {
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
+		//Toast.makeText(this, "arg0:" + arg0 + " " +"arg1:" + arg1 + " " +"arg2:" + arg2 + " ", Toast.LENGTH_LONG).show();		
+		if (arg1 == Activity.RESULT_OK){
+			switch (arg0) {
+			case 0:
+				// Coming from map filter	
+				break;
+			case 1:
+				// Coming form Shops filter
+				this.filter = arg2.getExtras().getString("shopFilter");
+				Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + this.filter, Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
+				
+		}
+	}
+	
+	public String getFilter(){
+		return this.filter;
 	}
 }
 
