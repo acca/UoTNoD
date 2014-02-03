@@ -48,7 +48,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 			+ "'Family'" + " AS " + PLUGIN_COL_LAUNCHER + ","
 			+ "1" + " AS " + PLUGIN_COL_STATUS + ","
 			+ "'Il dataset Estate Giovani e Famiglia contiene le attività estive rivolte a giovani tra gli 0-18 anni e le organizzazioni che le propongono. Il periodo in cui queste attività possono essere attivate è giugno, luglio, agosto e settembre, e le attività sono prevalentemente attivate sul territorio della Provincia Autonoma di Trento.'" + " AS " + PLUGIN_COL_DESCRIPTION + ","
-			+ "'http://dati.trentino.it/storage/f/2013-05-08T083538/Estate-giovani-e-famiglia_2013.xml'" + " AS " + PLUGIN_COL_DATASRC + ","
+			+ "'http://alioth.fasu.it/acca/Estate-giovani-e-famiglia_2013.xml'" + " AS " + PLUGIN_COL_DATASRC + ","
 			+ "1" + " AS " + PLUGIN_COL_EMPTY
 			+ " "
 			+ " UNION SELECT "
