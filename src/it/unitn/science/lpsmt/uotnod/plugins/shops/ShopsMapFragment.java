@@ -33,8 +33,7 @@ public class ShopsMapFragment extends Fragment {
 	private GoogleMap googleMap;
 	private HashMap<Marker, ShopsShop> shopMarkerMap;
 	private UotnodDAO dao;
-
-	//private ShopAdapter adapter;
+	static Boolean shouldRunOnResume = false;
 
 	List<ShopsShop> shops;
 
@@ -94,6 +93,31 @@ public class ShopsMapFragment extends Fragment {
 			
 			getShops();
 			drawMarkers();
+		}
+	}
+	
+	@Override
+	public void onResume() {
+		if (shouldRunOnResume) {
+			super.onResume();
+			Shops parentActivity = (Shops)this.getActivity();
+			String type = parentActivity.getFilter();
+			if (type == null) return;
+			if ( ( !type.equals("ANY") ) ){
+				this.shops = dao.getAllShopsShopByType(type);
+				this.googleMap.clear();
+				drawMarkers();
+			}
+			else {
+				this.shops = dao.getAllShopsShops();
+				this.googleMap.clear();
+				drawMarkers();
+			}
+			Toast.makeText(this.getActivity(), MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type, Toast.LENGTH_SHORT).show();
+		}
+		else {
+			super.onResume();
+			ShopsMapFragment.shouldRunOnResume = true;
 		}
 	}
 	

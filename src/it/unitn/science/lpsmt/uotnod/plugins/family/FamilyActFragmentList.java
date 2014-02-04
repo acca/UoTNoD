@@ -34,6 +34,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	private UotnodDAO dao;
 	private ListView listView;
 	private ActAdapter adapter;
+	static Boolean shouldRunOnResume = false;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,28 +58,34 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
     }
 	
 	@Override
-	public void onResume() {	
-		super.onResume();		
-		Family parentActivity = (Family)this.getActivity();
-		String type = parentActivity.getFilter();
-		if (type == null) return;
-		if ( ( !type.equals("ANY") ) ){
-			this.acts = dao.getAllFamilyActByType(type);
-			this.adapter.clear();
-        	this.adapter.addAll(this.acts);
-			this.adapter.notifyDataSetChanged();
+	public void onResume() {
+		if (FamilyActFragmentList.shouldRunOnResume) {
+			super.onResume();	
+			Family parentActivity = (Family)this.getActivity();
+			String type = parentActivity.getFilter();
+			if (type == null) return;
+			if ( ( !type.equals("ANY") ) ){
+				this.acts = dao.getAllFamilyActByType(type);
+				this.adapter.clear();
+				this.adapter.addAll(this.acts);
+				this.adapter.notifyDataSetChanged();
+			}
+			else {
+				this.acts = dao.getAllFamilyActs();
+				this.adapter.clear();
+				this.adapter.addAll(this.acts);
+				this.adapter.notifyDataSetChanged();
+			}		
+
+			TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
+			tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
 		}
+
 		else {
-			this.acts = dao.getAllFamilyActs();
-			this.adapter.clear();
-        	this.adapter.addAll(this.acts);
-			this.adapter.notifyDataSetChanged();
-		}		
-		
-		TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
-		tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+			super.onResume();
+			FamilyActFragmentList.shouldRunOnResume = true;
+		}
 	}
-	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// Inflate the menu items for use in the action bar

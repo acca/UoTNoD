@@ -9,7 +9,6 @@ import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 import it.unitn.science.lpsmt.uotnod.UpdateManager;
 import it.unitn.science.lpsmt.uotnod.UpdateManager.EventListener;
 import it.unitn.science.lpsmt.uotnod.plugins.Plugin;
-import it.unitn.science.lpsmt.uotnod.plugins.family.Family;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +31,7 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 		private ShopAdapter adapter;
 		//private ListFragment me = this;
 		List<ShopsShop> shops;
+		static Boolean shouldRunOnResume = false;
 		
 		int mCurCheckPosition = 0;
 		
@@ -77,28 +77,34 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 		}
 		
 		@Override
-		public void onResume() {		
-			super.onResume();
-			Shops parentActivity = (Shops)this.getActivity();
-			String type = parentActivity.getFilter();
-			if (type == null) return;
-			if ( ( !type.equals("ANY") ) ){
-				this.shops = dao.getAllShopsShopByType(type);
-				this.adapter.clear();
-	        	this.adapter.addAll(this.shops);
-				this.adapter.notifyDataSetChanged();
+		public void onResume() {
+			if (shouldRunOnResume) {
+				super.onResume();
+				Shops parentActivity = (Shops)this.getActivity();
+				String type = parentActivity.getFilter();
+				if (type == null) return;
+				if ( ( !type.equals("ANY") ) ){
+					this.shops = dao.getAllShopsShopByType(type);
+					this.adapter.clear();
+					this.adapter.addAll(this.shops);
+					this.adapter.notifyDataSetChanged();
+				}
+				else {
+					this.shops = dao.getAllShopsShops();
+					this.adapter.clear();
+					this.adapter.addAll(this.shops);
+					this.adapter.notifyDataSetChanged();
+				}		
+
+				TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
+				tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
 			}
+
 			else {
-				this.shops = dao.getAllShopsShops();
-				this.adapter.clear();
-	        	this.adapter.addAll(this.shops);
-				this.adapter.notifyDataSetChanged();
-			}		
-			
-			TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
-			tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+				super.onResume();
+				ShopsShopsFragmentList.shouldRunOnResume = true;
+			}
 		}
-		
 		void showShopDetails(int shopId) {
 	        getListView().setItemChecked(shopId, true);
 	        Intent intent = new Intent(MyApplication.SHOPSPLUGINPKG + "ShopsShopView");

@@ -2,11 +2,7 @@ package it.unitn.science.lpsmt.uotnod.plugins;
 
 import it.unitn.science.lpsmt.uotnod.UotnodDAO_DB;
 
-import java.io.IOException;
 import java.io.InputStream;
-
-import org.xmlpull.v1.XmlPullParserException;
-
 
 public abstract class Plugin {
 	private long id;
