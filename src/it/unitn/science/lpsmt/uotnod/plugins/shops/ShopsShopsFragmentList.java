@@ -78,11 +78,13 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 		
 		@Override
 		public void onResume() {
-			if (shouldRunOnResume) {
-				super.onResume();
-				Shops parentActivity = (Shops)this.getActivity();
-				String type = parentActivity.getFilter();
-				if (type == null) return;
+			super.onResume();
+			Shops parentActivity = (Shops)this.getActivity();
+			String type = parentActivity.getFilter();
+			if (type == null) return;
+			TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
+			tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+			if (shouldRunOnResume) {				
 				if ( ( !type.equals("ANY") ) ){
 					this.shops = dao.getAllShopsShopByType(type);
 					this.adapter.clear();
@@ -94,14 +96,9 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 					this.adapter.clear();
 					this.adapter.addAll(this.shops);
 					this.adapter.notifyDataSetChanged();
-				}		
-
-				TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
-				tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+				}				
 			}
-
 			else {
-				super.onResume();
 				ShopsShopsFragmentList.shouldRunOnResume = true;
 			}
 		}

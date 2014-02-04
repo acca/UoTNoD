@@ -98,11 +98,11 @@ public class ShopsMapFragment extends Fragment {
 	
 	@Override
 	public void onResume() {
+		super.onResume();
+		Shops parentActivity = (Shops)this.getActivity();
+		String type = parentActivity.getFilter();
+		if (type == null) return;
 		if (shouldRunOnResume) {
-			super.onResume();
-			Shops parentActivity = (Shops)this.getActivity();
-			String type = parentActivity.getFilter();
-			if (type == null) return;
 			if ( ( !type.equals("ANY") ) ){
 				this.shops = dao.getAllShopsShopByType(type);
 				this.googleMap.clear();
@@ -113,10 +113,8 @@ public class ShopsMapFragment extends Fragment {
 				this.googleMap.clear();
 				drawMarkers();
 			}
-			Toast.makeText(this.getActivity(), MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type, Toast.LENGTH_SHORT).show();
 		}
 		else {
-			super.onResume();
 			ShopsMapFragment.shouldRunOnResume = true;
 		}
 	}

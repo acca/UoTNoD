@@ -59,11 +59,13 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	
 	@Override
 	public void onResume() {
-		if (FamilyActFragmentList.shouldRunOnResume) {
-			super.onResume();	
-			Family parentActivity = (Family)this.getActivity();
-			String type = parentActivity.getFilter();
-			if (type == null) return;
+		super.onResume();	
+		Family parentActivity = (Family)this.getActivity();
+		String type = parentActivity.getFilter();
+		if (type == null) return;
+		TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
+		tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+		if (FamilyActFragmentList.shouldRunOnResume) {			
 			if ( ( !type.equals("ANY") ) ){
 				this.acts = dao.getAllFamilyActByType(type);
 				this.adapter.clear();
@@ -75,14 +77,9 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 				this.adapter.clear();
 				this.adapter.addAll(this.acts);
 				this.adapter.notifyDataSetChanged();
-			}		
-
-			TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
-			tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
+			}					
 		}
-
 		else {
-			super.onResume();
 			FamilyActFragmentList.shouldRunOnResume = true;
 		}
 	}
