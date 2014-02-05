@@ -113,10 +113,10 @@ public class ShopsMapFragment extends Fragment {
 		Shops parentActivity = (Shops)this.getActivity();
 		String type = parentActivity.getFilter();
 		if (type == null) return;
-		if (shouldRunOnResume) {
+		if (shouldRunOnResume && parentActivity.getRefresh()) {
 			if ( ( !type.equals("ANY") ) ){
 				this.shops = dao.getAllShopsShopByType(type);
-				this.googleMap.clear();
+				this.googleMap.clear();				
 				drawMarkers();
 			}
 			else {

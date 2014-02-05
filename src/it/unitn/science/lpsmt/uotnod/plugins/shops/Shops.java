@@ -21,6 +21,7 @@ public class Shops extends FragmentActivity implements ActionBar.TabListener {
     private ShopsTabsPagerAdapter mAdapter;
     private ActionBar actionBar;
     private String filter = "ANY";
+    private Boolean refresh = false;
     
     // Tab titles
     private String[] tabs = {
@@ -110,7 +111,14 @@ public class Shops extends FragmentActivity implements ActionBar.TabListener {
 				break;
 			case 1:
 				// Coming form Shops filter
-				this.filter = arg2.getExtras().getString("shopFilter");
+				String tmpFilter = arg2.getExtras().getString("shopFilter"); 
+				if (tmpFilter.equals(this.filter)){
+					this.refresh = false;
+				}
+				else {
+					this.refresh = true;
+				}
+				this.filter = tmpFilter;				
 				Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + this.filter, Toast.LENGTH_SHORT).show();
 				break;
 			default:
@@ -122,6 +130,10 @@ public class Shops extends FragmentActivity implements ActionBar.TabListener {
 	
 	public String getFilter(){
 		return this.filter;
+	}
+	
+	public Boolean getRefresh(){
+		return this.refresh;
 	}
 }
 

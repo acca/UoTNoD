@@ -50,8 +50,6 @@ public class FamilyActView extends Activity {
 			showAct();
 			if (myAct.getOrgId() != -1) showOrg();
 		} 
-		
-		Toast.makeText(this, "Details Organization: " + index, Toast.LENGTH_SHORT).show();		
 	}
 	
 	@Override

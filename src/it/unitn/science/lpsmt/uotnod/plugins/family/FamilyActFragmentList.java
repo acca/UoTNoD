@@ -65,7 +65,7 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 		if (type == null) return;
 		TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
 		tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
-		if (FamilyActFragmentList.shouldRunOnResume) {			
+		if (FamilyActFragmentList.shouldRunOnResume && parentActivity.getRefresh()) {			
 			if ( ( !type.equals("ANY") ) ){
 				this.acts = dao.getAllFamilyActByType(type);
 				this.adapter.clear();

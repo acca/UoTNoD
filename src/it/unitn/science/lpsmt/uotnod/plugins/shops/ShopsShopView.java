@@ -50,9 +50,7 @@ public class ShopsShopView extends Activity {
 			this.myShop = dao.getShopsShopById(index);
 			showShop();
 			if (this.myShop.getShopsType() != null) showType();
-		} 
-		
-		Toast.makeText(this, "Details Shops: " + index, Toast.LENGTH_SHORT).show();		
+		}		
 	}
 	
 	@Override

@@ -84,7 +84,7 @@ public class ShopsShopsFragmentList extends ListFragment implements EventListene
 			if (type == null) return;
 			TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
 			tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);
-			if (shouldRunOnResume) {				
+			if (shouldRunOnResume && parentActivity.getRefresh()) {
 				if ( ( !type.equals("ANY") ) ){
 					this.shops = dao.getAllShopsShopByType(type);
 					this.adapter.clear();

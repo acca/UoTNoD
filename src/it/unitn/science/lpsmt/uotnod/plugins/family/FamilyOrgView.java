@@ -46,9 +46,7 @@ public class FamilyOrgView extends Activity {
 			this.myOrg = dao.getFamilyOrgById(index);
 			showOrg();
 			if (this.myOrg.getFamilyAct() != null) showAct();
-		} 
-		
-		Toast.makeText(this, "Details Organization: " + index, Toast.LENGTH_SHORT).show();		
+		} 		
 	}
 	
 	@Override
