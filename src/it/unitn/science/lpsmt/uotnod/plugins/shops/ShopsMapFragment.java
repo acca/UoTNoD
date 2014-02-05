@@ -23,10 +23,12 @@ import it.unitn.science.lpsmt.uotnod.plugins.shops.ShopsShop;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager.LayoutParams;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class ShopsMapFragment extends Fragment {
@@ -37,16 +39,25 @@ public class ShopsMapFragment extends Fragment {
 
 	List<ShopsShop> shops;
 
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {	    
 		final View myFragmentView = inflater.inflate(R.layout.shops_map_fragment, container, false);
 		try {
 			// Loading map
 			initilizeMap();
-
 		} catch (Exception e) {
 			Log.e("ERROR", "ERROR IN CODE: " + e.toString());
 			e.printStackTrace();
-		}
+		}		
+		FrameLayout frameLayout = new FrameLayout(getActivity());
+	    frameLayout.setBackgroundColor(
+	        getResources().getColor(android.R.color.transparent));	    	
+		((ViewGroup) myFragmentView).addView(frameLayout,
+		        new ViewGroup.LayoutParams(
+		            LayoutParams.MATCH_PARENT, 
+		            LayoutParams.MATCH_PARENT
+		        )
+		    );
+		
 		return myFragmentView;
 	}
 

@@ -48,7 +48,7 @@ public class Dashboard extends ListActivity {
 			if (plugin.isEmpty()) initMsg += "\n\n- " + plugin.getName();
 		}
 		if (!initMsg.isEmpty()) {			
-			Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.initMsg) + "\n" + initMsg,Toast.LENGTH_LONG).show();      
+			Toast.makeText(this, MyApplication.getAppContext().getResources().getString(R.string.initMsg) + "\n" + initMsg,Toast.LENGTH_SHORT).show();      
 		}
 		
 		PluginAdapter adapter = new PluginAdapter(this,R.layout.icon_two_lines_list_item,plugins);
