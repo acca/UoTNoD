@@ -35,6 +35,8 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 	private ListView listView;
 	private ActAdapter adapter;
 	static Boolean shouldRunOnResume = false;
+	static Boolean shouldRunOnStart = false;
+	private String filter;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,6 +85,55 @@ public class FamilyActFragmentList extends Fragment implements EventListener {
 			FamilyActFragmentList.shouldRunOnResume = true;
 		}
 	}
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		
+	
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		Family parentActivity = (Family)this.getActivity();
+		outState.putString("filter", parentActivity.getFilter());
+		FamilyActFragmentList.shouldRunOnStart = true;
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		Family parentActivity = (Family)this.getActivity();
+		String type = parentActivity.getFilter();
+		if (type == null) return;
+		TextView tv = (TextView)getActivity().findViewById(R.id.textView1);
+		tv.setText(MyApplication.getAppContext().getResources().getString(R.string.show_filter_msg) + type);	
+		if ( (FamilyActFragmentList.shouldRunOnStart) && (this.filter != null) ) {			
+			if ( ( !this.filter.equals("ANY") ) ){
+				this.acts = dao.getAllFamilyActByType(this.filter);
+				this.adapter.clear();
+				this.adapter.addAll(this.acts);
+				this.adapter.notifyDataSetChanged();
+			}
+			else {
+				this.acts = dao.getAllFamilyActs();
+				this.adapter.clear();
+				this.adapter.addAll(this.acts);
+				this.adapter.notifyDataSetChanged();
+			}
+			FamilyActFragmentList.shouldRunOnStart = false;
+		}
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		if (savedInstanceState != null) this.filter = savedInstanceState.getString("filter");
+	}
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// Inflate the menu items for use in the action bar

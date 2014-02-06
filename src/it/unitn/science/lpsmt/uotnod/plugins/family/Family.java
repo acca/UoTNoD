@@ -128,6 +128,20 @@ public class Family extends FragmentActivity implements ActionBar.TabListener {
 		}
 	}
 	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		outState.putString("filter", this.filter);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onRestoreInstanceState(savedInstanceState);
+		this.filter = savedInstanceState.getString("filter");
+	}
+	
 	public String getFilter(){
 		return this.filter;
 	}
