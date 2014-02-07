@@ -191,6 +191,9 @@
         </activity>        
         <meta-data
     		android:name="com.google.android.maps.v2.API_KEY"
-    		android:value="AIzaSyADkiBnSldUtR2ACvS-uccZRC9hLUdLzjI"/>   
+    		android:value="@string/GoogleMapsKey" />
+    		<!-- Use 1) when releasing apk and 2) when developing and sharing source code -->
+    		<!--1) android:value="@string/GoogleMapsKey" />  -->
+    		<!--2) android:value="@string/GoogleMapsKeyDevel" />  -->
     </application>
 </manifest>
